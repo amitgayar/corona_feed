@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'AppScreens/Login/login_landing.dart';
+import 'package:modular_login/AppScreens/Login/Signup.dart';
+import 'AppScreens/FeedScreens/HomePage.dart';
 import 'AppScreens/Login/login.dart';
-import 'AppScreens/Login/OtpLogin.dart';
+import 'AppScreens/FeedScreens/WebView.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,8 +18,10 @@ class MyApp extends StatelessWidget {
       ),
       home: Login(),
       routes: {
-        '/otpLogin' : (context) => OtpLogin(),
-        '/LoginLanding' : (context) => LoginLanding(),
+        '/Login'    : (context) => Login(),
+        '/SignUp'   : (context) => SignUp(),
+        '/HomePage' : (context) => HomePage(),
+        '/webView'  : (context) => WebView(),
       },
     );
   }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,6 +7,13 @@ import 'package:modular_login/AppScreens/FeedScreens/FeedsWidget.dart';
 import 'package:modular_login/AppScreens/FeedScreens/UserFeedWidget.dart';
 
 class HomePage extends StatefulWidget {
+
+  int type;
+
+  HomePage({
+    this.type
+  });
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -25,6 +33,27 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+//  getData() async{
+//    try {
+//      FirebaseUser _data;
+//      RouteSettings settings = ModalRoute.of(context).settings;
+//      print(settings.arguments);
+//      _data = settings.arguments;
+////      return _data.email;
+//    return "";
+//    } on Exception catch (e) {
+//      return "";
+//    }
+//  }
+
+//  getDatafromGoogleSignIn() {
+//    FirebaseUser _data;
+//    RouteSettings settings = ModalRoute.of(context).settings;
+//    print(settings.arguments);
+//    _data = settings.arguments;
+//    return _data;
+//  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -35,7 +64,7 @@ class _HomePageState extends State<HomePage> {
             child: Scaffold(
               backgroundColor: Colors.blue[50],
               drawer: Drawer(
-                child: CustomDrawer(),
+                child: CustomDrawer(userName: "UsrName"),
               ),
               appBar: AppBar(
                 title: Text("HOME"),

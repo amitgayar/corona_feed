@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:modular_login/Services/AuthWithEmailPasswd.dart';
+import 'package:modular_login/Services/google_sign_in_auth.dart';
+import 'package:toast/toast.dart';
+import '../FeedScreens/FeedsWidget.dart';
 
 class CustomDrawer extends StatefulWidget {
+
+  String userName;
+//  String url;
+
+  CustomDrawer({
+    this.userName
+  });
+
+//  CustomDrawer2(String UserName , String photoUrl){
+//    this.userName = UserName;
+//    this.url = photoUrl;
+//  }
+
   @override
   _CustomDrawerState createState() => _CustomDrawerState();
 }
@@ -10,6 +27,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
   int userCount = 15;
   int communityCount = 100;
 
+  final AuthService _auth = AuthService();
+
+  signOut() async{
+    await _auth.signOut();
+    signOutGoogle();
+    Toast.show("Log Out Successfull",context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+    Navigator.popAndPushNamed(context, '/Login');
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -18,18 +44,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
             height: 250,
             child: DrawerHeader(
                 decoration: BoxDecoration(
-//                  gradient: LinearGradient(begin: Alignment.bottomLeft,colors: <Color>[
-//                    Colors.blue[600],
-//                    Colors.blue[300],
-//                    Colors.blue[100]
-//                  ])
-                gradient: RadialGradient(
-                    radius: 1,
-                    colors: <Color>[
-                      Colors.blue[100],
-                      Colors.blue[300],
-                      Colors.blue[600],
-                    ])
+                  gradient: LinearGradient(begin: Alignment.bottomLeft,colors: <Color>[
+                    Colors.blue[600],
+                    Colors.blue[300],
+                    Colors.blue[100]
+                  ])
+//                gradient: RadialGradient(
+//                    radius: 1,
+//                    colors: <Color>[
+//                      Colors.blue[100],
+//                      Colors.blue[300],
+//                      Colors.blue[600],
+//                    ])
                 ),
                 child: Column(
                   children: <Widget> [
@@ -45,7 +71,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     ),
                     SizedBox(height: 20),
                     Text(
-                      "User Name",
+                      "UserName",
+//                      widget.userName.substring(0,widget.userName.lastIndexOf('@')),
                       style: TextStyle(
                           fontSize: 30
                       ),)
@@ -86,6 +113,28 @@ class _CustomDrawerState extends State<CustomDrawer> {
                               fontSize: getSize(),
                           ),
                         ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),  //MyFeeds
+          InkWell(
+            // ignore: sdk_version_set_literal
+            onTap: () => { signOut()},
+            splashColor: Colors.grey[500],
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.power_settings_new,size:30),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Text(
+                      "Log Out",
+                      style: TextStyle(
+                          fontSize: 20
+                      ),
                     ),
                   ),
                 ],
