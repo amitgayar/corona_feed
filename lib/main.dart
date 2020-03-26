@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.blue,
       ),
-      home: Login(),
+      home: HomePage(),
+//      Login(),
       routes: {
         '/Login'    : (context) => Login(),
         '/SignUp'   : (context) => SignUp(),

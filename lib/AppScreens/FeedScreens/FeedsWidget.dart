@@ -102,10 +102,13 @@ class _FeedsWidgetState extends State<FeedsWidget> {
         final item = _rssFeedModel.getFeedItemList()[index];
 //        final feed = _rssFeedModel.getFeedList()[index];
 
+
+
         UrlData _urlData = new UrlData(url: item.link, title: item.title);
 
         if (item.title.contains(filter1) || item.title.contains(filter2) || item.title.contains(filter3) ||
             item.description.contains(filter1) || item.description.contains(filter2) || item.description.contains(filter3)) {
+          print('listbubub');
           return Padding(
             padding: const EdgeInsets.fromLTRB(10.0,10,10,0),
             child: Material(
@@ -123,24 +126,31 @@ class _FeedsWidgetState extends State<FeedsWidget> {
             ),
           );
         } else
-          return Container();
+          {print('listbubub emp');
+          return Container();}
       }
       );
   }
 
   body() {
     print("In FEED WIDGET CLASS");
-    if (feedItem.isEmpty) {
-      return Center(
-         child: CircularProgressIndicator(),
+//    if (feedItem.isEmpty) {
+//      print("In FEED CircularProgressIndicator CLASS");
+//
+//      return Center(
+//         child: CircularProgressIndicator(),
+//      );
+//    } else {
+//      print("In FEED RefreshIndicator CLASS");
+//
+////      return list();
+//
+//    }
+    return RefreshIndicator(
+      key: _refreshKey,
+      child: list(),
+      onRefresh: () => _rssFeedModel.load(),
       );
-    } else {
-      return RefreshIndicator(
-        key: _refreshKey,
-        child: list(),
-        onRefresh: () => _rssFeedModel.load(),
-      );
-    }
   }
 
   @override
