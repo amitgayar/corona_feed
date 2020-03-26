@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modular_login/constants/constants.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import '../../Models/RssFeedModel.dart';
+import '../../Models/ListTileWidgetsModel.dart';
+import '../../Models/RssFeedExtractionModel.dart';
 import 'WebView.dart';
 
 class FeedsWidget extends StatefulWidget {
@@ -14,75 +14,11 @@ class _FeedsWidgetState extends State<FeedsWidget> {
 
   RssFeedModel _rssFeedModel;
 
-  List rssFeed;
   List feedItem;
 
+  bool isLoading = true;
+
   GlobalKey<RefreshIndicatorState> _refreshKey;
-
-  //title widget for listTile
-  title(title) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 7,right: 8,bottom : 5.0),
-      child: Text(
-        title,
-        style: TextStyle(
-            fontSize: 18.0,
-            fontWeight: FontWeight.w500),
-        maxLines:1,
-        overflow: TextOverflow.ellipsis,
-      ),
-    );
-  }
-
-  //subtitle widget for listTile
-  subtitle(subTitle,source) {
-    String sub = subTitle;
-    return Padding(
-      padding: const EdgeInsets.only(right: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            (sub.isNotEmpty) ? subTitle : "Tap to Read" ,
-            style: TextStyle(
-                fontSize: 15.0,
-                fontWeight: FontWeight.normal),
-            maxLines: 2,
-          ),
-          SizedBox(
-            height: 7,
-          ),
-          Text(
-            source ,
-            style: TextStyle(
-                fontSize: 12.0,
-                fontWeight: FontWeight.w300),
-            maxLines: 1,
-          )
-        ],
-      ),
-    );
-  }
-
-  //thumbnail widget for listTile
-  thumbnail(imageUrl) {
-    return Padding(
-      padding: EdgeInsets.only(left: 10.0),
-      child: CircleAvatar(
-        radius: 35,
-        child:
-        (imageUrl != null) ? CachedNetworkImage(
-          placeholder: (context, url) => Image.asset("/assets/no_image_availaible_.jpg"),
-          imageUrl: imageUrl,
-          height: 50,
-          width: 70,
-          alignment: Alignment.center,
-          fit: BoxFit.fill,
-        ) :
-        Image.asset("assets/defaultThumbnail.png"),
-      ),
-    );
-  }
 
   String getFeedTitle(link) {
     String _link=link.toString();
@@ -91,66 +27,61 @@ class _FeedsWidgetState extends State<FeedsWidget> {
     else if(_link.contains(Sources[2])) return sourcesFormatted[2];
     else
       return "";
-    }
+  }
+
+  getFeedList() async {
+    feedItem = await _rssFeedModel.load();
+  }
 
   //ListView Builder
   list() {
+    getFeedList();
     return ListView.builder(
-      itemCount: _rssFeedModel.getItemCount(),
-//        itemCount: 500,
-      itemBuilder: (BuildContext context, int index) {
-        final item = _rssFeedModel.getFeedItemList()[index];
-//        final feed = _rssFeedModel.getFeedList()[index];
+        itemCount: feedItem.length,
+        itemBuilder: (BuildContext context, int index) {
+          final item = feedItem[index];
 
+          UrlData _urlData = new UrlData(url: item.link, title: item.title);
 
-
-        UrlData _urlData = new UrlData(url: item.link, title: item.title);
-
-        if (item.title.contains(filter1) || item.title.contains(filter2) || item.title.contains(filter3) ||
-            item.description.contains(filter1) || item.description.contains(filter2) || item.description.contains(filter3)) {
-          print('listbubub');
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(10.0,10,10,0),
-            child: Material(
-              elevation: 5.0,
-              borderRadius: BorderRadius.circular(15),
-              child: ListTile(
-                isThreeLine: true,
-                title: title(item.title),
-                subtitle: subtitle(item.description, getFeedTitle(item.link)),
-                leading: thumbnail(
-                    (item.enclosure != null) ? item.enclosure.url : null),
-                contentPadding: EdgeInsets.all(5.0),
-                onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
+          if (item.title.contains(filter1) || item.title.contains(filter2) || item.title.contains(filter3) ||
+              item.title.contains(filter4) || item.title.contains(filter5) ||
+              item.description.contains(filter1) || item.description.contains(filter2) || item.description.contains(filter3)
+              || item.description.contains(filter4) || item.title.contains(filter5)) {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(10.0,10,10,0),
+              child: Material(
+                elevation: 5.0,
+                borderRadius: BorderRadius.circular(15),
+                child: ListTile(
+                  isThreeLine: true,
+                  title: title(item.title),
+                  subtitle: subtitle(item.description, getFeedTitle(item.link)),
+                  leading: thumbnail(
+                      (item.enclosure != null) ? item.enclosure.url : null),
+                  contentPadding: EdgeInsets.all(5.0),
+                  onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
+                ),
               ),
-            ),
-          );
-        } else
-          {print('listbubub emp');
-          return Container();}
-      }
-      );
+            );
+          } else
+            return Container();
+        }
+        );
   }
 
   body() {
     print("In FEED WIDGET CLASS");
-//    if (feedItem.isEmpty) {
-//      print("In FEED CircularProgressIndicator CLASS");
-//
-//      return Center(
-//         child: CircularProgressIndicator(),
-//      );
-//    } else {
-//      print("In FEED RefreshIndicator CLASS");
-//
-////      return list();
-//
-//    }
-    return RefreshIndicator(
-      key: _refreshKey,
-      child: list(),
-      onRefresh: () => _rssFeedModel.load(),
+    if (feedItem.isEmpty) {
+      return Center(
+        child: CircularProgressIndicator(),
       );
+    } else {
+      return RefreshIndicator(
+        key: _refreshKey,
+        child: list(),
+        onRefresh: () => getFeedList(),
+      );
+    }
   }
 
   @override
@@ -158,14 +89,12 @@ class _FeedsWidgetState extends State<FeedsWidget> {
     super.initState();
     _refreshKey = GlobalKey<RefreshIndicatorState>();
     _rssFeedModel = new RssFeedModel();
-    _rssFeedModel.load();
-    rssFeed = _rssFeedModel.getFeedList();
-    feedItem = _rssFeedModel.getFeedItemList();
+    feedItem =[];
   }
 
   @override
   Widget build(BuildContext context) {
-    return body();
+    return list();
   }
 
 }
