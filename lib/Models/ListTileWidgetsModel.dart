@@ -64,15 +64,8 @@ userSubtitle(subTitle,source,datePosted) {
           height: 7,
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Text(
-              "Posted On:" + datePosted ,
-              style: TextStyle(
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.w300),
-              maxLines: 1,
-            ),
             Text(
               "Posted By:" + source ,
               style: TextStyle(
@@ -80,6 +73,14 @@ userSubtitle(subTitle,source,datePosted) {
                   fontWeight: FontWeight.w300),
               maxLines: 1,
             ),
+            Text(
+              " On:" + datePosted ,
+              style: TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w300),
+              maxLines: 1,
+            ),
+
           ],
         )
       ],

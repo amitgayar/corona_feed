@@ -26,7 +26,12 @@ class WebView extends StatelessWidget {
 
     return WebviewScaffold(
       appBar: AppBar(
-        title: Text(_data.title),
+        title: Text(
+          _data.title,
+          style: TextStyle(
+              fontSize: 17.0,
+              fontWeight: FontWeight.normal),
+        ),
       ),
       url: _data.url,
       withZoom: true,

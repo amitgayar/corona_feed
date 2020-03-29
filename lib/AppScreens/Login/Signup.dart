@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:modular_login/Services/google_sign_in_auth.dart';
 import '../../constants/constants.dart';
-import '../../Models/UserModel.dart';
 import '../../Services/AuthWithEmailPasswd.dart';
 import 'package:toast/toast.dart';
 
@@ -13,11 +13,6 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-
-  User user ;
-
-  static int userTypeCode = emailID ;
-  static int passwordTypeCode = password ;
 
   static TextEditingController emailTextController = TextEditingController();
   static TextEditingController passwordTextController = TextEditingController();
@@ -48,6 +43,13 @@ class _SignUpState extends State<SignUp> {
         Toast.show(errMsg, context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
       });
     }
+  }
+
+  void googleSignIn() {
+    signInWithGoogle().whenComplete(() async {
+      Toast.show("Logged IN SuccessFully", context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      Navigator.popAndPushNamed(context, '/HomePage', arguments: [1, name, imageUrl]);
+    });
   }
 
   String errMsg1, errMsg2 ;
@@ -132,9 +134,12 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                     ),   //PASSWORD TEXT FIELD
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0,bottom: 25),
-                      child: (isLoading) ? CircularProgressIndicator(): RaisedButton(
+                    (isLoading) ? Padding(
+                      padding: const EdgeInsets.only(top: 7.0,bottom: 7),
+                      child: CircularProgressIndicator(),
+                    ): Padding(
+                      padding: const EdgeInsets.only(top: 7.0,bottom: 7),
+                      child: RaisedButton(
                         color: Colors.blue,
                         textColor: Colors.white,
                         focusColor: Colors.blueAccent[50],
@@ -150,6 +155,54 @@ class _SignUpState extends State<SignUp> {
                         },
                       ),
                     ),   //SIGN UP BUTTON
+                    SizedBox(
+                      width: 190,
+                      child: OutlineButton(
+                        onPressed: () {googleSignIn();},
+                        borderSide: BorderSide(color: Colors.blue),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image(image: AssetImage(
+                                "assets/google_logo.png"),
+                                height: 15.0),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(
+                                'Sign in with Google',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ), //Google SignIn Button
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5,bottom: 20),
+                      child: SizedBox(
+                        height: 25,
+                        width: 210,
+                        child: OutlineButton(
+                          onPressed: () {Navigator.pushNamed(context, '/Login');},
+                          borderSide: BorderSide(color: Colors.white),
+                          splashColor: Colors.white,
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                'Already have an Account ? Login ',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.blue,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),   //Already Registered
                   ],
                 ),
               ),

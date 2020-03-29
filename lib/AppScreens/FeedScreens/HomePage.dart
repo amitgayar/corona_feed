@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,12 +6,6 @@ import 'package:modular_login/AppScreens/FeedScreens/FeedsWidget.dart';
 import 'package:modular_login/AppScreens/FeedScreens/UserFeedWidget.dart';
 
 class HomePage extends StatefulWidget {
-
-  int type;
-
-  HomePage({
-    this.type
-  });
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -33,26 +26,28 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-//  getData() async{
-//    try {
-//      FirebaseUser _data;
-//      RouteSettings settings = ModalRoute.of(context).settings;
-//      print(settings.arguments);
-//      _data = settings.arguments;
-////      return _data.email;
-//    return "";
-//    } on Exception catch (e) {
-//      return "";
-//    }
-//  }
+  getUserNameFromLoginPage() {
+    String _data;
+    RouteSettings settings = ModalRoute.of(context).settings;
+    _data = settings.arguments.toString();
+    return _data;
+  }
 
-//  getDatafromGoogleSignIn() {
-//    FirebaseUser _data;
-//    RouteSettings settings = ModalRoute.of(context).settings;
-//    print(settings.arguments);
-//    _data = settings.arguments;
-//    return _data;
-//  }
+  getNameFromGoogleSignIn() {
+    List _data = [];
+    RouteSettings settings = ModalRoute.of(context).settings;
+    print("Google Sign IN Name" + settings.arguments.toString());
+    _data = settings.arguments;
+    return _data[1];
+  }
+
+  getImageFromGoogleSignIn() {
+    List _data = [];
+    RouteSettings settings = ModalRoute.of(context).settings;
+//    print("Google Sign IN Image" + settings.arguments.toString());
+    _data = settings.arguments;
+    return _data[2];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,16 +57,23 @@ class _HomePageState extends State<HomePage> {
           child: DefaultTabController(
             length: 2,
             child: Scaffold(
-              backgroundColor: Colors.blue[50],
+              backgroundColor: Colors.white,
               drawer: Drawer(
-                child: CustomDrawer(userName: "UsrName"),
+                child:
+                (getUserNameFromLoginPage()!=null) ?
+                CustomDrawer(
+                    userName: getUserNameFromLoginPage(),
+                    url : "x"):
+                CustomDrawer(
+                    userName: getNameFromGoogleSignIn(),
+                    url : getImageFromGoogleSignIn()),
               ),
               appBar: AppBar(
                 title: Text("HOME"),
                 bottom: TabBar(
                   tabs: [
-                    Tab(text: "Feeds",),
-                    Tab(text: "User Feeds",)
+                    Tab(text: "Feeds"),
+                    Tab(text: "User Feeds")
                   ],
                 ),
               ),

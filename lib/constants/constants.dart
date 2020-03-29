@@ -19,10 +19,12 @@ const List sourcesFormatted = [
   "CNBC",
 ];
 
-//Feed Filter Keywords
+//Feed Filter Keywords.
 const String filter1 = "Coronavirus";
 const String filter2 = "COVID-19";
 const String filter3 = "SARS-CoV-2";
+const String filter4 = "Lockdown";
+const String filter5 = "quarantine";
 
 //User Authentication Codes
 const mobileNumber = 1;
@@ -57,5 +59,24 @@ String firebaseErrorMessage(String errorMsg){
   else if(errorMsg.contains("ERROR_USER_NOT_FOUND")) return "Email ID Not Registered";
   else if(errorMsg.contains("ERROR_NETWORK_REQUEST_FAILED")) return "Internet Connection Error";
   else if(errorMsg.contains("ERROR_EMAIL_ALREADY_IN_USE")) return "Email ID Already Registered";
-  else return "Some Error Occured.Please Try Again";
+  else if(errorMsg == null) return "Email ID not Verified";
+  return "Some Error Occured.Please Try Again";
+}
+
+const String defaultImageURL = "https://www.pinclipart.com/picdir/big/355-3553881_stockvader-predicted-adig-user-profile-icon-png-clipart.png";
+
+bool checkURL(url){
+  final String urlRegex = "^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?\$";
+  if ((!RegExp(urlRegex).hasMatch(url)))
+    return false;
+  else
+    return true;
+}
+
+bool filterData(text){
+  if(text.contains(filter1) || text.contains(filter2) || text.contains(filter3) ||
+      text.contains(filter4) || text.contains(filter5))
+    return true;
+  else
+    return false;
 }

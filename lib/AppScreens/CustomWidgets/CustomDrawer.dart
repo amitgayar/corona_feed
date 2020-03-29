@@ -1,22 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modular_login/Services/AuthWithEmailPasswd.dart';
 import 'package:modular_login/Services/google_sign_in_auth.dart';
 import 'package:toast/toast.dart';
-import '../FeedScreens/FeedsWidget.dart';
 
 class CustomDrawer extends StatefulWidget {
 
   String userName;
-//  String url;
+  String url;
 
   CustomDrawer({
-    this.userName
+    this.userName,
+    this.url,
   });
 
-//  CustomDrawer2(String UserName , String photoUrl){
-//    this.userName = UserName;
-//    this.url = photoUrl;
-//  }
 
   @override
   _CustomDrawerState createState() => _CustomDrawerState();
@@ -28,6 +25,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
   int communityCount = 100;
 
   final AuthService _auth = AuthService();
+  FirebaseUser _currentUser ;
+
+  getCurrentUserEmail() async {
+    _currentUser = await FirebaseAuth.instance.currentUser();
+    return _currentUser.email;
+  }
 
   signOut() async{
     await _auth.signOut();
@@ -44,18 +47,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
             height: 250,
             child: DrawerHeader(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(begin: Alignment.bottomLeft,colors: <Color>[
-                    Colors.blue[600],
-                    Colors.blue[300],
-                    Colors.blue[100]
-                  ])
-//                gradient: RadialGradient(
-//                    radius: 1,
-//                    colors: <Color>[
-//                      Colors.blue[100],
-//                      Colors.blue[300],
-//                      Colors.blue[600],
-//                    ])
+                    gradient: RadialGradient(
+                        radius: 1.2,
+                        colors: <Color>[
+                          Colors.blue[100],
+                          Colors.blue[300],
+                          Colors.blue[600],
+                        ])
                 ),
                 child: Column(
                   children: <Widget> [
@@ -64,23 +62,28 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       height: 150,
                       width: 150,
                       decoration: BoxDecoration(
-                        color: Colors.grey,
                         shape: BoxShape.circle,
                       ),
-                      child: Image.asset("assets/icon.png"),
+                      child: (!widget.url.contains("googleusercontent")) ?
+                      Image.asset("assets/photoNotAvailaible.png"):
+                      Image.network(
+                        widget.url,
+                        width: 150,
+                        height: 150
+                      )
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 25),
                     Text(
-                      "UserName",
-//                      widget.userName.substring(0,widget.userName.lastIndexOf('@')),
+                      widget.userName,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          fontSize: 30
+                          fontSize: 20
                       ),)
                     ],
                 )),
           ),
           InkWell(
-            onTap: () => {},
+            onTap: () => {Navigator.popAndPushNamed(context, '/Myfeeds',arguments: getCurrentUserEmail())},
             splashColor: Colors.grey[500],
             child: Padding(
               padding: const EdgeInsets.all(15.0),
@@ -162,11 +165,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
   }
 
   double getSize() {
-    if(userCount/100 > 100)
-      return 9.0;
-    else if(userCount/10 > 10)
-      return 12.0;
-    else
-      return 18.0;
+    if(userCount/100 > 100) return 9.0;
+    else if(userCount/10 > 10) return 12.0;
+    else return 18.0;
   }
 }

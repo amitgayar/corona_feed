@@ -6,7 +6,7 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //Create User Object from Firebase UserId
-  User _userFromFirebaseUser(FirebaseUser user) {
+  User _userFromFireBaseUser(FirebaseUser user) {
     if(user != null)
       return User(uid: user.uid);
     else
@@ -19,7 +19,7 @@ class AuthService {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       user.sendEmailVerification();
-      return _userFromFirebaseUser(user);
+      return _userFromFireBaseUser(user);
     } catch (error) {
       print(error.toString());
       return error.toString();
@@ -31,14 +31,16 @@ class AuthService {
     try {
       AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
-      if(user.isEmailVerified)
-        return user;
-      else
-        return;
+      return user;
     } catch (error) {
       print("Firebase File: " + error.toString());
       return error.toString();
     }
+  }
+
+  // Reset Password
+  Future sendPasswordResetEmail(String email) async {
+      return await _auth.sendPasswordResetEmail(email: email);
   }
 
   //Sign Out

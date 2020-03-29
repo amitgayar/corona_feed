@@ -15,9 +15,6 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  static int userTypeCode = emailID ;
-  static int passwordTypeCode = password ;
-
   static TextEditingController emailTextController = TextEditingController();
   static TextEditingController passwordTextController = TextEditingController();
 
@@ -31,13 +28,27 @@ class _LoginState extends State<Login> {
     try {
       result = await _auth.signInWithEmailAndPassword(emailTextController.text, passwordTextController.text);
       if (result.email != null) {
-        print(result.email + " Authenticated Successfully");
-        Toast.show("Login Successful", context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-        setState(() {
-          emailTextController.clear();
-          passwordTextController.clear();
-        });
-        Navigator.popAndPushNamed(context, '/HomePage', arguments: result);
+        if(result.isEmailVerified) {
+          print(result.email + " Authenticated Successfully");
+          Toast.show("Login Successful", context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+          String userName = emailTextController.text;
+          setState(() {
+            emailTextController.clear();
+            passwordTextController.clear();
+          });
+          print("Inside Authentication " + userName);
+          Navigator.popAndPushNamed(context, '/HomePage', arguments: userName);
+        }
+        else{
+          print(result.email + " not Verified");
+          setState(() {
+            isLoading = false;
+            emailTextController.clear();
+            passwordTextController.clear();
+          });
+          Toast.show("Account Not Verified.Please Verify your Email to continue.",
+              context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+        }
       }
     } catch (e) {
       setState(() {
@@ -49,15 +60,19 @@ class _LoginState extends State<Login> {
     }
   }
 
-  void googleSignin() {
-    signInWithGoogle().whenComplete(() async {
-      Toast.show("Logged IN SuccessFully", context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-      Navigator.popAndPushNamed(context, '/HomePage', arguments: [1, name, imageUrl]);
+  void googleSignIn() async {
+    try {
+    await signInWithGoogle().then((result) {
+        Toast.show("Logged In SuccessFully", context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+        Navigator.popAndPushNamed(context, '/HomePage', arguments: [2, name, imageUrl,email]);
       });
+    } catch (e) {
+      print("In Google Sign in Login" + e.toString());
+    }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
       return SafeArea(
         child: Scaffold(
           backgroundColor: Colors.blue[50],
@@ -89,7 +104,6 @@ class _LoginState extends State<Login> {
                             )
                         ),
                       ), //LOGIN TEXT
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -100,10 +114,11 @@ class _LoginState extends State<Login> {
                                     top: 15, left: 25.0, right: 25),
                                 child: SizedBox(
                                   height: 70,
-                                  width: 230,
+                                  width: MediaQuery.of(context).size.width * 0.65,
                                   child: TextFormField(
                                     decoration: InputDecoration(
                                       errorText: errMsg1,
+                                      prefixIcon: Icon(Icons.email,size: 25),
                                       labelText: "Enter Email",
                                       labelStyle: TextStyle(fontSize: 12,
                                           fontWeight: FontWeight.bold),
@@ -127,10 +142,11 @@ class _LoginState extends State<Login> {
                                     top: 15, left: 25.0, right: 25),
                                 child: SizedBox(
                                   height: 70,
-                                  width: 230,
+                                  width: MediaQuery.of(context).size.width * 0.65,
                                   child: TextFormField(
                                     decoration: InputDecoration(
                                       errorText: errMsg2,
+                                      prefixIcon: Icon(Icons.lock,size: 25),
                                       labelText: "Enter Password",
                                       labelStyle: TextStyle(fontSize: 12,
                                           fontWeight: FontWeight.bold),
@@ -149,79 +165,101 @@ class _LoginState extends State<Login> {
                                     obscureText: true,
                                   ),
                                 ),
-                              ), //// PASSWORD TEXT FIELD
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: (isLoading)
-                                    ? CircularProgressIndicator()
-                                    : RaisedButton(
-                                  color: Colors.blue,
-                                  textColor: Colors.white,
-                                  focusColor: Colors.blueAccent[50],
-                                  child: Container(
-                                    child: Text("LOGIN"),
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      print(emailTextController.text + " " + passwordTextController.text);
-                                      isLoading = true;
-                                      authenticateUser();
-                                    });
-                                  },
-                                ),
-                              ), //LOGIN BUTTON
-                              Padding(
-                                padding: const EdgeInsets.only(top: 12.0),
-                                child: OutlineButton(
-                                  onPressed: () {
-                                    googleSignin();
-                                  },
-                                  borderSide: BorderSide(color: Colors.blue),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Image(image: AssetImage(
-                                          "assets/google_logo.png"),
-                                          height: 15.0),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10),
-                                        child: Text(
-                                          'Sign in with Google',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: Colors.blue,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ), //Google SignIn Button
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 25),
-                                child: OutlineButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, '/SignUp');
-                                  },
-                                  borderSide: BorderSide(color: Colors.white),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'Don\'t have an Account ? Sign Up ',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.blue,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ), //Signup Button
-                            ],
+                              ), // PASSWORD TEXT FIELD
+                          ],
                           ),
                         ],
-                      ),
+                      ),     //TextBoxes
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5,left: 35,bottom: 10),
+                        child: SizedBox(
+                          height: 15,
+                          child: OutlineButton(
+                            onPressed: () {Navigator.pushNamed(context, '/PasswordReset');},
+                            borderSide: BorderSide(color: Colors.white),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  'Forgot Password',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.blue,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),  //FORGOT PASSWORD TEXT
+                      (isLoading) ? Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: CircularProgressIndicator(),
+                      ) : Padding(
+                        padding: const EdgeInsets.only(bottom: 9.0),
+                        child: RaisedButton(
+                          color: Colors.blue,
+                          textColor: Colors.white,
+                          focusColor: Colors.blueAccent[50],
+                          child: Container(
+                            child: Text("LOGIN"),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              print(emailTextController.text + " " + passwordTextController.text);
+                              isLoading = true;
+                              authenticateUser();
+                            });
+                          },
+                        ),
+                      ), //LOGIN BUTTON
+                      SizedBox(
+                        width: 190,
+                        child: OutlineButton(
+                          onPressed: () {googleSignIn();},
+                          borderSide: BorderSide(color: Colors.blue),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Image(image: AssetImage(
+                                  "assets/google_logo.png"),
+                                  height: 15.0),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text(
+                                  'Sign in with Google',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ), //Google SignIn Button
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5,bottom: 20),
+                        child: SizedBox(
+                          height: 25,
+                          width: 210,
+                          child: OutlineButton(
+                            onPressed: () {Navigator.pushNamed(context, '/SignUp');},
+                            borderSide: BorderSide(color: Colors.white),
+                            focusColor: Colors.white,
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  'Don\'t have an Account ? Sign Up ',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.blue,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ), //Register
                     ],
                   ),
                 ),
