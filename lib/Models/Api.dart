@@ -39,35 +39,58 @@ class Api{
   }
 
   ///Fetch Data from the document [thisDoc]
-  getDataFromDocument(thisDoc){
+  List getDataFromDocument(thisDoc) {
+    print('1  check');
     print("Entered inside getDataFromDocuments");
-    List tempFeedList ;
+//    List tempFeedList ;
     List feedList ;
+    print('2  check');
+
     if(thisDoc.exists){
       // Returns list of documents
-//      print("thisDoc.data : ${thisDoc.data}");
+      print("thisDoc.data : ${thisDoc.data.runtimeType}");
+      Map<String, dynamic> tempFeedMap = Map.from(thisDoc.data);
+      print("tempsdfsd.data : ${thisDoc.data.runtimeType}");
 
+      return tempFeedMap.values.toList();
+      print("tempFeedList.data : ${tempFeedMap.runtimeType}");
+      List tempFeedList;
+//      = tempFeedMap.values;
 //      thisDoc.data.forEach((k,v) => tempFeedList.add(v));
+      tempFeedMap.forEach((k,v) => tempFeedList.add(v));
+      print('3  check');
 
 //      print("tempFeedList.length = ${tempFeedList.length}");
       if (tempFeedList != null) {
+        print('10  check');
+
         for(int i =0 ; i<tempFeedList.length ; i++){
         //        print("i = $i");
-        //        print("tempFeedList[$i].length = ${tempFeedList[i].length}");
+          print('11  check');
+
+          //        print("tempFeedList[$i].length = ${tempFeedList[i].length}");
           for(int j =0 ; j<tempFeedList[i].length ; j++){
-        //          print("j = $j");
-        //          print("tempFeedList[$i][$j].length = ${tempFeedList[i][j]}");
-        //          feedList.add(FeedItem.fromMap(tempFeedList[i][j]));
+                  print("j = $j");
+                  print('13  check');
+
+                            print("tempFeedList[$i][$j].length = ${tempFeedList[i][j]}");
+                  feedList.add(tempFeedList[i].fromMap(tempFeedList[i][j]));
+                  print('18  check');
+
           }
         }
       }
 //      print("List " + feedList.toString());
+      return feedList;
     }else{
+      print('19  check');
+
       // No post by User
       print("thisDoc.exists ${thisDoc.exists}");
       feedList = null;
+      return feedList;
     }
-    return feedList;
+
   }
 
   ///Gets Data for a user with id as [email]
@@ -86,11 +109,11 @@ class Api{
   getCommunityFeedData() async {
     print("Fetching Community Feed data...");
     List feedList = [];
-    ref.getDocuments()
+    await ref.getDocuments()
         .then((QuerySnapshot querySnapshot) {
           print("${querySnapshot.documents.length}");
           for(int i = 0 ; i < querySnapshot.documents.length ; i++){
-//            print("Data for ${querySnapshot.documents[i].documentID}  =  ${querySnapshot.documents[i].data}");
+            print("Data for ${querySnapshot.documents[i].documentID}  =  ${querySnapshot.documents[i].data}");
           feedList.add(getDataFromDocument(querySnapshot.documents[i]));
           }
           print("Community Feed List : $feedList");

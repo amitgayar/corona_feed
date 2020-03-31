@@ -52,9 +52,11 @@ class CRUDModel extends ChangeNotifier {
   }
 
   ///Gets the complete Community Feed
-  fetchCommunityFeed() async {
+  Future<List> fetchCommunityFeed() async {
     print("In Crud Model Fetch Community Feed");
-    var list = await _api.getCommunityFeedData();
+    List list = await _api.getCommunityFeedData();
+    print('In Crud Model Fetch Community Feed list');
+    print(list);
     return list ;
   }
 

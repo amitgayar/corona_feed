@@ -90,24 +90,25 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
         future: crudModel.fetchCommunityFeed(),
         builder: (context, projectSnap) {
           if (projectSnap.connectionState == ConnectionState.none && projectSnap.hasData == null) {
-//                print('projectSnap data is: ${projectSnap.data} ');
+                print('projectSnap data is: ${projectSnap.data} ');
             return Center(child: Text("Please Share Something...."));
           }
 
           if(projectSnap.hasData){
 //                print('projectSnap data is: ${projectSnap.data} ');
-            var feedItemMapList = projectSnap.data;
-
+            var feedItemMapList = projectSnap.data[0][0];
+            print('feedItemMapList ${feedItemMapList}');
             return ListView.builder(
                 itemCount: feedItemMapList.length,
                 itemBuilder: (BuildContext context, int index) {
-
+//                  print(feedItemMapList);
                   final item = feedItemMapList[index];
-                  print("Item ${index+1} is $item");
+
+                  print("Item ${index+1} is ${item.runtimeType}");
                   UrlData _urlData = new UrlData(url: "", title: "Unable to Load");
 
                   if (item != null) {
-                    _urlData = new UrlData(url: item.url, title: item.title);
+                    _urlData = new UrlData(url: item['url'], title: item['title']);
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 10, 10, 0),
                       child: Material(
@@ -117,9 +118,9 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
                             isThreeLine: true,
-                            title: title(item.title),
+                            title: title(item['title']),
                             subtitle: subtitle(
-                                item.description, item.datePosted),
+                                item['description'], item['url']),
                             trailing: thumbnail(null),
                             contentPadding: EdgeInsets.all(5.0),
                             onTap: () =>
@@ -145,11 +146,13 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: <Widget>[
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.70,
-          child: list(),
+        Expanded(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.70,
+            child: list(),
+          ),
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.125,
