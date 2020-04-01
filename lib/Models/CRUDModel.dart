@@ -45,9 +45,9 @@ class CRUDModel extends ChangeNotifier {
   }
 
   ///Gets the User Feed for specific email
-  fetchUserFeed() async {
-    var list = await _api.getCompleteUserData(await getCurrentUserEmail()); //TODO getValue
+  Future<List> fetchUserFeed() async {
     print("In Crud Model Fetch User Feed");
+    List list = await _api.getMyFeedData(await getCurrentUserEmail());
     return list ;
   }
 
@@ -55,8 +55,7 @@ class CRUDModel extends ChangeNotifier {
   Future<List> fetchCommunityFeed() async {
     print("In Crud Model Fetch Community Feed");
     List list = await _api.getCommunityFeedData();
-    print('In Crud Model Fetch Community Feedlist');
-    print(list);
+//    print("In Crud Model Fetch Community Feed $list");
     return list ;
   }
 

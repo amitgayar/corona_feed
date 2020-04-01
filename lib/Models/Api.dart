@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:modular_login/Models/FeedItemModel.dart';
+import 'package:modular_login/constants/globals.dart';
 
 class Api{
 
@@ -40,84 +42,64 @@ class Api{
 
   ///Fetch Data from the document [thisDoc]
   List getDataFromDocument(thisDoc) {
-    print('1  check');
-    print("Entered inside getDataFromDocuments");
-//    List tempFeedList ;
+    print("Entered in getDataFromDocuments");
     List feedList ;
-    print('2  check');
 
     if(thisDoc.exists){
       // Returns list of documents
-      print("thisDoc.data : ${thisDoc.data.runtimeType}");
-      var tempFeedMap = Map.from(thisDoc.data);
-      print("tempsdfsd.data : ${thisDoc.data.runtimeType}");
+//      print("thisDoc.data : ${thisDoc.data}");
+      Map<String, dynamic> tempFeedMap = Map.from(thisDoc.data);
+//      print("tempFeedMap : ${thisDoc.data}");
 
-      return tempFeedMap.values.toList();
-      print("tempFeedList.data : ${tempFeedMap.runtimeType}");
-      List tempFeedList;
-//      = tempFeedMap.values;
-//      thisDoc.data.forEach((k,v) => tempFeedList.add(v));
-      tempFeedMap.forEach((k,v) => tempFeedList.add(v));
-      print('3  check');
+      List tempListFromDocumentMap =  tempFeedMap.values.toList();
+//      print("tempListFromDocumentMap : $tempListFromDocumentMap");
 
-//      print("tempFeedList.length = ${tempFeedList.length}");
-      if (tempFeedList != null) {
-        print('10  check');
+      List finalList= [];
+      for(int i=0; i<tempListFromDocumentMap.length; i++){
+        for(int j=0; j<tempListFromDocumentMap[i].length; j++){
+//          FeedItem _feedItem = FeedItem.fromMap(tempListFromDocumentMap[i][j]);
+//          print("Data [$i][$j] : ${_feedItem.runtimeType}");
+//          finalList.add(_feedItem);
+          finalList.add(tempListFromDocumentMap[i][j]);
+//          print("Data [$i][$j] : ${tempListFromDocumentMap[i][j]}");
 
-        for(int i =0 ; i<tempFeedList.length ; i++){
-        //        print("i = $i");
-          print('11  check');
-
-          //        print("tempFeedList[$i].length = ${tempFeedList[i].length}");
-          for(int j =0 ; j<tempFeedList[i].length ; j++){
-                  print("j = $j");
-                  print('13  check');
-
-                            print("tempFeedList[$i][$j].length = ${tempFeedList[i][j]}");
-                  feedList.add(tempFeedList[i].fromMap(tempFeedList[i][j]));
-                  print('18  check');
-
-          }
         }
       }
-//      print("List " + feedList.toString());
-      return feedList;
+//      print("Final List : $finalList");
+      return finalList;
     }else{
-      print('19  check');
-
       // No post by User
       print("thisDoc.exists ${thisDoc.exists}");
       feedList = null;
       return feedList;
     }
-
   }
 
   ///Gets Data for a user with id as [email]
-  getCompleteUserData(email) async {
+  getMyFeedData(email) async {
     print("Fetching data for $email");
-    List feedList = [];
-    ref.document(email)
+    return ref.document(email)
         .get().then((thisDoc){
-          feedList = getDataFromDocument(thisDoc);
+          List temp = getDataFromDocument(thisDoc);
+          myFeedCount = temp.length;
+          return temp ;
         });
-//    feedList.forEach((f) {print(f.data);});
-    return feedList;
   }
 
   ///Gets Data for all the users
   getCommunityFeedData() async {
-    print("Fetching Community Feed data...");
+    print("In API Fetching Community Feed data...");
     List feedList = [];
+
     await ref.getDocuments()
         .then((QuerySnapshot querySnapshot) {
-          print("${querySnapshot.documents.length}");
+          print("Total no of Users with Post : ${querySnapshot.documents.length}");
           for(int i = 0 ; i < querySnapshot.documents.length ; i++){
-            print("Data for ${querySnapshot.documents[i].documentID}  =  ${querySnapshot.documents[i].data}");
-          feedList.add(getDataFromDocument(querySnapshot.documents[i]));
+//            print("Data for User ${querySnapshot.documents[i].documentID}  =  ${querySnapshot.documents[i].data}");
+            feedList.addAll(getDataFromDocument(querySnapshot.documents[i]));
           }
-          print("Community Feed List : $feedList");
-          print("Query Snapshot Data ${querySnapshot.documents.toString()}");
+          communityFeedCount = feedList.length;
+//          print("FeedList in Api  : $feedList");
     });
     return feedList;
   }
@@ -129,11 +111,8 @@ class Api{
 
   Stream<QuerySnapshot> streamDataCollection() {
     print("IN API Inside streamDataCollection");
+    print(ref.snapshots);
     return ref.snapshots() ;
-  }
-
-  Future<DocumentSnapshot> getDocumentById(String id) {
-    return ref.document(id).get();
   }
 
   Future<void> removeDocument(String id){

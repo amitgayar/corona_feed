@@ -1,8 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:modular_login/Models/CRUDModel.dart';
 import 'package:modular_login/Services/AuthWithEmailPasswd.dart';
 import 'package:modular_login/Services/google_sign_in_auth.dart';
+import 'package:modular_login/constants/globals.dart';
 import 'package:toast/toast.dart';
+
+import 'CountWidget.dart';
 
 class CustomDrawer extends StatefulWidget {
 
@@ -21,8 +25,8 @@ class CustomDrawer extends StatefulWidget {
 
 class _CustomDrawerState extends State<CustomDrawer> {
 
-  int userCount = 15;
-  int communityCount = 100;
+  int userCount = myFeedCount;
+  int communityCount = communityFeedCount;
 
   final AuthService _auth = AuthService();
   FirebaseUser _currentUser ;
@@ -40,53 +44,59 @@ class _CustomDrawerState extends State<CustomDrawer> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    CRUDModel crudModel = new CRUDModel();
+    if(userCount == 0) crudModel.fetchUserFeed();
+    if(communityCount == 0) crudModel.fetchCommunityFeed();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView(
         children: <Widget>[
-          SizedBox(
-            height: 250,
-            child: DrawerHeader(
-                decoration: BoxDecoration(
-                    gradient: RadialGradient(
-                        radius: 1.2,
-                        colors: <Color>[
-                          Colors.blue[100],
-                          Colors.blue[300],
-                          Colors.blue[600],
-                        ])
+          Padding(
+            padding: const EdgeInsets.all(17.0),
+            child: Column(
+              children: <Widget> [
+                Container(
+                  alignment: Alignment.center,
+                  height: 150,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: (!widget.url.contains("googleusercontent")) ?
+                  Image.asset("assets/photoNotAvailaible.png"):
+                  Image.network(
+                    widget.url,
+                    width: 150,
+                    height: 150
+                  )
                 ),
-                child: Column(
-                  children: <Widget> [
-                    Container(
-                      alignment: Alignment.center,
-                      height: 150,
-                      width: 150,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: (!widget.url.contains("googleusercontent")) ?
-                      Image.asset("assets/photoNotAvailaible.png"):
-                      Image.network(
-                        widget.url,
-                        width: 150,
-                        height: 150
-                      )
-                    ),
-                    SizedBox(height: 25),
-                    Text(
-                      widget.userName,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontSize: 20
-                      ),)
-                    ],
-                )),
+                SizedBox(height: 25),
+                Text(
+                  widget.userName.toUpperCase(),
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold
+                  ),
+                )
+                ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15,0,15,0),
+            child: Divider(
+              thickness: 5,
+            ),
           ),
           InkWell(
             onTap: () => {Navigator.popAndPushNamed(context, '/Myfeeds',arguments: getCurrentUserEmail())},
-            splashColor: Colors.grey[500],
+            splashColor: Colors.grey[300],
             child: Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.fromLTRB(15,5,15,5),
               child: Row(
                 children: <Widget>[
                   Icon(Icons.rss_feed,size:30),
@@ -109,13 +119,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         color: Colors.blue[900],
                         shape: BoxShape.circle,
                       ),
-                        child: Text(
-                          userCount.toString(),
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: getSize(),
+                      child: (userCount!=0)?
+                      Text(
+                        userCount.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: getSize(),
                           ),
-                        ),
+                        ) :
+                      Container(
+                          width: 10,
+                          height: 10,
+                          child: CircularProgressIndicator(strokeWidth: 2 )
+                      ),
                     ),
                   ),
                 ],
@@ -123,11 +139,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
           ),  //MyFeeds
           InkWell(
-            // ignore: sdk_version_set_literal
-            onTap: () => {signOut()},
-            splashColor: Colors.grey[500],
+            onTap: () => { signOut()},
+            splashColor: Colors.grey[300],
             child: Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.fromLTRB(15,8,15,8),
               child: Row(
                 children: <Widget>[
                   Icon(Icons.power_settings_new,size:30),
@@ -144,19 +159,40 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
             ),
           ),
-          SizedBox(
-            height: 30,
+          Container(
+              child: CountWidget()
           ),
           Container(
             alignment: Alignment.center,
             color: Colors.blue[700],
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("Community Feed Count : "+ communityCount.toString(),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Total Community Feeds : ",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                    ),
+                  ),
+                (communityCount != 0 ) ?
+                Padding(
+                  padding: const EdgeInsets.only(left : 15.0),
+                  child: Text(
+                      communityCount.toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                      ),
+                    ),
+                ):
+                Container(
+                  padding: EdgeInsets.only(left: 15),
+                    width: 30,
+                    child: LinearProgressIndicator())
+                ],
               ),
             ),
           ),
