@@ -22,22 +22,23 @@ class _SignUpState extends State<SignUp> {
   bool isLoading = false;
 
   void registerUser() async {
+
     dynamic result;
     try {
       result = await _auth.registerWithEmailAndPassword(emailTextController.text, passwordTextController.text);
-      if(result.email != null){
+      if(result != null){
         setState(() {
           isLoading = false;
           emailTextController.clear();
           passwordTextController.clear();
         });
-        Toast.show("Registered Successfully, Please Verify your Email to continue.",context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+        Toast.show("Registered Successfully, Email Verification Sent.",context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
         await Future.delayed(Duration(milliseconds: 1500));
         Navigator.popAndPushNamed(context, '/Login');
       }
     } catch (e) {
       setState(() {
-        String errMsg = firebaseErrorMessage(result.toString());
+        String errMsg = fireBaseErrorMessage(result.toString());
         isLoading = false;
         print("Inside Signup Catch: " + result.toString());
         Toast.show(errMsg, context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
@@ -91,11 +92,12 @@ class _SignUpState extends State<SignUp> {
                       padding: const EdgeInsets.only(top: 15,left : 35.0,right: 35),
                       child: SizedBox(
                         height: 70,
-                        width: 250,
+                        width: MediaQuery.of(context).size.width * 0.65,
                         child: TextFormField(
                           decoration: InputDecoration(
                             errorText: errMsg1,
                             labelText: "Enter Email",
+                            prefixIcon: Icon(Icons.email,size: 25),
                             labelStyle: TextStyle(fontSize: 12,fontWeight: FontWeight.bold),
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(20),gapPadding: 5),
                           ),
@@ -114,11 +116,12 @@ class _SignUpState extends State<SignUp> {
                       padding: const EdgeInsets.only(top: 15,left : 35.0,right: 35),
                       child: SizedBox(
                         height: 70,
-                        width: 250,
+                        width: MediaQuery.of(context).size.width * 0.65,
                         child: TextFormField(
                           decoration: InputDecoration(
                             errorText: errMsg2,
                             labelText: "Enter Password",
+                            prefixIcon: Icon(Icons.lock,size: 25),
                             labelStyle: TextStyle(fontSize: 12,fontWeight: FontWeight.bold),
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(20),gapPadding: 5),
                           ),
@@ -134,10 +137,12 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                     ),   //PASSWORD TEXT FIELD
-                    (isLoading) ? Padding(
+                    (isLoading) ?
+                    Padding(
                       padding: const EdgeInsets.only(top: 7.0,bottom: 7),
                       child: CircularProgressIndicator(),
-                    ): Padding(
+                    ):
+                    Padding(
                       padding: const EdgeInsets.only(top: 7.0,bottom: 7),
                       child: RaisedButton(
                         color: Colors.blue,

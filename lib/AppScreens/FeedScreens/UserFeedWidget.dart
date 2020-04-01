@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modular_login/Models/CRUDModel.dart';
+import 'package:modular_login/Services/AuthWithEmailPasswd.dart';
 import 'package:toast/toast.dart';
 
 import '../FeedScreens/WebView.dart';
@@ -18,7 +20,8 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
   FirebaseUser _currentUser;
   CRUDModel crudModel = new CRUDModel();
   bool isPosting = false;
-
+  String url;
+  final AuthService _auth = AuthService();
   bool emailVerifiedStatus = true;
 
   extractTitle(response){
@@ -38,12 +41,20 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
       return "Tap for Details";
   }
 
+  getCurrentUserImage() async {
+    url =  await FirebaseAuth.instance.currentUser()
+        .then((_currentUser) {
+          return _currentUser.photoUrl;
+        }).catchError((onError){
+          print("IN CRUD MODEL ERROR photo Fetch : " + onError.toString());
+        });
+  }
+
   postFeed(url) async {
     _currentUser = await FirebaseAuth.instance.currentUser();
 
     if (_currentUser.isEmailVerified) {
       if (url.isNotEmpty && checkURL(url)) {
-
         String responseString = await crudModel.getMetaDataFromUrl(url);
 
         String title ="",description = "";
@@ -62,27 +73,33 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
           };
         }
 
-        print("Respose "+ responseString);
+//        print("Respose "+ responseString);
         print("URL Posted is " + url);
 
         if( responseString != null && title!=null && description!=null ) {
           crudModel.createUserFeedDocument(_currentUser.email, feedItemMap);
           Toast.show("Posted Successfully", context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+          setState(() {build(context);});
         }else
           Toast.show("This Link Can't be Posted", context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
       }else if(url.isNotEmpty && !checkURL(url))
         Toast.show("Invalid Link", context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
       else
         Toast.show("Please Enter Link to Post", context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+
+      setState(() {
+        _urlTextController.clear();
+        isPosting = false;
+      });
+
     } else {
-      emailVerifiedStatus = false;
+      setState(() {
+        isPosting = false;
+        _auth.sendEmailVerificationLink();
+        Toast.show("Email Verification Link Sent Again.\nPlease Verify your Email to Post Links in the Community",
+            context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+      });
     }
-
-    setState(() {
-      _urlTextController.clear();
-      isPosting = false;
-    });
-
   }
 
   list() {
@@ -90,50 +107,45 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
         future: crudModel.fetchCommunityFeed(),
         builder: (context, projectSnap) {
           if (projectSnap.connectionState == ConnectionState.none && projectSnap.hasData == null) {
-                print('projectSnap data is: ${projectSnap.data} ');
+//                print('projectSnap data is: ${projectSnap.data} ');
             return Center(child: Text("Please Share Something...."));
           }
 
           if(projectSnap.hasData){
-//                print('projectSnap data is: ${projectSnap.data} ');
-            var feedItemMapList = projectSnap.data[0][0];
-            print('feedItemMapList ${feedItemMapList}');
+//            print('projectSnap data is: ${projectSnap.data} ');
+            List feedItemMapList = projectSnap.data;
+            feedItemMapList.sort((a,b) => b['datePosted'].compareTo(a['datePosted']));
+//            print('feedItemMapList $feedItemMapList');
+
             return ListView.builder(
                 itemCount: feedItemMapList.length,
                 itemBuilder: (BuildContext context, int index) {
 //                  print(feedItemMapList);
                   final item = feedItemMapList[index];
 
-                  print("Item ${index+1} is ${item.runtimeType}");
-                  UrlData _urlData = new UrlData(url: "", title: "Unable to Load");
+//                  print("Item ${index+1} is ${item.runtimeType}");
 
-                  if (item != null) {
-                    _urlData = new UrlData(url: item['url'], title: item['title']);
+                  UrlData _urlData = new UrlData(url: item['url'], title: item['title']);
                     return Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10, 10, 0),
+                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: Material(
-                        elevation: 8.0,
-                        borderRadius: BorderRadius.circular(15),
+                        elevation: 2.0,
+                        borderRadius: BorderRadius.circular(8),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
                             isThreeLine: true,
                             title: title(item['title']),
-                            subtitle: subtitle(
-                                item['description'], item['url']),
-                            trailing: thumbnail(null),
+                            subtitle: subtitle(item['description'], item['datePosted']),
+                            trailing: userThumbnail(url),
                             contentPadding: EdgeInsets.all(5.0),
                             onTap: () =>
-                                Navigator.pushNamed(
-                                    context, '/webView', arguments: _urlData),
+                                Navigator.pushNamed(context, '/webView', arguments: _urlData),
                           ),
                         ),
                       ),
                     );
-                  }
-                  else
-                    return Center(child: CircularProgressIndicator());
-                }
+              }
             );
           } else if(projectSnap.connectionState == ConnectionState.waiting) {
 //                print("Connection State :" + projectSnap.connectionState.toString());

@@ -13,9 +13,6 @@ class FeedsWidget extends StatefulWidget {
 class _FeedsWidgetState extends State<FeedsWidget> {
 
   RssFeedModel _rssFeedModel;
-
-  List feedItem = [];
-
   bool isLoading = true;
 
   String getFeedTitle(link) {
@@ -37,29 +34,26 @@ class _FeedsWidgetState extends State<FeedsWidget> {
           return Container();
         }
         if (projectSnap.hasData) {
+          List _rssList = projectSnap.data;
+          _rssList.sort((a,b) => (b.pubDate.substring(5,25)).compareTo(a.pubDate.substring(5,25)));
+
           return ListView.builder(
-              itemCount: projectSnap.data.length,
+              itemCount: _rssList.length,
               itemBuilder: (BuildContext context, int index) {
-                final item = projectSnap.data[index];
+                final item = _rssList[index];
 
                 UrlData _urlData = new UrlData(
                     url: item.link, title: item.title);
-
-                if (filterData(item.title) || filterData(item.description)) {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 10, 10, 0),
+                return Padding(
+                    padding: const EdgeInsets.fromLTRB(10,10, 10, 0),
                     child: Material(
-                      elevation: 5.0,
-                      borderRadius: BorderRadius.circular(15),
+                      elevation: 2.0,
+                      borderRadius: BorderRadius.circular(8),
                       child: ListTile(
                         isThreeLine: true,
                         title: title(item.title),
-                        subtitle: subtitle(
-                            item.description, getFeedTitle(item.link)),
-                        leading: thumbnail(
-                            (item.enclosure != null)
-                                ? item.enclosure.url
-                                : null),
+                        subtitle: subtitle(item.description, getFeedTitle(item.link)),
+                        trailing: thumbnail((item.enclosure != null) ? item.enclosure.url : null),
                         contentPadding: EdgeInsets.all(5.0),
                         onTap: () =>
                             Navigator.pushNamed(
@@ -67,8 +61,6 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                       ),
                     ),
                   );
-                } else
-                  return Container();
               }
           );
         }

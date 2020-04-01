@@ -1,3 +1,5 @@
+import 'package:http/http.dart' as http;
+
 //List of URLS for Feed
 const List urlForFeed = [
   "https://www.sciencedaily.com/rss/health_medicine/viruses.xml",
@@ -18,6 +20,11 @@ const List sourcesFormatted = [
   "The Indian Express",
   "CNBC",
 ];
+
+const String countTrackUrlWorld = "https://www.worldometers.info/coronavirus/";
+const String countTrackUrlIndia = "https://www.worldometers.info/coronavirus/country/india/";
+const String countTrackUrlIndia2 = "https://www.covid19india.org/";
+
 
 //Feed Filter Keywords.
 const String filter1 = "Coronavirus";
@@ -41,6 +48,15 @@ const resendOtp = 10;
 
 //Assets
 const String CoronaGIF = "assets/coronaVirus.gif";
+const String noImageAvailable = "/assets/no_image_availaible_.jpg";
+const List coronaImgList = ["assets/img1.png" , "assets/img3.jpg" , "assets/defaultThumbnail.png"];
+
+getResponse(url) async{
+  http.Client client = http.Client();
+  http.Response response = await client.get(url);
+//  print("Response length : ${response.body.length}");
+  return response.body;
+}
 
 //TextField Validator function
 String validate(String val,int type) {
@@ -54,12 +70,12 @@ String validate(String val,int type) {
   else return null;
 }
 
-String firebaseErrorMessage(String errorMsg){
+String fireBaseErrorMessage(String errorMsg){
   if(errorMsg.contains("ERROR_WRONG_PASSWORD")) return "Incorrect Password Entered";
   else if(errorMsg.contains("ERROR_USER_NOT_FOUND")) return "Email ID Not Registered";
   else if(errorMsg.contains("ERROR_NETWORK_REQUEST_FAILED")) return "Internet Connection Error";
   else if(errorMsg.contains("ERROR_EMAIL_ALREADY_IN_USE")) return "Email ID Already Registered";
-  else if(errorMsg == null) return "Email ID not Verified";
+  else if(errorMsg.contains("Given String is empty or null")) return "Email Id or Password Can't be Empty";
   return "Some Error Occured.Please Try Again";
 }
 
@@ -79,4 +95,52 @@ bool filterData(text){
     return true;
   else
     return false;
+}
+
+comp(String a, String b) {
+
+  print("Inside comp");
+
+  Map<String, int> monthsMap;
+
+  monthsMap["Jan"] = 1;
+  monthsMap["Feb"] = 2;
+  monthsMap["Mar"] = 3;
+  monthsMap["Apr"] = 4;
+  monthsMap["May"] = 5;
+  monthsMap["Jun"] = 6;
+  monthsMap["Jul"] = 7;
+  monthsMap["Aug"] = 8;
+  monthsMap["Sep"] = 9;
+  monthsMap["Oct"] = 10;
+  monthsMap["Nov"] = 11;
+  monthsMap["Dec"] = 12;
+
+  // Comparing the years
+  String str1 = a.substring(7, 11);
+  String str2 = b.substring(7, 11);
+  if (str1.compareTo(str2) != 0) {
+    print("1");
+    if (str1.compareTo(str2) < 0)
+      return true;
+    return false;
+  }
+
+  // Comparing the months
+  String monthSubA = a.substring(3, 5);
+  String monthSubB = b.substring(3, 5);
+
+  // Taking numeric value of months from monthsMap
+  int monthA = monthsMap[monthSubA];
+  int monthB = monthsMap[monthSubB];
+  if (monthA != monthB) {
+    return monthA < monthB;
+  }
+
+  // Comparing the days
+  String dayA = a.substring(0, 2);
+  String dayB = b.substring(0, 2);
+  if (dayA.compareTo(dayB) < 0)
+    return true;
+  return false;
 }

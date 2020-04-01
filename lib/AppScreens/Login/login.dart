@@ -22,37 +22,26 @@ class _LoginState extends State<Login> {
 
   String errMsg1, errMsg2 ;
   bool isLoading = false;
+  bool isAccountVerified = true;
 
   void authenticateUser() async {
     dynamic result;
     try {
       result = await _auth.signInWithEmailAndPassword(emailTextController.text, passwordTextController.text);
       if (result.email != null) {
-        if(result.isEmailVerified) {
-          print(result.email + " Authenticated Successfully");
-          Toast.show("Login Successful", context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
-          String userName = emailTextController.text;
-          setState(() {
-            emailTextController.clear();
-            passwordTextController.clear();
-          });
-          print("Inside Authentication " + userName);
-          Navigator.popAndPushNamed(context, '/HomePage', arguments: userName);
-        }
-        else{
-          print(result.email + " not Verified");
-          setState(() {
-            isLoading = false;
-            emailTextController.clear();
-            passwordTextController.clear();
-          });
-          Toast.show("Account Not Verified.Please Verify your Email to continue.",
-              context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
-        }
+        print(result.email + " Authenticated Successfully");
+        Toast.show("Login Successful", context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+        String userName = emailTextController.text;
+        setState(() {
+          emailTextController.clear();
+          passwordTextController.clear();
+        });
+        print("Inside Authentication " + userName);
+        Navigator.popAndPushNamed(context, '/HomePage', arguments: userName);
       }
     } catch (e) {
       setState(() {
-        String errMsg = firebaseErrorMessage(result.toString());
+        String errMsg = fireBaseErrorMessage(result.toString());
         isLoading = false;
         print("Inside Login Catch: " + result.toString());
         Toast.show(errMsg, context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
@@ -190,11 +179,13 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                         ),
-                      ),  //FORGOT PASSWORD TEXT
-                      (isLoading) ? Padding(
+                      ),
+                      (isLoading) ?
+                      Padding(
                         padding: const EdgeInsets.only(bottom: 10.0),
                         child: CircularProgressIndicator(),
-                      ) : Padding(
+                      ) :
+                      Padding(
                         padding: const EdgeInsets.only(bottom: 9.0),
                         child: RaisedButton(
                           color: Colors.blue,
@@ -205,7 +196,7 @@ class _LoginState extends State<Login> {
                           ),
                           onPressed: () {
                             setState(() {
-                              print(emailTextController.text + " " + passwordTextController.text);
+//                              print(emailTextController.text + " " + passwordTextController.text);
                               isLoading = true;
                               authenticateUser();
                             });
@@ -269,4 +260,5 @@ class _LoginState extends State<Login> {
         ),
       );
     }
+
 }

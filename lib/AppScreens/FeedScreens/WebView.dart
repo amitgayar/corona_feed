@@ -21,8 +21,8 @@ class WebView extends StatelessWidget {
     RouteSettings settings = ModalRoute.of(context).settings;
     _data = settings.arguments;
 
-    print("URL IS " + _data.url);
-    print("TITLE IS " + _data.title);
+//    print("URL IS " + _data.url);
+//    print("TITLE IS " + _data.title);
 
     return WebviewScaffold(
       appBar: AppBar(

@@ -10,13 +10,13 @@ class FeedItem {
 
   FeedItem({this.url, this.title, this.description,this.datePosted,this.commentsList});
 
-  FeedItem.fromMap(Map snapshot) :
-        url = snapshot['url'] ?? '',
-        title = snapshot['title'] ?? '',
-        description = snapshot['description'] ?? '',
-        postedBy = snapshot['postedBy'] ?? '',
-        datePosted = snapshot['datePosted'] ?? '',
-        commentsList = snapshot['commentsList'] ?? '';
+  FeedItem.fromMap(Map map) :
+        url = map['url'] ?? '',
+        title = map['title'] ?? '',
+        description = map['description'] ?? '',
+        postedBy = map['postedBy'] ?? '',
+        datePosted = map['datePosted'] ?? '',
+        commentsList = map['commentsList'] ?? '';
 
   toJson() {
     return {

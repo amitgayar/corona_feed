@@ -21,7 +21,7 @@ class AuthService {
       user.sendEmailVerification();
       return _userFromFireBaseUser(user);
     } catch (error) {
-      print(error.toString());
+      print("RegisterWithEmailPassword Error returned : $error");
       return error.toString();
     }
   }
@@ -41,6 +41,12 @@ class AuthService {
   // Reset Password
   Future sendPasswordResetEmail(String email) async {
       return await _auth.sendPasswordResetEmail(email: email);
+  }
+
+  // Reset Password
+  Future sendEmailVerificationLink() async {
+    FirebaseUser _currentUser = await FirebaseAuth.instance.currentUser();
+    return await _currentUser.sendEmailVerification();
   }
 
   //Sign Out
