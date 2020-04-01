@@ -49,7 +49,7 @@ class Api{
     if(thisDoc.exists){
       // Returns list of documents
       print("thisDoc.data : ${thisDoc.data.runtimeType}");
-      Map<String, dynamic> tempFeedMap = Map.from(thisDoc.data);
+      var tempFeedMap = Map.from(thisDoc.data);
       print("tempsdfsd.data : ${thisDoc.data.runtimeType}");
 
       return tempFeedMap.values.toList();

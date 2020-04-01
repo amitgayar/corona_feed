@@ -96,13 +96,18 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
 
           if(projectSnap.hasData){
 //                print('projectSnap data is: ${projectSnap.data} ');
-            var feedItemMapList = projectSnap.data[0][0];
-            print('feedItemMapList ${feedItemMapList}');
+            List feedItemList = [];
+            projectSnap.data[0].forEach((f){
+              f.forEach((i){
+                feedItemList.add(i);}
+              );
+            });
+
             return ListView.builder(
-                itemCount: feedItemMapList.length,
+                itemCount: feedItemList.length,
                 itemBuilder: (BuildContext context, int index) {
 //                  print(feedItemMapList);
-                  final item = feedItemMapList[index];
+                  final item = feedItemList[index];
 
                   print("Item ${index+1} is ${item.runtimeType}");
                   UrlData _urlData = new UrlData(url: "", title: "Unable to Load");

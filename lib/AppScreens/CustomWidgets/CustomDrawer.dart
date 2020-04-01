@@ -124,7 +124,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ),  //MyFeeds
           InkWell(
             // ignore: sdk_version_set_literal
-            onTap: () => { signOut()},
+            onTap: () => {signOut()},
             splashColor: Colors.grey[500],
             child: Padding(
               padding: const EdgeInsets.all(15.0),

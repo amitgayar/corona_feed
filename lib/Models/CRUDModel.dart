@@ -55,7 +55,7 @@ class CRUDModel extends ChangeNotifier {
   Future<List> fetchCommunityFeed() async {
     print("In Crud Model Fetch Community Feed");
     List list = await _api.getCommunityFeedData();
-    print('In Crud Model Fetch Community Feed list');
+    print('In Crud Model Fetch Community Feedlist');
     print(list);
     return list ;
   }
