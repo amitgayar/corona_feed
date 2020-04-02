@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:modular_login/AppScreens/Login/Signup.dart';
+
+import 'AppScreens/Login/login.dart';
+import 'AppScreens/Login/Signup.dart';
 import 'AppScreens/FeedScreens/HomePage.dart';
 import 'AppScreens/FeedScreens/MyFeedScreen.dart';
 import 'AppScreens/Login/ResetPassword.dart';
-import 'AppScreens/Login/login.dart';
 import 'AppScreens/FeedScreens/WebView.dart';
 
 void main() {
   runApp(MyApp());
-//  setupLocator();
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +20,12 @@ class MyApp extends StatelessWidget {
       title: 'Login',
         // Theme of the application.
       theme: ThemeData(
-        primaryColor: Colors.blue,
+        primaryColor: Color(0xffea70b1),
+        textTheme: TextTheme(
+          title : TextStyle(fontWeight: FontWeight.bold, color: Colors.black54),
+          body1: TextStyle(fontSize: 12, color: Color(0xffea70b1)),
+          button: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        )
       ),
       home: Login(),
       routes: {

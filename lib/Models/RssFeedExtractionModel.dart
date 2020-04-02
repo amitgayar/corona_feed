@@ -23,13 +23,11 @@ class RssFeedModel {
         _tempRssItemList.add(RssFeed.parse(response.body).items);
         for (int j = 0; j < _tempRssItemList[i].length; j++) {
           if (filterData(_tempRssItemList[i][j].title) || filterData(_tempRssItemList[i][j].description)) {
-//            _tempRssItemList[i][j].pubDate = _tempRssItemList[i][j].pubDate.substring(5,16);
-//            print(_tempRssItemList[i][j].pubDate.toString());
             _rssItemList.add(_tempRssItemList[i][j]);
-//          print(_tempRssItemList[i][j].runtimeType);
           }
         }
       }
+//      print("RSS Length : ${_rssItemList.length}" );
     } catch (e) {
       print(e);
     }

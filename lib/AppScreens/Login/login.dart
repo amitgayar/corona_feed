@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 
 class Login extends StatefulWidget {
 
-  static Widget logo = Image.asset("assets/coronaVirus.gif");
+  static Widget logo = Image.asset(coronaGIF);
 
   @override
   _LoginState createState() => _LoginState();
@@ -64,139 +64,123 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context){
       return SafeArea(
         child: Scaffold(
-          backgroundColor: Color(0xfffefcff),
+          backgroundColor: Colors.white,
           body: ListView(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(top: 55),
+                padding: const EdgeInsets.only(top: 50),
                 child: Container(
-                    width: 100,
-                    height: 165,
+                    height: MediaQuery.of(context).size.height * 0.25,
                     child: Login.logo
                 ),
               ), //LOGO
               Padding(
                 padding: const EdgeInsets.only(top: 50, left: 15, right: 15, bottom: 20),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.height*0.9,
-                  child: Material(
-//                    color: Colors.white,
-                    color: Color(0xfffefcff),
-                    elevation: 3.0,
-                    borderRadius: BorderRadius.circular(7.0),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20, left: 15, right: 15, bottom: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          TextFormField(
-                            decoration: InputDecoration(
-                              errorText: errMsg1,
-                              prefixIcon: Icon(Icons.email,size: 25, color: Color(0xffea70b1),),
-                              labelText: "Enter Email",
-                              labelStyle: TextStyle(fontSize: 12,
-                                                        fontWeight: FontWeight.bold, color: Colors.black54),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Color(0xffea70b1)),
-                                  borderRadius: BorderRadius.circular(
-                                      7)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Color(0xffea70b1)),
-                                  borderRadius: BorderRadius.circular(
-                                      7)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Color(0xffea70b1)),
-                                  borderRadius: BorderRadius.circular(
-                                      7)),
+                child: Material(
+                  color: Colors.white,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.circular(7.0),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20, left: 15, right: 15, bottom: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        TextFormField(
+                          decoration: InputDecoration(
+                            errorText: errMsg1,
+                            errorStyle: TextStyle(color: Colors.indigo[900]),
+                            prefixIcon: Icon(Icons.email,color: baseColor,),
+                            labelText: "Enter Email",
+                            labelStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black26
                             ),
-                            style: TextStyle(fontSize: 17),
-                            keyboardType: TextInputType.emailAddress,
-                            controller: emailTextController,
-                            onChanged: (text) {
-                              setState(() {
-                                errMsg1 = validate(text, 2);
-                              });
-                            },
-                          ), //EMAI
-                          Container(height: 20,),// L TEXT FIELD
-                          TextFormField(
-                            decoration: InputDecoration(
-                              errorText: errMsg2,
-                              prefixIcon: Icon(Icons.lock,size: 25, color: Color(0xffea70b1),),
-                              labelText: "Enter Password",
-                              labelStyle: TextStyle(fontSize: 12,
-                                  fontWeight: FontWeight.bold, color: Colors.black54),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xffea70b1)),
-                                  borderRadius: BorderRadius.circular(
-                                      7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xffea70b1)),
-                                  borderRadius: BorderRadius.circular(
-                                      7)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Color(0xffea70b1)),
-                                  borderRadius: BorderRadius.circular(
-                                      7)),
-                            ),
-                            style: TextStyle(fontSize: 17),
-                            keyboardType: TextInputType.text,
-                            controller: passwordTextController,
-                            onChanged: (text) {
-                              setState(() {
-                                errMsg2 = validate(text, 4);
-                              });
-                            },
-                            obscureText: true,
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(color: baseColor),
+                                borderRadius: BorderRadius.circular(7)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: baseColor),
+                                borderRadius: BorderRadius.circular(7)),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: baseColor),
+                                borderRadius: BorderRadius.circular(7)),
                           ),
-                          Container(height: 20,),// L TEXT FIELD
-//TextBoxes
-                          InkWell(
-                            onTap: () {Navigator.pushNamed(context, '/PasswordReset');},
-                            child: Text(
-                              'Forgot Password',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Color(0xffea70b1),
-                              ),
+                          keyboardType: TextInputType.emailAddress,
+                          controller: emailTextController,
+                          onChanged: (text) {
+                            setState(() {
+                              errMsg1 = validate(text, 2);
+                            });
+                          },
+                        ),
+                        SizedBox(height: 20,),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            errorText: errMsg2,
+                            errorStyle: TextStyle(color: Colors.indigo[900]),
+                            prefixIcon: Icon(Icons.lock, color: baseColor),
+                            labelText: "Enter Password",
+                            labelStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black26
                             ),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(color: baseColor),
+                                borderRadius: BorderRadius.circular(7)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: baseColor),
+                                borderRadius: BorderRadius.circular(7)),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: baseColor),
+                                borderRadius: BorderRadius.circular(7)),
                           ),
-                          (isLoading) ?
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10.0),
-                            child: CircularProgressIndicator(),
-                          ) :
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              RaisedButton(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+                          keyboardType: TextInputType.text,
+                          controller: passwordTextController,
+                          onChanged: (text) {
+                            setState(() {
+                              errMsg2 = validate(text, 4);
+                            });
+                          },
+                          obscureText: true,
+                        ),
+                        SizedBox(height: 20),
+                        InkWell(
+                          onTap: () {Navigator.pushNamed(context, '/PasswordReset');},
+                          child: Text(
+                            'Forgot Password',
+                          ),
+                        ),
+                        (isLoading) ?
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            CircularProgressIndicator(backgroundColor: baseColor),
+                          ],
+                        ) :
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            RaisedButton(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+                              color: baseColor,
                               textColor: Colors.white,
-                              color: Color(0xffea70b1),
-//                          focusColor: Colors.blueAccent[50],
-                                child: Container(
-                                  child: Text("LOGIN",
-//                                            style: TextStyle(color: Colors.blueAccent),
-                                              ),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-//                              print(emailTextController.text + " " + passwordTextController.text);
-                                    isLoading = true;
-                                    authenticateUser();
-                                  });
-                                },
-                              ),
-                            ],
-                          ), //LOGIN BUTTON
-                          //Register
-                        ],
-                      ),
+                              child: Text("LOGIN",),
+                              onPressed: () {
+                                setState(() {
+//                                  print(emailTextController.text + " " + passwordTextController.text);
+                                  isLoading = true;
+                                  authenticateUser();
+                                });
+                              },
+                            ),
+                          ],
+                        ), //LOGIN BUTTON
+                        //Register
+                      ],
                     ),
                   ),
-
                 ),
-              ),
+              ),   // Login Card
               FlatButton(
                 onPressed: () {googleSignIn();},
                 child: Row(
@@ -204,13 +188,12 @@ class _LoginState extends State<Login> {
                   children: <Widget>[
                     Image(image: AssetImage(
                         "assets/google_logo.png"),
-                              height: 15.0),
+                        height: 15.0
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
                         'Sign in with Google',
-                        style: TextStyle(
-                          ),
                         ),
                       )
                   ],
@@ -218,15 +201,13 @@ class _LoginState extends State<Login> {
                 ), //Google SignIn Button
               FlatButton(
                 onPressed: () {Navigator.pushNamed(context, '/SignUp');},
-                focusColor: Colors.white,
                 child: Text(
                   'Don\'t have an Account ? Sign Up ',
                   style: TextStyle(
-                    fontSize: 12,
-                    color: Color(0xffea70b1),
-                    ),
+                    color: baseColor,
                   ),
                 ),
+              ),
             ],
           ),
         ),

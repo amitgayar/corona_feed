@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modular_login/constants/constants.dart';
-import '../../Models/ListTileWidgetsModel.dart';
+import 'package:modular_login/AppScreens/FeedScreens/ListTileWidgetsModel.dart';
 import '../../Models/RssFeedExtractionModel.dart';
 import 'WebView.dart';
 
@@ -47,8 +47,9 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                 return Padding(
                     padding: const EdgeInsets.fromLTRB(10,10, 10, 0),
                     child: Material(
-                      elevation: 2.0,
-                      borderRadius: BorderRadius.circular(8),
+                      elevation: 3.0,
+                      borderRadius: BorderRadius.circular(7),
+                      shadowColor: baseColor,
                       child: ListTile(
                         isThreeLine: true,
                         title: title(item.title),

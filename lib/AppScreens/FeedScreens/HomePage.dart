@@ -71,6 +71,7 @@ class _HomePageState extends State<HomePage> {
               appBar: AppBar(
                 title: Text("HOME"),
                 bottom: TabBar(
+                  indicatorColor: Colors.pink[300],
                   tabs: [
                     Tab(text: "Feeds"),
                     Tab(text: "User Feeds")

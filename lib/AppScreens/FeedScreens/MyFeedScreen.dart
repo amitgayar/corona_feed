@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:modular_login/constants/constants.dart';
 
 import 'WebView.dart';
 import '../../Models/CRUDModel.dart';
-import '../../Models/ListTileWidgetsModel.dart';
+import 'package:modular_login/AppScreens/FeedScreens/ListTileWidgetsModel.dart';
 
 class MyFeed extends StatefulWidget {
   @override
@@ -39,8 +40,9 @@ class _MyFeedState extends State<MyFeed> {
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(10,10,10,0),
                       child: Material(
-                        elevation: 2.0,
-                        borderRadius: BorderRadius.circular(8),
+                        elevation: 3.0,
+                        borderRadius: BorderRadius.circular(7),
+                        shadowColor: baseColor,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(

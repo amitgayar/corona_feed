@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modular_login/Models/CRUDModel.dart';
@@ -7,7 +6,7 @@ import 'package:toast/toast.dart';
 
 import '../FeedScreens/WebView.dart';
 import '../../constants/constants.dart';
-import '../../Models/ListTileWidgetsModel.dart';
+import 'package:modular_login/AppScreens/FeedScreens/ListTileWidgetsModel.dart';
 
 class UserFeedWidget extends StatefulWidget {
   @override
@@ -129,8 +128,9 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: Material(
-                        elevation: 2.0,
-                        borderRadius: BorderRadius.circular(8),
+                        elevation: 3.0,
+                        borderRadius: BorderRadius.circular(7),
+                        shadowColor: baseColor,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
@@ -138,7 +138,6 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
                             title: title(item['title']),
                             subtitle: subtitle(item['description'], item['datePosted']),
                             trailing: userThumbnail(url),
-                            contentPadding: EdgeInsets.all(5.0),
                             onTap: () =>
                                 Navigator.pushNamed(context, '/webView', arguments: _urlData),
                           ),
@@ -167,57 +166,63 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
           ),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.125,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 55,
-                  width: MediaQuery.of(context).size.width*0.74,
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: "Enter Link to Post",
-                      labelStyle: TextStyle(fontSize: 12,
-                          fontWeight: FontWeight.bold),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20), gapPadding: 5),
+          height: MediaQuery.of(context).size.height * 0.10,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                width: MediaQuery.of(context).size.width*0.75,
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: "Enter Link to Post",
+                    labelStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black26
                     ),
-                    style: TextStyle(fontSize: 14),
-                    keyboardType: TextInputType.url,
-                    controller: _urlTextController,
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: baseColor),
+                        borderRadius: BorderRadius.circular(7)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: baseColor),
+                        borderRadius: BorderRadius.circular(7)),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: baseColor),
+                        borderRadius: BorderRadius.circular(7)),
                   ),
+                  keyboardType: TextInputType.url,
+                  controller: _urlTextController,
                 ),
-                (isPosting)?
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: CircularProgressIndicator(),
-                ):
-                SizedBox(
-                  height: 70,
-                  width: 70,
+              ),
+              (isPosting)?
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CircularProgressIndicator(backgroundColor: baseColor,),
+              ):
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width*0.20,
+                  height: MediaQuery.of(context).size.height,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: RaisedButton(
-                      color: Colors.blue,
-                      child: Icon(
-                        Icons.send,
-                        color: Colors.white,
-                        size: 28,
-                      ),
-                      onPressed:() {
-                        setState(() {
-                          isPosting = true;
-                          postFeed(_urlTextController.text);
-                        });
-                      }
-                    ),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+                        color: baseColor,
+                        child: Icon(
+                          Icons.send,
+                          color: Colors.white,
+                        ),
+                        onPressed:() {
+                          setState(() {
+                            isPosting = true;
+                            postFeed(_urlTextController.text);
+                          });
+                        }
+                        ),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
       ],
