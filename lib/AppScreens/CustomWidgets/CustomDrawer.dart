@@ -31,8 +31,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove("email");
 
-    Toast.show("Log Out Successfull",context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-    Navigator.popAndPushNamed(context, '/Login');
+    Toast.show("Log Out Successfull",context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+    Navigator.pushReplacementNamed(context, '/Login');
   }
 
   @override

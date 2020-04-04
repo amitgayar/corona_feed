@@ -17,10 +17,10 @@ class UserFeedWidget extends StatefulWidget {
 class _UserFeedWidgetState extends State<UserFeedWidget> {
   TextEditingController _urlTextController = new TextEditingController();
   FirebaseUser _currentUser;
+  final AuthService _auth = AuthService();
   CRUDModel crudModel = new CRUDModel();
   bool isPosting = false;
   String url;
-  final AuthService _auth = AuthService();
   bool emailVerifiedStatus = true;
   ScrollController _scrollController = ScrollController();
   bool _canLoadMorePosts = true;
@@ -70,7 +70,7 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
         String title = "", description = "";
         Map<String, dynamic> feedItemMap;
 
-//        print("Respose "+ responseString);
+//        print("Response "+ responseString);
         print("URL Posted is " + url);
 
         if (responseString != null) {
@@ -112,9 +112,7 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
       setState(() {
         isPosting = false;
         _auth.sendEmailVerificationLink();
-        Toast.show(
-            "Email Verification Link Sent Again.\nPlease Verify your Email to Post Links in the Community",
-            context,
+        Toast.show("Email Verification Link Sent Again.\nPlease Verify your Email to Post Links in the Community", context,
             duration: Toast.LENGTH_LONG,
             gravity: Toast.TOP);
       });

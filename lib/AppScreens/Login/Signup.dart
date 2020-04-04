@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modular_login/Services/google_sign_in_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants/constants.dart';
 import '../../Services/AuthWithEmailPasswd.dart';
 import 'package:toast/toast.dart';
@@ -24,7 +25,7 @@ class _SignUpState extends State<SignUp> {
     dynamic result;
     try {
       result = await _auth.registerWithEmailAndPassword(emailTextController.text, passwordTextController.text);
-      if(result != null){
+      if(result.uid != null){
         setState(() {
           isLoading = false;
           emailTextController.clear();
@@ -38,8 +39,8 @@ class _SignUpState extends State<SignUp> {
       setState(() {
         String errMsg = fireBaseErrorMessage(result.toString());
         isLoading = false;
-        Toast.show(errMsg, context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
         print("Inside Signup Catch: " + result.toString());
+        Toast.show(errMsg, context, duration: Toast.LENGTH_SHORT, gravity: Toast.TOP);
       });
     }
   }
@@ -47,12 +48,21 @@ class _SignUpState extends State<SignUp> {
   void googleSignIn() async {
     try {
       await signInWithGoogle().then((result) {
-        Toast.show("Logged In SuccessFully", context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-        Navigator.popAndPushNamed(context, '/HomePage', arguments: [2, name, imageUrl,email]);
+        Toast.show("Logged In SuccessFully", context, duration: Toast.LENGTH_SHORT, gravity: Toast.TOP);
+        saveSharedPreference(email);
+        Navigator.popAndPushNamed(context, '/HomePage', arguments: email);
       });
     } catch (e) {
       print("In Google Sign in Login" + e.toString());
     }
+  }
+
+  SharedPreferences sharedPreferences;
+
+  // ignore: non_constant_identifier_names
+  saveSharedPreference(Email) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', Email);
   }
 
   String errMsg1, errMsg2 ;
@@ -161,10 +171,10 @@ class _SignUpState extends State<SignUp> {
 //                                print(emailTextController.text + " " + passwordTextController.text);
                                 if (emailTextController.text.isEmpty)
                                   Toast.show("Email cannot be Empty",context,
-                                      duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+                                      duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
                                 else if (passwordTextController.text.isEmpty)
                                   Toast.show("Password cannot be Empty",context,
-                                      duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+                                      duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
                                 else {
                                   isLoading = true;
                                   registerUser();

@@ -11,6 +11,7 @@ class UrlData {
   });
 }
 
+// ignore: must_be_immutable
 class WebView extends StatelessWidget {
 
   UrlData _data;

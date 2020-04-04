@@ -34,7 +34,7 @@ class _SplashState extends State<Splash> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     email = prefs.getString('email');
     (email == null) ?
-    Navigator.pushNamed(context, "/Login") :
+    Navigator.pushReplacementNamed(context, "/Login") :
     Navigator.of(context).pushReplacement(
     MaterialPageRoute(
     builder: (BuildContext context) => HomePage(email : email))

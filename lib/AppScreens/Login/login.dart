@@ -41,14 +41,14 @@ class _LoginState extends State<Login> {
           passwordTextController.clear();
         });
         print("Inside Authentication " + userName);
-        Navigator.popAndPushNamed(context, '/HomePage', arguments: userName);
+        Navigator.pushReplacementNamed(context, '/HomePage', arguments: userName);
       }
     } catch (e) {
       setState(() {
         String errMsg = fireBaseErrorMessage(result.toString());
         isLoading = false;
         print("Inside Login Catch: " + result.toString());
-        Toast.show(errMsg, context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+        Toast.show(errMsg, context, duration: Toast.LENGTH_SHORT, gravity: Toast.TOP);
       });
     }
   }
@@ -95,7 +95,7 @@ class _LoginState extends State<Login> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.only(top : 10.0),
                         child: Text(
                             "LOGIN",
                             style: new TextStyle(
