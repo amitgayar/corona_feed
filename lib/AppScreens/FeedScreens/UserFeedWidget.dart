@@ -131,19 +131,19 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
 //                 print("Item ${index+1} is ${item.runtimeType}");
           UrlData _urlData = new UrlData(url: item['url'], title: item['title']);
           return Padding(
-            padding: const EdgeInsets.fromLTRB(15,20,10,10),
+            padding: const EdgeInsets.fromLTRB(10,10, 10, 0),
             child: Material(
               color: Colors.white,
               elevation: 2.0,
               borderRadius: BorderRadius.circular(7),
               shadowColor: baseColor,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(top:20,bottom: 10),
                 child: ListTile(
                   isThreeLine: true,
                   title: title(item['title']),
-                  subtitle: subtitle(item['description'],(item['datePosted']).toString()),
-                  trailing: userThumbnail(url),
+                  subtitle: subtitle(item['description'],(item['datePosted']).toDate().toString().substring(0,16)),
+//                  trailing: userThumbnail(url),
                   onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
                 ),
               ),

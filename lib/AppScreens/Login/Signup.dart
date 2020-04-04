@@ -30,7 +30,7 @@ class _SignUpState extends State<SignUp> {
           emailTextController.clear();
           passwordTextController.clear();
         });
-        Toast.show("Registered Successfully, Verification Email Sent.",context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+        Toast.show("Registered Successfully, Verification Email Sent.",context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
         await Future.delayed(Duration(milliseconds: 1500));
         Navigator.popAndPushNamed(context, '/Login');
       }
@@ -89,7 +89,7 @@ class _SignUpState extends State<SignUp> {
                             fontWeight: FontWeight.bold,
                           )
                       ),   //SIGN UP TEXT
-                      SizedBox(height: 20,),
+                      SizedBox(height: 10,),
                       TextFormField(
                         decoration: InputDecoration(
                           errorText: errMsg1,

@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'AppScreens/Login/login.dart';
 import 'AppScreens/Login/Signup.dart';
 import 'AppScreens/FeedScreens/HomePage.dart';
 import 'AppScreens/FeedScreens/MyFeedScreen.dart';
 import 'AppScreens/Login/ResetPassword.dart';
 import 'AppScreens/FeedScreens/WebView.dart';
+import 'AppScreens/splash.dart';
 
 var email;
 
-Future<void> main() async{
-
-  WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  email = prefs.getString('email');
-  print(email);
+//Future<void> main() async{
+void main() {
+//  WidgetsFlutterBinding.ensureInitialized();
+//  SharedPreferences prefs = await SharedPreferences.getInstance();
+//  email = prefs.getString('email');
+//  print(email);
   runApp(MyApp());
 
 }
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // Title of the application.
-      title: 'Login',
+      title: 'Corona Feed',
       // Theme of the application.
       theme: ThemeData(
         primaryColor: Color(0xffea70b1),
@@ -37,7 +36,8 @@ class MyApp extends StatelessWidget {
           button: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         )
       ),
-      home: (email == null) ? Login() : HomePage(),
+      home: Splash(),
+//      (email == null) ? Login() : HomePage(email : email),
       routes: {
         '/Login'    : (context) => Login(),
         '/SignUp'   : (context) => SignUp(),

@@ -8,6 +8,10 @@ import 'package:modular_login/AppScreens/FeedScreens/UserFeedWidget.dart';
 
 class HomePage extends StatefulWidget {
 
+  String email;
+
+  HomePage({this.email});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -27,39 +31,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-//  getUserNameFromLoginPage() {
-//    String _data;
-//    RouteSettings settings = ModalRoute.of(context).settings;
-//    _data = settings.arguments.toString();
-//    return _data;
-//  }
-//
-//  getNameFromGoogleSignIn() {
-//    List _data = [];
-//    RouteSettings settings = ModalRoute.of(context).settings;
-//    print("Google Sign IN Name" + settings.arguments.toString());
-//    _data = settings.arguments;
-//    return _data[1];
-//  }
-//
-//  getImageFromGoogleSignIn() {
-//    List _data = [];
-//    RouteSettings settings = ModalRoute.of(context).settings;
-////    print("Google Sign IN Image" + settings.arguments.toString());
-//    _data = settings.arguments;
-//    return _data[2];
-//  }
-
-  String displayEmail ;
-
-  getCurrentUserEmail() async {
-    displayEmail = await FirebaseAuth.instance.currentUser()
-        .then((_currentUser) {
-      return _currentUser.email;
-    }).catchError((onError){
-      print("IN CRUD MODEL ERROR Email Fetch : " + onError.toString());
-    });
+  getUserNameFromLoginPage() {
+    String _data;
+    RouteSettings settings = ModalRoute.of(context).settings;
+    _data = settings.arguments.toString();
+    return _data;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -72,17 +50,10 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: Colors.white,
               drawer: Drawer(
                 child:
-//                (getUserNameFromLoginPage()!=null) ?
-//                CustomDrawer(
-//                    userName: getUserNameFromLoginPage(),
-//                    url : "x"):
-//                CustomDrawer(
-//                    userName: getNameFromGoogleSignIn(),
-//                    url : getImageFromGoogleSignIn()),
-//              ),
-                  CustomDrawer(
-                      userName: displayEmail,
-                      url : "x")
+                CustomDrawer(
+                    userName: (widget.email !=null) ?
+                    widget.email :
+                    getUserNameFromLoginPage())
               ),
               appBar: AppBar(
                 title: Text("HOME"),

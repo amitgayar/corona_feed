@@ -3,39 +3,7 @@ import 'package:http/http.dart' as http;
 
 //List of URLS for Feed
 const List urlForFeed = [
-  "https://www.sciencedaily.com/rss/top/health.xml",
-  "https://www.sciencedaily.com/rss/top/environment.xml",
-  "https://www.sciencedaily.com/rss/health_medicine/viruses.xml",
-  "https://indianexpress.com/section/lifestyle/health/feed/",
-  "https://indianexpress.com/section/opinion/feed/",
-  "https://www.cnbc.com/id/10000108/device/rss/rss.html",
-  "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
-  "https://www.businesstoday.in/rss/rssstory.jsp?sid=109",
-  "https://www.thehindu.com/news/national/feeder/default.rss",
-  "https://www.thehindu.com/news/cities/Delhi/feeder/default.rss",
-  "https://www.thehindu.com/news/international/feeder/default.rss",
-  "https://www.thehindu.com/business/feeder/default.rss",
-  "https://www.thehindu.com/news/feeder/default.rss",
-  "https://www.businesstoday.in/rss/rssstory.jsp?sid=105",
-  "https://www.businesstoday.in/rss/rssstory.jsp?sid=111",
-];
-
-const List Sources = [
-  "sciencedaily",
-  "indianexpress",
-  "cnbc",
-  "timesofindia",
-  "thehindu",
-  "businesstoday"
-];
-
-const List sourcesFormatted = [
-  "Science Daily",
-  "The Indian Express",
-  "CNBC",
-  "Times of India",
-  "The Hindu",
-  "Business Today"
+  "https://news.google.com/rss/search?hl=en-IN&gl=IN&ceid=IN:en&q=covid"
 ];
 
 const String countTrackUrlWorld = "https://www.worldometers.info/coronavirus/";

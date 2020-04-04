@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
     try {
       result = await _auth.signInWithEmailAndPassword(emailTextController.text, passwordTextController.text);
       if (result.email != null) {
-        saveSharedPreference(result);
+        saveSharedPreference(result.email);
         print(result.email + " Authenticated Successfully");
         Toast.show("Login Successful", context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
         String userName = emailTextController.text;
@@ -56,23 +56,19 @@ class _LoginState extends State<Login> {
   void googleSignIn() async {
     try {
     await signInWithGoogle().then((result) {
-        Toast.show("Logged In SuccessFully", context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-        Navigator.popAndPushNamed(context, '/HomePage', arguments: [name, imageUrl,email]);
+        Toast.show("Logged In SuccessFully", context, duration: Toast.LENGTH_SHORT, gravity: Toast.TOP);
+        saveSharedPreference(email);
+        Navigator.popAndPushNamed(context, '/HomePage', arguments: email);
       });
     } catch (e) {
       print("In Google Sign in Login" + e.toString());
     }
   }
 
-  saveSharedPreference(result) async {
+  // ignore: non_constant_identifier_names
+  saveSharedPreference(Email) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('email', result.email);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-//    navigate();
+    prefs.setString('email', Email);
   }
 
   @override
@@ -95,112 +91,118 @@ class _LoginState extends State<Login> {
                   color: Colors.white,
                   elevation: 3.0,
                   borderRadius: BorderRadius.circular(7.0),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20, left: 15, right: 15, bottom: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                            "LOGIN",
-                            style: new TextStyle(
-                              fontSize: 15,
-                              color: baseColor,
-                              fontWeight: FontWeight.bold,
-                            )
-                        ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            errorText: errMsg1,
-                            errorStyle: TextStyle(color: Colors.indigo[900]),
-                            prefixIcon: Icon(Icons.email,color: baseColor,),
-                            labelText: "Enter Email",
-                            labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black26
-                            ),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(color: baseColor),
-                                borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: baseColor),
-                                borderRadius: BorderRadius.circular(7)),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: baseColor),
-                                borderRadius: BorderRadius.circular(7)),
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                          controller: emailTextController,
-                          onChanged: (text) {
-                            setState(() {
-                              errMsg1 = validate(text, 2);
-                            });
-                          },
-                        ),
-                        SizedBox(height: 20,),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            errorText: errMsg2,
-                            errorStyle: TextStyle(color: Colors.indigo[900]),
-                            prefixIcon: Icon(Icons.lock, color: baseColor),
-                            labelText: "Enter Password",
-                            labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black26
-                            ),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(color: baseColor),
-                                borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: baseColor),
-                                borderRadius: BorderRadius.circular(7)),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: baseColor),
-                                borderRadius: BorderRadius.circular(7)),
-                          ),
-                          keyboardType: TextInputType.text,
-                          controller: passwordTextController,
-                          onChanged: (text) {
-                            setState(() {
-                              errMsg2 = validate(text, 4);
-                            });
-                          },
-                          obscureText: true,
-                        ),
-                        SizedBox(height: 20),
-                        InkWell(
-                          onTap: () {Navigator.pushNamed(context, '/PasswordReset');},
-                          child: Text(
-                            'Forgot Password',
-                          ),
-                        ),
-                        (isLoading) ?
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                          "LOGIN",
+                          style: new TextStyle(
+                            fontSize: 15,
+                            color: baseColor,
+                            fontWeight: FontWeight.bold,
+                          )
+                      ),
+                      SizedBox(height: 10,),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20, left: 15, right: 15, bottom: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            CircularProgressIndicator(backgroundColor: baseColor),
-                          ],
-                        ) :
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            RaisedButton(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
-                              color: baseColor,
-                              textColor: Colors.white,
-                              child: Text("LOGIN",),
-                              onPressed: () {
+                            TextFormField(
+                              decoration: InputDecoration(
+                                errorText: errMsg1,
+                                errorStyle: TextStyle(color: Colors.indigo[900]),
+                                prefixIcon: Icon(Icons.email,color: baseColor,),
+                                labelText: "Enter Email",
+                                labelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black26
+                                ),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: baseColor),
+                                    borderRadius: BorderRadius.circular(7)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: baseColor),
+                                    borderRadius: BorderRadius.circular(7)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: baseColor),
+                                    borderRadius: BorderRadius.circular(7)),
+                              ),
+                              keyboardType: TextInputType.emailAddress,
+                              controller: emailTextController,
+                              onChanged: (text) {
                                 setState(() {
-//                                  print(emailTextController.text + " " + passwordTextController.text);
-                                  isLoading = true;
-                                  authenticateUser();
+                                  errMsg1 = validate(text, 2);
                                 });
                               },
                             ),
+                            SizedBox(height: 20,),
+                            TextFormField(
+                              decoration: InputDecoration(
+                                errorText: errMsg2,
+                                errorStyle: TextStyle(color: Colors.indigo[900]),
+                                prefixIcon: Icon(Icons.lock, color: baseColor),
+                                labelText: "Enter Password",
+                                labelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black26
+                                ),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: baseColor),
+                                    borderRadius: BorderRadius.circular(7)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: baseColor),
+                                    borderRadius: BorderRadius.circular(7)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: baseColor),
+                                    borderRadius: BorderRadius.circular(7)),
+                              ),
+                              keyboardType: TextInputType.text,
+                              controller: passwordTextController,
+                              onChanged: (text) {
+                                setState(() {
+                                  errMsg2 = validate(text, 4);
+                                });
+                              },
+                              obscureText: true,
+                            ),
+                            SizedBox(height: 20),
+                            InkWell(
+                              onTap: () {Navigator.pushNamed(context, '/PasswordReset');},
+                              child: Text(
+                                'Forgot Password',
+                              ),
+                            ),
+                            (isLoading) ?
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                CircularProgressIndicator(backgroundColor: baseColor),
+                              ],
+                            ) :
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                RaisedButton(
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+                                  color: baseColor,
+                                  textColor: Colors.white,
+                                  child: Text("LOGIN",),
+                                  onPressed: () {
+                                    setState(() {
+//                                  print(emailTextController.text + " " + passwordTextController.text);
+                                      isLoading = true;
+                                      authenticateUser();
+                                    });
+                                  },
+                                ),
+                              ],
+                            ), //LOGIN BUTTON
+                            //Register
                           ],
-                        ), //LOGIN BUTTON
-                        //Register
-                      ],
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),   // Login Card

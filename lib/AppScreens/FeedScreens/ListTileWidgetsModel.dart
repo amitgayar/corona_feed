@@ -42,6 +42,19 @@ subtitle(subTitle,source) {
   );
 }
 
+///subtitle widget for listTile in Feeds
+feedSubtitle(source) {
+  return Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: Text(
+          source ,
+          style: TextStyle(
+              fontWeight: FontWeight.w300),
+          maxLines: 1,
+        ),
+      );
+}
+
 Random rnd = new Random();
 
 ///thumbnail widget for listTile

@@ -15,15 +15,6 @@ class _FeedsWidgetState extends State<FeedsWidget> {
   RssFeedModel _rssFeedModel;
   bool isLoading = true;
 
-  String getFeedTitle(link) {
-    String _link=link.toString();
-    if(_link.contains(Sources[0])) return sourcesFormatted[0];
-    else if(_link.contains(Sources[1])) return sourcesFormatted[1];
-    else if(_link.contains(Sources[2])) return sourcesFormatted[2];
-    else
-      return "";
-  }
-
   //ListView Builder
   list() {
     return FutureBuilder(
@@ -35,7 +26,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
         }
         if (projectSnap.hasData) {
           List _rssList = projectSnap.data;
-          _rssList.sort((a,b) => (b.pubDate.substring(5,25)).compareTo(a.pubDate.substring(5,25)));
+//          _rssList.sort((a,b) => (b.pubDate.substring(5,25)).compareTo(a.pubDate.substring(5,25)));
 
           return ListView.builder(
               itemCount: _rssList.length,
@@ -52,16 +43,13 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                       borderRadius: BorderRadius.circular(7),
                       shadowColor: baseColor,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(15,20,10,10),
+                        padding: const EdgeInsets.only(top:20,bottom: 10),
                         child: ListTile(
                           isThreeLine: true,
                           title: title(item.title),
-                          subtitle: subtitle(item.description, getFeedTitle(item.link)),
+                          subtitle: feedSubtitle(item.source.value.toString()),
                           trailing: thumbnail((item.enclosure != null) ? item.enclosure.url : null),
-                          contentPadding: EdgeInsets.all(5.0),
-                          onTap: () =>
-                              Navigator.pushNamed(
-                                  context, '/webView', arguments: _urlData),
+                          onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
                         ),
                       ),
                     ),

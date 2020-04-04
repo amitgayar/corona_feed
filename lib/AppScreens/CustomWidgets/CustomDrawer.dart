@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modular_login/Services/AuthWithEmailPasswd.dart';
 import 'package:modular_login/Services/google_sign_in_auth.dart';
@@ -11,11 +10,9 @@ import 'CountWidget.dart';
 class CustomDrawer extends StatefulWidget {
 
   String userName;
-  String url;
 
   CustomDrawer({
     this.userName,
-    this.url,
   });
 
 
@@ -49,14 +46,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 children: <Widget> [
                   Container(
                     height: MediaQuery.of(context).size.height * 0.12,
-                    child:
-                    (!widget.url.contains("googleusercontent")) ?
-                    Image.asset("assets/photoNotAvailaible.png"):
-                    Image.network(widget.url),
+                    child: Image.asset("assets/photoNotAvailaible.png")
                   ),
                   Container(height: 15),
                   Text(
-                    widget.userName.toUpperCase(),
+                    widget.userName,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         color: Colors.indigo[900],
