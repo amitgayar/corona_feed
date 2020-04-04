@@ -57,6 +57,7 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: bgColor,
         body: ListView(
           children: <Widget>[
             Padding(
@@ -69,6 +70,7 @@ class _SignUpState extends State<SignUp> {
             Padding(
               padding: const EdgeInsets.only(top: 50, left: 15, right: 15, bottom: 20),
               child: Material(
+                color: Colors.white,
                 elevation: 3.0,
                 borderRadius: BorderRadius.circular(7.0),
                 child: Padding(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modular_login/Models/CRUDModel.dart';
@@ -22,12 +23,20 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
   String url;
   final AuthService _auth = AuthService();
   bool emailVerifiedStatus = true;
+  ScrollController _scrollController = ScrollController();
+  Future<List> _getFeedFuture;
+  bool _canLoadMorePosts = true;
+  DocumentSnapshot _lastDocument;
+  List feedItemList = [];
 
   extractTitle(response){
-    String extractedTitle = response.substring(response.indexOf("<title>"),response.indexOf("</title>"));
-    if(extractedTitle != null){
+    String extractedTitle;
+    if(response.contains("<title>") && response.contains("</title>"))
+      extractedTitle = response.substring(response.indexOf("<title>"),response.indexOf("</title>"));
+
+    if(extractedTitle != null)
       return extractedTitle.substring(7,extractedTitle.length);
-    }else
+    else
       return null;
   }
 
@@ -57,7 +66,10 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
         String responseString = await crudModel.getMetaDataFromUrl(url);
 
         String title ="",description = "";
-        Map feedItemMap;
+        Map<String,dynamic> feedItemMap;
+
+//        print("Respose "+ responseString);
+        print("URL Posted is " + url);
 
         if (responseString!=null) {
           title = extractTitle(responseString);
@@ -66,19 +78,14 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
             'title': title,
             'description': description,
             'url':url,
-            'datePosted':DateTime.now().toString().substring(0,11),
+            'datePosted': DateTime.now(),
             'postedBy':_currentUser.email,
             'commentsList':[{'comment':null, 'commentBy':null, 'DateTimeStamp':null}]
           };
         }
-
-//        print("Respose "+ responseString);
-        print("URL Posted is " + url);
-
         if( responseString != null && title!=null && description!=null ) {
-          crudModel.createUserFeedDocument(_currentUser.email, feedItemMap);
+          crudModel.createUserFeedDocument(title, feedItemMap);
           Toast.show("Posted Successfully", context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
-          setState(() {build(context);});
         }else
           Toast.show("This Link Can't be Posted", context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
       }else if(url.isNotEmpty && !checkURL(url))
@@ -89,6 +96,7 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
       setState(() {
         _urlTextController.clear();
         isPosting = false;
+        list();
       });
 
     } else {
@@ -102,32 +110,42 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
   }
 
   list() {
+    print("Building List");
     return FutureBuilder(
-        future: crudModel.fetchCommunityFeed(),
+        future: _getFeedFuture,
         builder: (context, projectSnap) {
           if (projectSnap.connectionState == ConnectionState.none && projectSnap.hasData == null) {
 //                print('projectSnap data is: ${projectSnap.data} ');
             return Center(child: Text("Please Share Something...."));
           }
 
-          if(projectSnap.hasData){
-//            print('projectSnap data is: ${projectSnap.data} ');
-            List feedItemList = projectSnap.data;
-            feedItemList.sort((a,b) => b['datePosted'].compareTo(a['datePosted']));
+
+          if(projectSnap.hasData && _canLoadMorePosts){
+            feedItemList.addAll(projectSnap.data);
+            print('feedItemList data is: ${feedItemList.toString()} ');
+            print("Length = ${projectSnap.data.length}");
+            print("Length 2= ${feedItemList.length}");
+
+            _lastDocument = feedItemList[feedItemList.length - 1];
+
+            if(feedItemList.length < 10){
+              _canLoadMorePosts = false;
+              _lastDocument = null;
+            }
 //            print('feedItemMapList $feedItemMapList');
 
             return ListView.builder(
                 itemCount: feedItemList.length,
+                controller: _scrollController,
                 itemBuilder: (BuildContext context, int index) {
 //                  print(feedItemMapList);
                   final item = feedItemList[index];
-
 //                  print("Item ${index+1} is ${item.runtimeType}");
-
                   UrlData _urlData = new UrlData(url: item['url'], title: item['title']);
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: Material(
+                        color: Colors.white,
                         elevation: 3.0,
                         borderRadius: BorderRadius.circular(7),
                         shadowColor: baseColor,
@@ -136,27 +154,54 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
                           child: ListTile(
                             isThreeLine: true,
                             title: title(item['title']),
-                            subtitle: subtitle(item['description'], item['datePosted']),
+                            subtitle: subtitle(item['description'],(item['datePosted']).toDate().toString()),
                             trailing: userThumbnail(url),
-                            onTap: () =>
-                                Navigator.pushNamed(context, '/webView', arguments: _urlData),
+                            onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
                           ),
                         ),
                       ),
                     );
               }
             );
-          } else if(projectSnap.connectionState == ConnectionState.waiting) {
-//                print("Connection State :" + projectSnap.connectionState.toString());
-            return Center(child: CircularProgressIndicator());
-          }
-          else
-            return Center(child: Text("Error Loading Feed"));
+          } else
+            return Center(child: Container(
+                width: MediaQuery.of(context).size.width * 0.35,
+                child: Image.asset("assets/washed_away_covid-19.gif")));
+
         });
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(controlListener) ;
+    initialLoad();
+  }
+
+  initialLoad() async {
+    _getFeedFuture = await crudModel.fetchCommunityFeed(null);
+  }
+
+  controlListener() async {
+    print("Calling Listener");
+    double maxScroll = _scrollController.position.maxScrollExtent;
+    double currentScroll = _scrollController.position.pixels;
+    double delta = MediaQuery.of(context).size.height * 0.55;
+    if (maxScroll - currentScroll <= delta && _canLoadMorePosts) {
+      print("Calling fetchCommunity Feed");
+      _getFeedFuture = Future.sync(() => []);
+      _getFeedFuture = crudModel.fetchCommunityFeed(_lastDocument);
+      setState(() {
+        list();
+      });
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    print("Building Community Feed Widget");
     return Column(
       children: <Widget>[
         Expanded(
@@ -218,7 +263,7 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
                             postFeed(_urlTextController.text);
                           });
                         }
-                        ),
+                    ),
                   ),
                 ),
               )

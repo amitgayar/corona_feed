@@ -61,11 +61,15 @@ thumbnail(imageUrl) {
 ///thumbnail widget for User specific listTile
 userThumbnail(imageUrl) {
   return (imageUrl != null) ?
-  CachedNetworkImage(
-    placeholder: (context, url) => Image.asset("/assets/no_image_availaible_.jpg"),
-    imageUrl: imageUrl,
-    height: 50,
-    alignment: Alignment.center,
+  ClipOval(
+    child: CachedNetworkImage(
+      placeholder: (context, url) => Image.asset("/assets/no_image_availaible_.jpg"),
+      imageUrl: imageUrl,
+      height: 50,
+      alignment: Alignment.center,
+    ),
   ) :
-  Image.asset("assets/photoNotAvailaible.png");
+  ClipOval(
+      child: Image.asset("assets/photoNotAvailaible.png")
+  );
 }

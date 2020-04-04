@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:modular_login/Models/FeedItemModel.dart';
 import 'package:modular_login/constants/globals.dart';
 
 class Api{
 
-  CollectionReference ref = Firestore.instance.collection('FeedData');
+  CollectionReference ref = Firestore.instance.collection('CommunityFeed');
+  CollectionReference userRef = Firestore.instance.collection('FeedData');
+
 
   bool isLoggedIn(){
     if (FirebaseAuth.instance.currentUser() != null)
@@ -15,24 +16,13 @@ class Api{
   }
 
   /// Creates and updates data while posting feed
-  void createDocument(email,Map feedItemMap) async {
-    String datePosted = DateTime.now().toString().substring(0,11);
-    List feedItemMapListElement = [feedItemMap];
-
+  createDocument(title,Map<String,dynamic> feedItemMap) async{
     if (isLoggedIn()) {
-      ref.document(email)
+      await ref.document(title)
           .get().then((thisDoc) {
-
-        if (thisDoc.exists) {
-          ref.document(email)
-              .updateData({
-            datePosted : FieldValue.arrayUnion(feedItemMapListElement)
-          });
-        } else {
-          ref.document(email)
-              .setData({
-            datePosted : FieldValue.arrayUnion(feedItemMapListElement)
-          });
+        if (!thisDoc.exists) {
+          ref.document(title)
+              .setData(feedItemMap);
         }
       });
     }else{
@@ -75,56 +65,54 @@ class Api{
     }
   }
 
+  bool hasMore = true;
+  int docLimit = 10;
+  DocumentSnapshot lastDocument;
+
   ///Gets Data for a user with id as [email]
-  getMyFeedData(email) async {
+  Future<List<DocumentSnapshot>> getMyFeedData(email) async {
     print("Fetching data for $email");
-    return ref.document(email)
-        .get().then((thisDoc){
-          List temp = getDataFromDocument(thisDoc);
-          myFeedCount = temp.length;
-          return temp ;
-        });
+    Query q = ref.where("postedBy",isEqualTo: email).orderBy("datePosted",descending: true);
+    QuerySnapshot querySnapshot = await q.getDocuments();
+    return querySnapshot.documents;
   }
 
-  ///Gets Data for all the users
-  getCommunityFeedData() async {
-    print("In API Fetching Community Feed data...");
-    List feedList = [];
-
-    await ref.getDocuments()
-        .then((QuerySnapshot querySnapshot) {
-          print("Total no of Users with Post : ${querySnapshot.documents.length}");
-          for(int i = 0 ; i < querySnapshot.documents.length ; i++){
-//            print("Data for User ${querySnapshot.documents[i].documentID}  =  ${querySnapshot.documents[i].data}");
-            feedList.addAll(getDataFromDocument(querySnapshot.documents[i]));
-          }
-          communityFeedCount = feedList.length;
-//          print("FeedList in Api  : $feedList");
-    });
-    return feedList;
+  ///Gets Data for a user with id as [email]
+  Future<List<DocumentSnapshot>> getCommunityFeedData(DocumentSnapshot lastDoc) async {
+    print("Fetching Community data ");
+    print("ref : $ref");
+    Query q;
+    if(lastDoc == null){
+      print("lastDoc : ${lastDoc} in null true case $docLimit");
+      q = ref.orderBy("datePosted",descending: true).limit(docLimit);
+    }else {
+      print("lastDoc : ${lastDoc.data.toString()} in null false case $docLimit");
+      q = ref.orderBy("datePosted",descending: true).startAfterDocument(lastDoc).limit(docLimit);
+    }
+    QuerySnapshot querySnapshot = await q.getDocuments();
+    return querySnapshot.documents;
   }
-
 
   Future<QuerySnapshot> getDataCollection() {
-    return ref.getDocuments() ;
+    return userRef.getDocuments() ;
   }
 
   Stream<QuerySnapshot> streamDataCollection() {
     print("IN API Inside streamDataCollection");
-    print(ref.snapshots);
-    return ref.snapshots() ;
+    print(userRef.snapshots);
+    return userRef.snapshots() ;
   }
 
   Future<void> removeDocument(String id){
-    return ref.document(id).delete();
+    return userRef.document(id).delete();
   }
 
   Future<DocumentReference> addDocument(Map data) {
-    return ref.add(data);
+    return userRef.add(data);
   }
 
   Future<void> updateDocument(Map data) {
-    return ref.document(data['datePosted']).updateData(data) ;
+    return userRef.document(data['datePosted']).updateData(data) ;
   }
 
 }

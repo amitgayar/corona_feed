@@ -47,6 +47,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                 return Padding(
                     padding: const EdgeInsets.fromLTRB(10,10, 10, 0),
                     child: Material(
+                      color: Colors.white,
                       elevation: 3.0,
                       borderRadius: BorderRadius.circular(7),
                       shadowColor: baseColor,
@@ -66,7 +67,9 @@ class _FeedsWidgetState extends State<FeedsWidget> {
           );
         }
         else {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: Container(
+              width: MediaQuery.of(context).size.width * 0.35,
+              child: Image.asset("assets/washed_away_covid-19.gif")));
         }
       },
       future: _rssFeedModel.load(),

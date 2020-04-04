@@ -71,7 +71,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               thickness: 5,
             ),
             InkWell(
-              onTap: () => {Navigator.popAndPushNamed(context, '/HomePage')},
+              onTap: () => {Navigator.pop(context)},
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -91,7 +91,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
             ),
             InkWell(
-              onTap: () => {Navigator.popAndPushNamed(context, '/Myfeeds')},
+              onTap: () => {Navigator.pushNamed(context, '/Myfeeds')},
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(

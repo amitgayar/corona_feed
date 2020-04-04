@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // Title of the application.
       title: 'Login',
-        // Theme of the application.
+      // Theme of the application.
       theme: ThemeData(
         primaryColor: Color(0xffea70b1),
         textTheme: TextTheme(

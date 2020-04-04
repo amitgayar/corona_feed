@@ -19,15 +19,15 @@ class _MyFeedState extends State<MyFeed> {
       child: FutureBuilder(
           future: crudModel.fetchUserFeed(),
           builder: (context, projectSnap) {
-            if (projectSnap.connectionState == ConnectionState.none && projectSnap.hasData == null) {
+            if (projectSnap.connectionState == ConnectionState.none && projectSnap.data == null) {
 //                print('projectSnap data is: ${projectSnap.data} ');
               return Center(child: Text("Please Share Something...."));
             }
 
             if(projectSnap.hasData){
-//              print('In MyFeedScreen projectSnap data is: ${projectSnap.data} ');
+              print('In MyFeedScreen projectSnap data is: ${projectSnap.data} ');
               List feedItemMapList = projectSnap.data;
-              feedItemMapList.sort((a,b) => b['datePosted'].compareTo(a['datePosted']));
+//              feedItemMapList.sort((a,b) => b['datePosted'].compareTo(a['datePosted']));
 
               return ListView.builder(
                   itemCount: feedItemMapList.length,
@@ -40,6 +40,7 @@ class _MyFeedState extends State<MyFeed> {
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(10,10,10,0),
                       child: Material(
+                        color: Colors.white,
                         elevation: 3.0,
                         borderRadius: BorderRadius.circular(7),
                         shadowColor: baseColor,
@@ -58,9 +59,10 @@ class _MyFeedState extends State<MyFeed> {
                     );
                   }
               );
-            } else if(projectSnap.connectionState == ConnectionState.waiting) {
-//                print("Connection State :" + projectSnap.connectionState.toString());
-              return Center(child: CircularProgressIndicator());
+            }else if(projectSnap.connectionState == ConnectionState.waiting) {
+              return Center(child: Container(
+                  width: MediaQuery.of(context).size.width * 0.35,
+                  child: Image.asset("assets/washed_away_covid-19.gif")));
             }else
               return Center(child: Text("Error Loading Feed"));
           }),

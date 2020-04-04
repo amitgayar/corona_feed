@@ -64,7 +64,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context){
       return SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: bgColor,
           body: ListView(
             children: <Widget>[
               Padding(

@@ -21,8 +21,8 @@ class CRUDModel extends ChangeNotifier {
   }
 
   ///Posts the feedItem in fireStore data
-  createUserFeedDocument(email,userFeedItemMap){
-    _api.createDocument(email,userFeedItemMap);
+  createUserFeedDocument(title,Map<String,dynamic> userFeedItemMap){
+    return _api.createDocument(title,userFeedItemMap);
   }
 
   ///Gets the MetaData from the URL
@@ -52,10 +52,9 @@ class CRUDModel extends ChangeNotifier {
   }
 
   ///Gets the complete Community Feed
-  Future<List> fetchCommunityFeed() async {
+  Future<List> fetchCommunityFeed(documentSnapshot) async {
     print("In Crud Model Fetch Community Feed");
-    List list = await _api.getCommunityFeedData();
-//    print("In Crud Model Fetch Community Feed $list");
+    List list = await _api.getCommunityFeedData(documentSnapshot);
     return list ;
   }
 

@@ -45,7 +45,7 @@ class _ResetPasswordState extends State<ResetPassword> {
   Widget build(BuildContext context) {
       return SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: bgColor,
           body: ListView(
             children: <Widget>[
               Padding(
@@ -58,6 +58,7 @@ class _ResetPasswordState extends State<ResetPassword> {
               Padding(
                 padding: const EdgeInsets.only(top: 50, left: 25, right: 25),
                 child: Material(
+                  color: Colors.white,
                   elevation: 3.0,
                   borderRadius: BorderRadius.circular(7),
                   child: Padding(
