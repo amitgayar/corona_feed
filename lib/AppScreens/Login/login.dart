@@ -94,15 +94,17 @@ class _LoginState extends State<Login> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                          "LOGIN",
-                          style: new TextStyle(
-                            fontSize: 15,
-                            color: baseColor,
-                            fontWeight: FontWeight.bold,
-                          )
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                            "LOGIN",
+                            style: new TextStyle(
+                              fontSize: 15,
+                              color: baseColor,
+                              fontWeight: FontWeight.bold,
+                            )
+                        ),
                       ),
-                      SizedBox(height: 10,),
                       Padding(
                         padding: const EdgeInsets.only(top: 20, left: 15, right: 15, bottom: 10),
                         child: Column(
