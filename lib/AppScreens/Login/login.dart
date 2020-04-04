@@ -4,6 +4,7 @@ import 'package:modular_login/Services/google_sign_in_auth.dart';
 import 'package:modular_login/constants/constants.dart';
 import 'package:toast/toast.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
 
@@ -24,11 +25,14 @@ class _LoginState extends State<Login> {
   bool isLoading = false;
   bool isAccountVerified = true;
 
+  SharedPreferences sharedPreferences;
+
   void authenticateUser() async {
     dynamic result;
     try {
       result = await _auth.signInWithEmailAndPassword(emailTextController.text, passwordTextController.text);
       if (result.email != null) {
+        saveSharedPreference(result);
         print(result.email + " Authenticated Successfully");
         Toast.show("Login Successful", context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
         String userName = emailTextController.text;
@@ -53,11 +57,22 @@ class _LoginState extends State<Login> {
     try {
     await signInWithGoogle().then((result) {
         Toast.show("Logged In SuccessFully", context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-        Navigator.popAndPushNamed(context, '/HomePage', arguments: [2, name, imageUrl,email]);
+        Navigator.popAndPushNamed(context, '/HomePage', arguments: [name, imageUrl,email]);
       });
     } catch (e) {
       print("In Google Sign in Login" + e.toString());
     }
+  }
+
+  saveSharedPreference(result) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', result.email);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+//    navigate();
   }
 
   @override
@@ -85,6 +100,14 @@ class _LoginState extends State<Login> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
+                        Text(
+                            "LOGIN",
+                            style: new TextStyle(
+                              fontSize: 15,
+                              color: baseColor,
+                              fontWeight: FontWeight.bold,
+                            )
+                        ),
                         TextFormField(
                           decoration: InputDecoration(
                             errorText: errMsg1,

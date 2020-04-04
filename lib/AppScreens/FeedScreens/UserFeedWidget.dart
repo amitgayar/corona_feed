@@ -24,10 +24,10 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
   final AuthService _auth = AuthService();
   bool emailVerifiedStatus = true;
   ScrollController _scrollController = ScrollController();
-  Future<List> _getFeedFuture;
   bool _canLoadMorePosts = true;
   DocumentSnapshot _lastDocument;
   List feedItemList = [];
+  bool isLoading=true;
 
   extractTitle(response){
     String extractedTitle;
@@ -84,8 +84,13 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
           };
         }
         if( responseString != null && title!=null && description!=null ) {
-          crudModel.createUserFeedDocument(title, feedItemMap);
-          Toast.show("Posted Successfully", context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+          var state = await crudModel.createUserFeedDocument(title, feedItemMap);
+//          print("State in userFeed : $state");
+          if (state != null) {
+            Toast.show("Posted Successfully", context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+          }else{
+            Toast.show("The Link is Already Posted", context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+          }
         }else
           Toast.show("This Link Can't be Posted", context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
       }else if(url.isNotEmpty && !checkURL(url))
@@ -96,7 +101,7 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
       setState(() {
         _urlTextController.clear();
         isPosting = false;
-        list();
+        _canLoadMorePosts = true;
       });
 
     } else {
@@ -111,93 +116,60 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
 
   list() {
     print("Building List");
-    return FutureBuilder(
-        future: _getFeedFuture,
-        builder: (context, projectSnap) {
-          if (projectSnap.connectionState == ConnectionState.none && projectSnap.hasData == null) {
-//                print('projectSnap data is: ${projectSnap.data} ');
-            return Center(child: Text("Please Share Something...."));
-          }
-
-
-          if(projectSnap.hasData && _canLoadMorePosts){
-            feedItemList.addAll(projectSnap.data);
-            print('feedItemList data is: ${feedItemList.toString()} ');
-            print("Length = ${projectSnap.data.length}");
-            print("Length 2= ${feedItemList.length}");
-
-            _lastDocument = feedItemList[feedItemList.length - 1];
-
-            if(feedItemList.length < 10){
-              _canLoadMorePosts = false;
-              _lastDocument = null;
-            }
-//            print('feedItemMapList $feedItemMapList');
-
-            return ListView.builder(
-                itemCount: feedItemList.length,
-                controller: _scrollController,
-                itemBuilder: (BuildContext context, int index) {
-//                  print(feedItemMapList);
-                  final item = feedItemList[index];
-//                  print("Item ${index+1} is ${item.runtimeType}");
-                  UrlData _urlData = new UrlData(url: item['url'], title: item['title']);
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: Material(
-                        color: Colors.white,
-                        elevation: 3.0,
-                        borderRadius: BorderRadius.circular(7),
-                        shadowColor: baseColor,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            isThreeLine: true,
-                            title: title(item['title']),
-                            subtitle: subtitle(item['description'],(item['datePosted']).toDate().toString()),
-                            trailing: userThumbnail(url),
-                            onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
-                          ),
-                        ),
-                      ),
-                    );
-              }
-            );
-          } else
-            return Center(child: Container(
-                width: MediaQuery.of(context).size.width * 0.35,
-                child: Image.asset("assets/washed_away_covid-19.gif")));
-
+    return ListView.builder(
+        itemCount: feedItemList.length,
+        controller: _scrollController,
+        itemBuilder: (BuildContext context, int index) {
+          final item = feedItemList[index];
+//                 print("Item ${index+1} is ${item.runtimeType}");
+          UrlData _urlData = new UrlData(url: item['url'], title: item['title']);
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(15,20,10,10),
+            child: Material(
+              color: Colors.white,
+              elevation: 2.0,
+              borderRadius: BorderRadius.circular(7),
+              shadowColor: baseColor,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  isThreeLine: true,
+                  title: title(item['title']),
+                  subtitle: subtitle(item['description'],(item['datePosted']).toString()),
+                  trailing: userThumbnail(url),
+                  onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
+                ),
+              ),
+            ),
+          );
         });
   }
-
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(controlListener) ;
-    initialLoad();
-  }
-
-  initialLoad() async {
-    _getFeedFuture = await crudModel.fetchCommunityFeed(null);
+    crudModel.fetchCommunityFeed(_lastDocument).then((value) {
+      feedItemList.addAll(value);
+      _lastDocument = feedItemList[feedItemList.length - 1];
+      setState(() {
+        isLoading = false;
+      });
+    });
   }
 
   controlListener() async {
-    print("Calling Listener");
+//    print("Calling Listener");
     double maxScroll = _scrollController.position.maxScrollExtent;
     double currentScroll = _scrollController.position.pixels;
-    double delta = MediaQuery.of(context).size.height * 0.55;
-    if (maxScroll - currentScroll <= delta && _canLoadMorePosts) {
-      print("Calling fetchCommunity Feed");
-      _getFeedFuture = Future.sync(() => []);
-      _getFeedFuture = crudModel.fetchCommunityFeed(_lastDocument);
-      setState(() {
-        list();
-      });
+    if (maxScroll == currentScroll && _canLoadMorePosts) {
+      print("Calling Community Feed");
+      List newItems = await(crudModel.fetchCommunityFeed(_lastDocument));
+      feedItemList.addAll(newItems);
+      _lastDocument = feedItemList[feedItemList.length -1];
+      setState(() {});
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +179,12 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
         Expanded(
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.70,
-            child: list(),
+            child:
+            (isLoading) ?
+            Center(child: Container(
+            width: MediaQuery.of(context).size.width * 0.35,
+            child: Image.asset("assets/washed_away_covid-19.gif"))):
+            list(),
           ),
         ),
         SizedBox(

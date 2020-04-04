@@ -41,15 +41,15 @@ class _MyFeedState extends State<MyFeed> {
                       padding: const EdgeInsets.fromLTRB(10,10,10,0),
                       child: Material(
                         color: Colors.white,
-                        elevation: 3.0,
+                        elevation: 2.0,
                         borderRadius: BorderRadius.circular(7),
                         shadowColor: baseColor,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.fromLTRB(15,20,10,10),
                           child: ListTile(
                             isThreeLine: true,
                             title: title(item['title']),
-                            subtitle: subtitle(item['description'],item['datePosted']),
+                            subtitle: subtitle(item['description'],item['datePosted'].toString()),
                             trailing: userThumbnail(null),
                             contentPadding: EdgeInsets.all(5.0),
                             onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),

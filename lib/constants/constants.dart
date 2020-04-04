@@ -70,7 +70,7 @@ const List coronaImgList = ["assets/img1.png" , "assets/img3.jpg" , "assets/defa
 
 
 const Color baseColor = Color(0xffea70b1);
-const Color bgColor = Color.fromARGB(255, 252, 251, 254);
+const Color bgColor = Color.fromRGBO(252, 251, 254,1);
 
 
 getResponse(url) async{

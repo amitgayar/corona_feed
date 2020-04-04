@@ -44,11 +44,15 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
-  void googleSignIn() {
-    signInWithGoogle().whenComplete(() async {
-      Toast.show("Logged IN SuccessFully", context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-      Navigator.popAndPushNamed(context, '/HomePage', arguments: [1, name, imageUrl]);
-    });
+  void googleSignIn() async {
+    try {
+      await signInWithGoogle().then((result) {
+        Toast.show("Logged In SuccessFully", context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+        Navigator.popAndPushNamed(context, '/HomePage', arguments: [2, name, imageUrl,email]);
+      });
+    } catch (e) {
+      print("In Google Sign in Login" + e.toString());
+    }
   }
 
   String errMsg1, errMsg2 ;

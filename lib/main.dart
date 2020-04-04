@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'AppScreens/Login/login.dart';
 import 'AppScreens/Login/Signup.dart';
@@ -7,11 +8,20 @@ import 'AppScreens/FeedScreens/MyFeedScreen.dart';
 import 'AppScreens/Login/ResetPassword.dart';
 import 'AppScreens/FeedScreens/WebView.dart';
 
-void main() {
+var email;
+
+Future<void> main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  email = prefs.getString('email');
+  print(email);
   runApp(MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,7 +37,7 @@ class MyApp extends StatelessWidget {
           button: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         )
       ),
-      home: Login(),
+      home: (email == null) ? Login() : HomePage(),
       routes: {
         '/Login'    : (context) => Login(),
         '/SignUp'   : (context) => SignUp(),

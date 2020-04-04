@@ -48,176 +48,172 @@ class _CountWidgetState extends State<CountWidget> {
       padding: const EdgeInsets.fromLTRB(20,20,20,20),
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.65,
-        child: Material(
-          elevation: 3.0,
-          borderRadius: BorderRadius.circular(7),
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Image.asset("assets/worldIcon.png",width: 40,height: 40,color: Colors.blue[900],),
-                        SizedBox(height: 8,),
-                        Text(
-                          "WORLD",
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset("assets/worldIcon.png",width: 40,height: 40,color: Colors.blue[900],),
+                      SizedBox(height: 8,),
+                      Text(
+                        "WORLD",
+                        style: new TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: Text(
+                          "Total Cases",
                           style: new TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600
+                          ),
+                        ),
+                      ),
+                      (totalCasesWorld.isNotEmpty) ?
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: Text(
+                          totalCasesWorld,
+                          style: new TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500
+                          ),
+                        ),
+                      ) :
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.15,
+                          child: LinearProgressIndicator(backgroundColor: baseColor,)),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: Text(
+                            "Deceased",
+                          style: new TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600
+                          ),
+                        ),
+                      ),
+                      (deceasedCasesWorld.isNotEmpty) ?
+                      Text(
+                        deceasedCasesWorld,
+                        style: new TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500
+                        ),
+                      ) :
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.15,
+                          child: LinearProgressIndicator(backgroundColor: baseColor)
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Divider(
+                thickness: 2,
+                height : 35,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset("assets/indiaFlag.png",width: 40,height: 40),
+                      SizedBox(height: 8,),
+                      Text(
+                        "INDIA",
+                        style: new TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold
-                          ),
                         ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            "Total Cases",
-                            style: new TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600
-                            ),
-                          ),
-                        ),
-                        (totalCasesWorld.isNotEmpty) ?
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            totalCasesWorld,
-                            style: new TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500
-                            ),
-                          ),
-                        ) :
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.15,
-                            child: LinearProgressIndicator(backgroundColor: baseColor,)),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                              "Deceased",
-                            style: new TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600
-                            ),
-                          ),
-                        ),
-                        (deceasedCasesWorld.isNotEmpty) ?
-                        Text(
-                          deceasedCasesWorld,
-                          style: new TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500
-                          ),
-                        ) :
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            child: LinearProgressIndicator(backgroundColor: baseColor)
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Divider(
-                  thickness: 5,
-                  height : 35,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Image.asset("assets/indiaFlag.png",width: 40,height: 40),
-                        SizedBox(height: 8,),
-                        Text(
-                          "INDIA",
-                          style: new TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            "Total Cases",
-                            style: new TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600
-                            ),
-                          ),
-                        ),
-                        (totalCasesIndia.isNotEmpty) ?
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            totalCasesIndia,
-                            style: new TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500
-                            ),
-                          ),
-                        ) :
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            child: LinearProgressIndicator(backgroundColor: baseColor)),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            "Deceased",
-                            style: new TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600
-                            ),
-                          ),
-                        ),
-                        (deceasedCasesWorld.isNotEmpty) ?
-                        Text(
-                          deceasedCasesIndia,
-                          style: new TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500
-                          ),
-                        ) :
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            child: LinearProgressIndicator(backgroundColor: baseColor)
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Text(
-                    "Source : Worldometers.info/coronavirus",
-                    style: new TextStyle(
-                        color: Colors.grey[500],
-                        fontSize: 10,
-                        fontWeight: FontWeight.w300
-                    ),
+                      ),
+                    ],
                   ),
-                )
-              ],
-            ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: Text(
+                          "Total Cases",
+                          style: new TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600
+                          ),
+                        ),
+                      ),
+                      (totalCasesIndia.isNotEmpty) ?
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: Text(
+                          totalCasesIndia,
+                          style: new TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500
+                          ),
+                        ),
+                      ) :
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.15,
+                          child: LinearProgressIndicator(backgroundColor: baseColor)),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: Text(
+                          "Deceased",
+                          style: new TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600
+                          ),
+                        ),
+                      ),
+                      (deceasedCasesWorld.isNotEmpty) ?
+                      Text(
+                        deceasedCasesIndia,
+                        style: new TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500
+                        ),
+                      ) :
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.15,
+                          child: LinearProgressIndicator(backgroundColor: baseColor)
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Text(
+                  "Source : Worldometers.info/coronavirus",
+                  style: new TextStyle(
+                      color: Colors.grey[500],
+                      fontSize: 10,
+                      fontWeight: FontWeight.w300
+                  ),
+                ),
+              )
+            ],
           ),
         ),
       ),

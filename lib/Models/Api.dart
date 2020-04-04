@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:modular_login/constants/globals.dart';
 
 class Api{
 
@@ -17,17 +16,22 @@ class Api{
 
   /// Creates and updates data while posting feed
   createDocument(title,Map<String,dynamic> feedItemMap) async{
+    DocumentSnapshot _thisDoc;
     if (isLoggedIn()) {
       await ref.document(title)
           .get().then((thisDoc) {
         if (!thisDoc.exists) {
+          _thisDoc = thisDoc;
           ref.document(title)
               .setData(feedItemMap);
         }
       });
     }else{
       print("No User Logged");
+      _thisDoc =null;
     }
+    print("thisDOc: $_thisDoc");
+    return _thisDoc;
   }
 
   ///Fetch Data from the document [thisDoc]
@@ -65,9 +69,6 @@ class Api{
     }
   }
 
-  bool hasMore = true;
-  int docLimit = 10;
-  DocumentSnapshot lastDocument;
 
   ///Gets Data for a user with id as [email]
   Future<List<DocumentSnapshot>> getMyFeedData(email) async {
@@ -79,14 +80,15 @@ class Api{
 
   ///Gets Data for a user with id as [email]
   Future<List<DocumentSnapshot>> getCommunityFeedData(DocumentSnapshot lastDoc) async {
+    int docLimit = 10;
     print("Fetching Community data ");
     print("ref : $ref");
     Query q;
     if(lastDoc == null){
-      print("lastDoc : ${lastDoc} in null true case $docLimit");
+//      print("lastDoc : ${lastDoc} in null true case $docLimit");
       q = ref.orderBy("datePosted",descending: true).limit(docLimit);
     }else {
-      print("lastDoc : ${lastDoc.data.toString()} in null false case $docLimit");
+//      print("lastDoc : ${lastDoc.data.toString()} in null false case $docLimit");
       q = ref.orderBy("datePosted",descending: true).startAfterDocument(lastDoc).limit(docLimit);
     }
     QuerySnapshot querySnapshot = await q.getDocuments();

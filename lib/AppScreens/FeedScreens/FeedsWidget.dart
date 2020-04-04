@@ -48,18 +48,21 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                     padding: const EdgeInsets.fromLTRB(10,10, 10, 0),
                     child: Material(
                       color: Colors.white,
-                      elevation: 3.0,
+                      elevation: 2.0,
                       borderRadius: BorderRadius.circular(7),
                       shadowColor: baseColor,
-                      child: ListTile(
-                        isThreeLine: true,
-                        title: title(item.title),
-                        subtitle: subtitle(item.description, getFeedTitle(item.link)),
-                        trailing: thumbnail((item.enclosure != null) ? item.enclosure.url : null),
-                        contentPadding: EdgeInsets.all(5.0),
-                        onTap: () =>
-                            Navigator.pushNamed(
-                                context, '/webView', arguments: _urlData),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(15,20,10,10),
+                        child: ListTile(
+                          isThreeLine: true,
+                          title: title(item.title),
+                          subtitle: subtitle(item.description, getFeedTitle(item.link)),
+                          trailing: thumbnail((item.enclosure != null) ? item.enclosure.url : null),
+                          contentPadding: EdgeInsets.all(5.0),
+                          onTap: () =>
+                              Navigator.pushNamed(
+                                  context, '/webView', arguments: _urlData),
+                        ),
                       ),
                     ),
                   );
