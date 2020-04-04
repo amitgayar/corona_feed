@@ -49,7 +49,7 @@ class _MyFeedState extends State<MyFeed> {
                           child: ListTile(
                             isThreeLine: true,
                             title: title(item['title']),
-                            subtitle: subtitle(item['description'],item['datePosted']),
+                            subtitle: subtitle(item['description'],item['datePosted'].toDate().toString()),
                             trailing: userThumbnail(null),
                             contentPadding: EdgeInsets.all(5.0),
                             onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
