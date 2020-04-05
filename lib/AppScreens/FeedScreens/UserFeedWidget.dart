@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modular_login/Models/CRUDModel.dart';
+import 'package:modular_login/Models/UserfeedBloc.dart';
 import 'package:modular_login/Services/AuthWithEmailPasswd.dart';
 import 'package:toast/toast.dart';
 
@@ -15,6 +16,7 @@ class UserFeedWidget extends StatefulWidget {
 }
 
 class _UserFeedWidgetState extends State<UserFeedWidget> {
+
   TextEditingController _urlTextController = new TextEditingController();
   FirebaseUser _currentUser;
   final AuthService _auth = AuthService();
@@ -24,6 +26,9 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
   bool emailVerifiedStatus = true;
   List feedItemList = [];
   bool isLoading=true;
+
+  feedListBloc _feedListBloc;
+  ScrollController controller = ScrollController();
 
   extractTitle(response) {
     String extractedTitle;
@@ -108,7 +113,7 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
       setState(() {
         isPosting = false;
         _auth.sendEmailVerificationLink();
-        Toast.show("Email Verification Link Sent Again.\nPlease Verify your Email to Post Links in the Community", context,
+        Toast.show("Email Verification Link Sent Again.\nPlease Verify your Email to Post Links in the Community and Relogin", context,
             duration: Toast.LENGTH_LONG,
             gravity: Toast.TOP);
       });
@@ -116,40 +121,109 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
   }
 
   list() {
-    print("Building List");
-    return StreamBuilder(
-        stream: Firestore.instance.collection("CommunityFeed").orderBy("datePosted",descending: true).snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData)
-            return Center(child: Container(
-              width: MediaQuery.of(context).size.width * 0.35,
-              child: Image.asset("assets/washed_away_covid-19.gif")));
-          else
+    return StreamBuilder<List<DocumentSnapshot>>(
+        stream: _feedListBloc.feedStream,
+        builder: (context, snapshot) {
+          if (snapshot.data != null) {
             return ListView.builder(
-            itemCount: snapshot.data.documents.length,
-            itemBuilder: (BuildContext context, int index) {
-              final item = snapshot.data.documents[index];
+                controller: controller,
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final item = snapshot.data[index];
 //                 print("Item ${index+1} is ${item.runtimeType}");
-              UrlData _urlData = new UrlData(url: item['url'], title: item['title']);
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(10,10, 10, 0),
-                child: Material(
-                  color: Colors.white,
-                  elevation: 2.0,
-                  borderRadius: BorderRadius.circular(7),
-                  shadowColor: baseColor,
-                  child: ListTile(
-                    isThreeLine: true,
-                    title: title(item['title']),
-                    subtitle: subtitle(item['description'],(item['datePosted']).toDate().toString().substring(0,16)),
-                    onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
-                  ),
-                ),
-              );
-            });
-      }
-    );
+                  UrlData _urlData = new UrlData(url: item['url'], title: item['title']);
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(10,10, 10, 0),
+                    child: Material(
+                      color: Colors.white,
+                      elevation: 2.0,
+                      borderRadius: BorderRadius.circular(7),
+                      shadowColor: baseColor,
+                      child: ListTile(
+                        isThreeLine: true,
+                        title: title(item['title']),
+                        subtitle: subtitle(item['description'],(item['datePosted']).toDate().toString().substring(0,16)),
+                        onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
+                      ),
+                    ),
+                  );
+                });
+          } else {
+            return Center(child: Container(
+                  width: MediaQuery.of(context).size.width * 0.35,
+                  child: Image.asset("assets/washed_away_covid-19.gif")));
+          }
+        });
   }
+
+//  list() {
+//          if (feedItemList.isEmpty)
+//            return Center(child: Container(
+//                width: MediaQuery.of(context).size.width * 0.35,
+//                child: Image.asset("assets/washed_away_covid-19.gif")));
+//          else
+//            return ListView.builder(
+//                itemCount: feedItemList.length,
+//                itemBuilder: (BuildContext context, int index) {
+//                  final item = feedItemList[index];
+////                 print("Item ${index+1} is ${item.runtimeType}");
+//                  UrlData _urlData = new UrlData(url: item['url'], title: item['title']);
+//                  return Padding(
+//                    padding: const EdgeInsets.fromLTRB(10,10, 10, 0),
+//                    child: Material(
+//                      color: Colors.white,
+//                      elevation: 2.0,
+//                      borderRadius: BorderRadius.circular(7),
+//                      shadowColor: baseColor,
+//                      child: ListTile(
+//                        isThreeLine: true,
+//                        title: title(item['title']),
+//                        subtitle: subtitle(item['description'],(item['datePosted']).toDate().toString().substring(0,16)),
+//                        onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
+//                      ),
+//                    ),
+//                  );
+//                });
+//        }
+
+//  @override
+//  void initState() {
+//    super.initState();
+////    _scrollController.addListener(controlListener) ;
+//
+//    Firestore.instance.collection("CommunityFeed")
+//        .orderBy("datePosted",descending: true)
+//        .snapshots().toList().then((value) {
+//      feedItemList.addAll(value);
+//      print("feed List = ${feedItemList.toString()}");
+//      _lastDocument = feedItemList[feedItemList.length - 1];
+//      print("Last doc : ${_lastDocument.data}");
+////      setState(() {
+////        isLoading = false;
+////      });
+//    });
+////
+////    feedItemList.addAll(temp);
+////      _lastDocument = feedItemList[feedItemList.length - 1];
+////      setState(() {
+////        isLoading = false;
+////      });
+////    });
+//  }
+
+  @override
+  void initState() {
+    super.initState();
+    _feedListBloc = feedListBloc();
+    _feedListBloc.fetchFirstList();
+    controller.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    if (controller.offset >= controller.position.maxScrollExtent && !controller.position.outOfRange) {
+      _feedListBloc.fetchNextMovies();
+    }
+  }git
 
   @override
   Widget build(BuildContext context) {

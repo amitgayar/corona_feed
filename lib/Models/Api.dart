@@ -30,7 +30,7 @@ class Api{
       print("No User Logged");
       _thisDoc =null;
     }
-    print("thisDOc: $_thisDoc");
+//    print("thisDOc: $_thisDoc");
     return _thisDoc;
   }
 
@@ -82,7 +82,6 @@ class Api{
   Future<List<DocumentSnapshot>> getCommunityFeedData(DocumentSnapshot lastDoc) async {
     int docLimit = 10;
     print("Fetching Community data ");
-    print("ref : $ref");
     Query q;
     if(lastDoc == null){
       q = ref.orderBy("datePosted",descending: true).limit(docLimit);

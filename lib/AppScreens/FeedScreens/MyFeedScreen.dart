@@ -25,7 +25,7 @@ class _MyFeedState extends State<MyFeed> {
             }
 
             if(projectSnap.hasData){
-              print('In MyFeedScreen projectSnap data is: ${projectSnap.data} ');
+//              print('In MyFeedScreen projectSnap data is: ${projectSnap.data} ');
               List feedItemMapList = projectSnap.data;
 //              feedItemMapList.sort((a,b) => b['datePosted'].compareTo(a['datePosted']));
 

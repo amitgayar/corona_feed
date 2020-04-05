@@ -45,6 +45,11 @@ class _FeedsWidgetState extends State<FeedsWidget> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     _rssFeedModel = new RssFeedModel();
