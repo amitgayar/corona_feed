@@ -38,22 +38,17 @@ class _MyFeedState extends State<MyFeed> {
                     UrlData _urlData = new UrlData(url: item['url'], title: item['title']);
 
                     return Padding(
-                      padding: const EdgeInsets.fromLTRB(10,10, 10, 0),
+                      padding: const EdgeInsets.fromLTRB(10,10,10, 0),
                       child: Material(
                         color: Colors.white,
                         elevation: 2.0,
                         borderRadius: BorderRadius.circular(7),
                         shadowColor: baseColor,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top:10,left: 15,bottom: 10),
-                          child: ListTile(
-                            isThreeLine: true,
-                            title: title(item['title']),
-                            subtitle: subtitle(item['description'],item['datePosted'].toDate().toString().substring(0,16)),
-//                            trailing: userThumbnail(null),
-                            contentPadding: EdgeInsets.all(5.0),
-                            onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
-                          ),
+                        child: ListTile(
+                          isThreeLine: true,
+                          title: title(item['title']),
+                          subtitle: subtitle(item['description'],item['datePosted'].toDate().toString().substring(0,16)),
+                          onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
                         ),
                       ),
                     );

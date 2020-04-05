@@ -6,12 +6,15 @@ import 'dart:math';
 
 ///title widget for listTile in Feeds
 title(title) {
-  return Text(
-    title,
-    style: TextStyle(
-        fontWeight: FontWeight.w500),
-    maxLines:2,
-    overflow: TextOverflow.ellipsis,
+  return Padding(
+    padding: const EdgeInsets.only(top:20.0),
+    child: Text(
+      title,
+      style: TextStyle(
+          fontWeight: FontWeight.w500),
+      maxLines:2,
+      overflow: TextOverflow.ellipsis,
+    ),
   );
 }
 
@@ -30,7 +33,7 @@ subtitle(subTitle,source) {
         ),
       ),
       Padding(
-        padding: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 10,bottom: 10),
         child: Text(
           source ,
           style: TextStyle(
@@ -45,7 +48,7 @@ subtitle(subTitle,source) {
 ///subtitle widget for listTile in Feeds
 feedSubtitle(source) {
   return Padding(
-        padding: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 10,bottom: 10),
         child: Text(
           source ,
           style: TextStyle(

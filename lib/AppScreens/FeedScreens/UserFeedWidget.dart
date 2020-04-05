@@ -22,9 +22,6 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
   bool isPosting = false;
   String url;
   bool emailVerifiedStatus = true;
-  ScrollController _scrollController = ScrollController();
-  bool _canLoadMorePosts = true;
-  DocumentSnapshot _lastDocument;
   List feedItemList = [];
   bool isLoading=true;
 
@@ -106,7 +103,6 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
       setState(() {
         _urlTextController.clear();
         isPosting = false;
-        _canLoadMorePosts = true;
       });
     } else {
       setState(() {
@@ -121,75 +117,48 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
 
   list() {
     print("Building List");
-    return ListView.builder(
-        itemCount: feedItemList.length,
-        controller: _scrollController,
-        itemBuilder: (BuildContext context, int index) {
-          final item = feedItemList[index];
+    return StreamBuilder(
+        stream: Firestore.instance.collection("CommunityFeed").orderBy("datePosted",descending: true).snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData)
+            return Center(child: Container(
+              width: MediaQuery.of(context).size.width * 0.35,
+              child: Image.asset("assets/washed_away_covid-19.gif")));
+          else
+            return ListView.builder(
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (BuildContext context, int index) {
+              final item = snapshot.data.documents[index];
 //                 print("Item ${index+1} is ${item.runtimeType}");
-          UrlData _urlData = new UrlData(url: item['url'], title: item['title']);
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(10,10, 10, 0),
-            child: Material(
-              color: Colors.white,
-              elevation: 2.0,
-              borderRadius: BorderRadius.circular(7),
-              shadowColor: baseColor,
-              child: Padding(
-                padding: const EdgeInsets.only(top:20,bottom: 10),
-                child: ListTile(
-                  isThreeLine: true,
-                  title: title(item['title']),
-                  subtitle: subtitle(item['description'],(item['datePosted']).toDate().toString().substring(0,16)),
-//                  trailing: userThumbnail(url),
-                  onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
+              UrlData _urlData = new UrlData(url: item['url'], title: item['title']);
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(10,10, 10, 0),
+                child: Material(
+                  color: Colors.white,
+                  elevation: 2.0,
+                  borderRadius: BorderRadius.circular(7),
+                  shadowColor: baseColor,
+                  child: ListTile(
+                    isThreeLine: true,
+                    title: title(item['title']),
+                    subtitle: subtitle(item['description'],(item['datePosted']).toDate().toString().substring(0,16)),
+                    onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
+                  ),
                 ),
-              ),
-            ),
-          );
-        });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(controlListener) ;
-    crudModel.fetchCommunityFeed(_lastDocument).then((value) {
-      feedItemList.addAll(value);
-      _lastDocument = feedItemList[feedItemList.length - 1];
-      setState(() {
-        isLoading = false;
-      });
-    });
-  }
-
-  controlListener() async {
-//    print("Calling Listener");
-    double maxScroll = _scrollController.position.maxScrollExtent;
-    double currentScroll = _scrollController.position.pixels;
-    if (maxScroll == currentScroll && _canLoadMorePosts) {
-      print("Calling Community Feed");
-      List newItems = await(crudModel.fetchCommunityFeed(_lastDocument));
-      feedItemList.addAll(newItems);
-      _lastDocument = feedItemList[feedItemList.length -1];
-      setState(() {});
-    }
+              );
+            });
+      }
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    print("Building Community Feed Widget");
     return Column(
       children: <Widget>[
         Expanded(
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.70,
-            child:
-            (isLoading) ?
-            Center(child: Container(
-            width: MediaQuery.of(context).size.width * 0.35,
-            child: Image.asset("assets/washed_away_covid-19.gif"))):
-            list(),
+            child: list(),
           ),
         ),
         SizedBox(

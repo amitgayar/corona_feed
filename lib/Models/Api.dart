@@ -78,25 +78,19 @@ class Api{
     return querySnapshot.documents;
   }
 
-  ///Gets Data for a user with id as [email]
+  ///Gets Data for User Feeds in batches
   Future<List<DocumentSnapshot>> getCommunityFeedData(DocumentSnapshot lastDoc) async {
     int docLimit = 10;
     print("Fetching Community data ");
     print("ref : $ref");
     Query q;
     if(lastDoc == null){
-//      print("lastDoc : ${lastDoc} in null true case $docLimit");
       q = ref.orderBy("datePosted",descending: true).limit(docLimit);
     }else {
-//      print("lastDoc : ${lastDoc.data.toString()} in null false case $docLimit");
       q = ref.orderBy("datePosted",descending: true).startAfterDocument(lastDoc).limit(docLimit);
     }
     QuerySnapshot querySnapshot = await q.getDocuments();
     return querySnapshot.documents;
-  }
-
-  Future<QuerySnapshot> getDataCollection() {
-    return userRef.getDocuments() ;
   }
 
   Stream<QuerySnapshot> streamDataCollection() {

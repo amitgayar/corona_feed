@@ -31,15 +31,12 @@ class _FeedsWidgetState extends State<FeedsWidget> {
               elevation: 2.0,
               borderRadius: BorderRadius.circular(7),
               shadowColor: baseColor,
-              child: Padding(
-                padding: const EdgeInsets.only(top:20,bottom: 10),
-                child: ListTile(
-                  isThreeLine: true,
-                  title: title(item.title),
-                  subtitle: feedSubtitle(item.source.value.toString()),
-                  trailing: thumbnail((item.enclosure != null) ? item.enclosure.url : null),
-                  onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
-                ),
+              child: ListTile(
+                isThreeLine: true,
+                title: title(item.title),
+                subtitle: feedSubtitle(item.source.value.toString()),
+                trailing: thumbnail((item.enclosure != null) ? item.enclosure.url : null),
+                onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
               ),
             ),
           );
