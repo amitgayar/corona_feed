@@ -60,7 +60,7 @@ class _UserFeedWidgetState extends State<UserFeedWidget> {
     });
   }
 
-  postFeed(url) async {
+  postFeed(url) async   {
     _currentUser = await FirebaseAuth.instance.currentUser();
 
     if (_currentUser.isEmailVerified) {

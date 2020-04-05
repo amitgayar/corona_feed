@@ -34,7 +34,6 @@ const resendOtp = 10;
 //Assets
 const String coronaGIF = "assets/coronaVirus.gif";
 const String noImageAvailable = "/assets/no_image_availaible_.jpg";
-const List coronaImgList = ["assets/img1.png" , "assets/img3.jpg" , "assets/defaultThumbnail.png"];
 
 
 const Color baseColor = Color(0xffea70b1);
@@ -69,7 +68,6 @@ String fireBaseErrorMessage(String errorMsg){
   return "Some Error Occured.Please Try Again";
 }
 
-const String defaultImageURL = "https://www.pinclipart.com/picdir/big/355-3553881_stockvader-predicted-adig-user-profile-icon-png-clipart.png";
 
 bool checkURL(url){
   final String urlRegex = "^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?\$";

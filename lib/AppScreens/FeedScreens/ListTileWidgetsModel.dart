@@ -67,8 +67,7 @@ thumbnail(imageUrl) {
     width: 70,
     alignment: Alignment.center,
   ) :
-  Container(
-      child: Image.asset(coronaImgList[rnd.nextInt(3)]));
+  SizedBox(width: 2,);
 }
 
 ///thumbnail widget for User specific listTile

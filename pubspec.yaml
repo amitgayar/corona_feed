@@ -55,12 +55,9 @@ flutter:
     - assets/icon.png
     - assets/google_logo.png
     - assets/coronaVirus.gif
-    - assets/defaultThumbnail.png
     - assets/photoNotAvailaible.png
     - assets/worldIcon.png
     - assets/indiaFlag.png
-    - assets/img1.png
-    - assets/img3.jpg
     - assets/washed_away_covid-19.gif
   # To add assets to your application, add an assets section, like this:
   # assets:
