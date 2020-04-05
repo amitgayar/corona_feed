@@ -58,6 +58,59 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573149066523:android:b189530fdd253986d70fbe",
+        "android_client_info": {
+          "package_name": "com.neuraltechwork.coronaupdates"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573149066523-6gs135vqfmsi9ap5b608ncmmun451ti4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.neuraltechwork.coronaupdates",
+            "certificate_hash": "95c4d7585426477e5f5f302e74b72096a9e76321"
+          }
+        },
+        {
+          "client_id": "573149066523-ldnukth5qubkl1gccopdf9jt63toegtj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.neuraltechwork.coronaupdates",
+            "certificate_hash": "65952d6a363ad0773b3eccaa916c48b006822139"
+          }
+        },
+        {
+          "client_id": "573149066523-ubq8493rnnbn02b21p0qg892ehskv871.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.neuraltechwork.coronaupdates",
+            "certificate_hash": "7fd45aa360a47ef20637013a20c732d51b7175d9"
+          }
+        },
+        {
+          "client_id": "573149066523-jsqtc8334gk9h3gudcreprocvcc2u8qu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUXRoAJyDJWFLJYlcfONKsDgkbmKEkmQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "573149066523-jsqtc8334gk9h3gudcreprocvcc2u8qu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

@@ -1,4 +1,4 @@
-package com.example.modular_login
+package com.neuraltechwork.coronaupdates
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
@@ -10,3 +10,6 @@ class MainActivity: FlutterActivity() {
         GeneratedPluginRegistrant.registerWith(flutterEngine);
     }
 }
+
+
+
