@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 //List of URLS for Feed
 const List urlForFeed = [
-  "https://news.google.com/rss/search?hl=en-IN&gl=IN&ceid=IN:en&q=covid"
+  "https://news.google.com/rss/search?q=covid"
 ];
 
 const String countTrackUrlWorld = "https://www.worldometers.info/coronavirus/";
