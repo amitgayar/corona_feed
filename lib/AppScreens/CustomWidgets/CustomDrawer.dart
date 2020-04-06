@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:modular_login/AppScreens/FeedScreens/WebView.dart';
 import 'package:modular_login/Services/AuthWithEmailPasswd.dart';
 import 'package:modular_login/Services/google_sign_in_auth.dart';
+import 'package:modular_login/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
@@ -72,9 +74,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
                         "Home",
-                        style: TextStyle(
-                            fontSize: 15
-                        ),
                       ),
                     ),
                   ],
@@ -92,18 +91,72 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
                         "My Feeds",
-                        style: TextStyle(
-                            fontSize: 15
-                        ),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            Container(
-                child: CountWidget()
-            ),//MyFeeds
+            InkWell(
+              onTap: (() {
+                  UrlData _urlData = new UrlData(url: LiveWorldStatsUrl, title: "Live World Stats");
+                  Navigator.pushNamed(context, '/webView', arguments: _urlData);
+              }),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.add,color: Colors.indigo[900]),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(
+                        "Live World Stats",
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: (() {
+                UrlData _urlData = new UrlData(url: whoQnaUrl, title: "WHO Q&A");
+                Navigator.pushNamed(context, '/webView', arguments: _urlData);
+              }),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.add,color: Colors.indigo[900]),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(
+                        "WHO - Q&A",
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: (() {
+                UrlData _urlData = new UrlData(url: chatUrl , title: "Chat");
+                Navigator.pushNamed(context, '/webView', arguments: _urlData);
+              }),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.add,color: Colors.indigo[900]),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(
+                        "Chat",
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             InkWell(
               onTap: () => { signOut()},
               child: Padding(
@@ -115,9 +168,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
                         "Log Out",
-                        style: TextStyle(
-                            fontSize: 15
-                        ),
                       ),
                     ),
                   ],

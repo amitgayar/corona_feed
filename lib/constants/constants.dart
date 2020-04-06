@@ -9,7 +9,9 @@ const List urlForFeed = [
 const String countTrackUrlWorld = "https://www.worldometers.info/coronavirus/";
 const String countTrackUrlIndia = "https://www.worldometers.info/coronavirus/country/india/";
 const String countTrackUrlIndia2 = "https://www.covid19india.org/";
-
+const String LiveWorldStatsUrl = "https://google.com/covid19-map/?hl=en";
+const String whoQnaUrl = "https://www.who.int/news-room/q-a-detail/q-a-coronaviruses";
+const String chatUrl = "https://www.google.co.in/";
 
 //Feed Filter Keywords.
 const String filter1 = "Coronavirus";
