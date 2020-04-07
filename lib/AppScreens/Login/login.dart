@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:modular_login/Models/getStatsModel.dart';
+
 import 'package:modular_login/Services/AuthWithEmailPasswd.dart';
 import 'package:modular_login/Services/google_sign_in_auth.dart';
 import 'package:modular_login/constants/constants.dart';
@@ -69,6 +71,15 @@ class _LoginState extends State<Login> {
   saveSharedPreference(Email) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('email', Email);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    GetStatistics _getStats = new GetStatistics();
+    _getStats.getLocation();
+    _getStats.getWorldCountryData();
+    _getStats.getIndiaData();
   }
 
   @override

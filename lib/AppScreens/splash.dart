@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:modular_login/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'FeedScreens/HomePage.dart';
-import 'InfoSectionScreens/statsInfoSection.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -11,16 +10,9 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
 
-//  StatsInfoSection _statsInfoSection ;
-
   @override
   void initState(){
     super.initState();
-//    _statsInfoSection = new StatsInfoSection();
-//    _statsInfoSection.getLocation();
-//    _statsInfoSection.getWorldCountryData();
-//    _statsInfoSection.getIndiaData();
-
     _checkForSession().then((status) {
           if (status)
             _navigate();
