@@ -30,6 +30,8 @@ dependencies:
   toast: ^0.1.5
   intl: ^0.15.8
   shared_preferences: ^0.5.6+3
+  carousel_slider: ^1.3.0
+  youtube_player_flutter: ^6.1.0+4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -59,6 +61,25 @@ flutter:
     - assets/worldIcon.png
     - assets/indiaFlag.png
     - assets/washed_away_covid-19.gif
+    - assets/howItSpreads.png
+    - assets/prevention.png
+    - assets/symptoms.png
+    - assets/mythImg/myth1.png
+    - assets/mythImg/myth2.png
+    - assets/mythImg/myth3.png
+    - assets/mythImg/myth4.png
+    - assets/mythImg/myth5.png
+    - assets/mythImg/myth6.png
+    - assets/mythImg/myth7.png
+    - assets/mythImg/myth8.png
+    - assets/mythImg/myth9.png
+    - assets/mythImg/myth10.png
+    - assets/mythImg/myth11.png
+    - assets/mythImg/myth12.png
+    - assets/mythImg/myth13.png
+    - assets/mythImg/myth14.png
+    - assets/who.png
+    - assets/worldStatsIcon.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

@@ -6,12 +6,35 @@ const List urlForFeed = [
   "https://news.google.com/rss/search?q=covid&hl=en-IN&gl=IN&ceid=IN:en"
 ];
 
+//Constant URL's
 const String countTrackUrlWorld = "https://www.worldometers.info/coronavirus/";
 const String countTrackUrlIndia = "https://www.worldometers.info/coronavirus/country/india/";
-const String countTrackUrlIndia2 = "https://www.covid19india.org/";
+
 const String LiveWorldStatsUrl = "https://google.com/covid19-map/?hl=en";
 const String whoQnaUrl = "https://www.who.int/news-room/q-a-detail/q-a-coronaviruses";
 const String chatUrl = "https://www.google.co.in/";
+
+const String geoLocationUrl = "https://geolocation-db.com/json/";
+const String worldDataUrl = "https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?limit=500";
+const String indiaDataUrl = "https://api.covid19india.org/raw_data.json";
+
+const String youtubeUrl1 = "https://www.youtube.com/watch?v=TDDYniiL17A&list=PLGqF2Eq4iV7_vrLoZJiqJdptLlAlEBRRQ&index=2&t=0s";
+const String youtubeUrl2 = "https://www.youtube.com/playlist?list=PLGqF2Eq4iV7_vrLoZJiqJdptLlAlEBRRQ";
+const String youtubeUrl3 = "https://www.youtube.com/playlist?list=PLGqF2Eq4iV7_vrLoZJiqJdptLlAlEBRRQ";
+
+//Gov helpdesk contacts
+const List _contacts = [
+  {"inText" : "011-23978046 or 1075", "outText" : "Helpline Number" ,"url": 1075,
+    "inColor" : Color.fromRGBO(253, 195, 204, 1) , "bottomColor" : Color.fromRGBO(208, 0, 24, 1)},
+  {"inText" : "ncov2019@gov.in", "outText" : "Email Id","url": "ncov2019@gov.in",
+    "inColor" : Color.fromRGBO(218, 209, 246, 1) , "bottomColor" : Color.fromRGBO(97, 54, 185, 1)},
+  {"inText" : "Whatsapp : 91-9013151515", "outText" : "MyGov Corona Live HelpDesk","url": "https://api.whatsapp.com/send?phone=919013151515&text=&source=&data=",
+    "inColor" : Color.fromRGBO(214, 246, 209, 1) , "bottomColor" : Color.fromRGBO(48, 178, 36, 1)},
+  {"inText" : "Corona NewsDesk On Telegram", "outText" : "MyGov Corona Live HelpDesk","url": "https://t.me/MyGovCoronaNewsDesk",
+    "inColor" : Color.fromRGBO(296, 231, 249, 1) , "bottomColor" : Color.fromRGBO(0, 134, 190, 1)},
+];
+
+
 
 //Feed Filter Keywords.
 const String filter1 = "Coronavirus";
@@ -35,8 +58,24 @@ const resendOtp = 10;
 
 //Assets
 const String coronaGIF = "assets/coronaVirus.gif";
-const String noImageAvailable = "/assets/no_image_availaible_.jpg";
-
+const String noImageAvailable = "assets/indiaFlag.png";
+const List infoImages = ["assets/howItSpreads.png","assets/prevention.png","assets/symptoms.png"];
+const List<Map> mythItemList = [
+  {"image": "assets/mythImg/myth1.png" , "myth" : "Cold weather and snow CANNOT kill the Coronavirus." },
+  {"image": "assets/mythImg/myth2.png" , "myth" : "Coronavirus CAN be transmitted in areas with hot and humid weather."},
+  {"image": "assets/mythImg/myth3.png" , "myth" : "Coronavirus CANNOT be transmitted through mosquito bites." },
+  {"image": "assets/mythImg/myth4.png" , "myth" : "There is NO evidence that coronavirus can be transmitted through animals." },
+  {"image": "assets/mythImg/myth5.png" , "myth" : "Taking a Hot bath does NOT prevent coronavirus." },
+  {"image": "assets/mythImg/myth6.png" , "myth" : "Hand Dryers are NOT effective in killing the coonavirus."},
+  {"image": "assets/mythImg/myth7.png" , "myth" : "Ultraviolet light should NOT be used for sterilization and can cause skin irritation" },
+  {"image": "assets/mythImg/myth8.png" , "myth" : "Thermal Scanners can detect only fever but NOT the coronavirus"},
+  {"image": "assets/mythImg/myth9.png" , "myth" : "Spraying Alcohols or Chlorine over your body WILL NOT kill the viruses already entered into your body."},
+  {"image": "assets/mythImg/myth10.png" , "myth" : "Vaccines against pneumonia, such as pneumococcal vaccine and Haemophilus influenzae type b(Hib) vaccine, DO NOT provideprotection against Coronavirus" },
+  {"image": "assets/mythImg/myth11.png" , "myth" : "There is NO evidence that regualarly rinsing the nose with saline has protected people from infection wirh coronavirus." },
+  {"image": "assets/mythImg/myth12.png" , "myth" : "Garlic is healthy but there is NO evidence from the current outbreak that eating garlic has protected people from the coronavirus." },
+  {"image": "assets/mythImg/myth13.png" , "myth" : "Antibiotics DO NOT work against viruses, antibiotics only work against bacteria." },
+  {"image": "assets/mythImg/myth14.png" , "myth" : "To date there is no specific medicine recommended to prevent or treat coronavirus." },
+];
 
 const Color baseColor = Color(0xffea70b1);
 const Color bgColor = Color.fromRGBO(252, 251, 254,1);

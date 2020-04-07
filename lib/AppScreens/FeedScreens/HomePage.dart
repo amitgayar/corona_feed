@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:modular_login/AppScreens/CustomWidgets/CustomDrawer.dart';
-import 'package:modular_login/AppScreens/FeedScreens/FeedsWidget.dart';
-import 'package:modular_login/AppScreens/FeedScreens/UserFeedWidget.dart';
+import 'package:modular_login/AppScreens/FeedScreens/InfoTabWidget.dart';
+import 'package:modular_login/AppScreens/FeedScreens/NewsTabWidget.dart';
+import 'package:modular_login/AppScreens/FeedScreens/UserFeedTabWidget.dart';
 
 // ignore: must_be_immutable
 class HomePage extends StatefulWidget {
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
       onWillPop: onBackPressed,
       child: SafeArea(
           child: DefaultTabController(
-            length: 2,
+            length: 3,
             child: Scaffold(
               backgroundColor: Colors.white,
               drawer: Drawer(
@@ -58,17 +59,19 @@ class _HomePageState extends State<HomePage> {
               appBar: AppBar(
                 title: Text("HOME"),
                 bottom: TabBar(
-                  indicatorColor: Colors.pink[300],
+//                  indicatorColor: Colors.pink[300],
                   tabs: [
-                    Tab(text: "Feeds"),
+                    Tab(text: "Info"),
+                    Tab(text: "News"),
                     Tab(text: "User Feeds")
                   ],
                 ),
               ),
               body: TabBarView(
                   children: <Widget>[
-                    FeedsWidget(),
-                    UserFeedWidget()
+                    InfoTabWidget(),
+                    NewsTabWidget(),
+                    UserFeedTabWidget()
                   ]
               ),
             ),

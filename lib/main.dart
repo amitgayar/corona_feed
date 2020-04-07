@@ -7,16 +7,9 @@ import 'AppScreens/Login/ResetPassword.dart';
 import 'AppScreens/FeedScreens/WebView.dart';
 import 'AppScreens/splash.dart';
 
-var email;
 
-//Future<void> main() async{
 void main() {
-//  WidgetsFlutterBinding.ensureInitialized();
-//  SharedPreferences prefs = await SharedPreferences.getInstance();
-//  email = prefs.getString('email');
-//  print(email);
   runApp(MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
@@ -37,7 +30,6 @@ class MyApp extends StatelessWidget {
         )
       ),
       home: Splash(),
-//      (email == null) ? Login() : HomePage(email : email),
       routes: {
         '/Login'    : (context) => Login(),
         '/SignUp'   : (context) => SignUp(),

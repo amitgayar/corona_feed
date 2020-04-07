@@ -5,13 +5,13 @@ import 'package:modular_login/constants/globals.dart';
 import '../../Models/RssFeedExtractionModel.dart';
 import 'WebView.dart';
 
-class FeedsWidget extends StatefulWidget {
+class NewsTabWidget extends StatefulWidget {
 
   @override
-  _FeedsWidgetState createState() => _FeedsWidgetState();
+  _NewsTabWidgetState createState() => _NewsTabWidgetState();
 }
 
-class _FeedsWidgetState extends State<FeedsWidget> {
+class _NewsTabWidgetState extends State<NewsTabWidget> {
 
   RssFeedModel _rssFeedModel;
   bool isLoading = true;

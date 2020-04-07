@@ -9,12 +9,12 @@ import '../FeedScreens/WebView.dart';
 import '../../constants/constants.dart';
 import 'package:modular_login/AppScreens/FeedScreens/ListTileWidgetsModel.dart';
 
-class UserFeedWidget extends StatefulWidget {
+class UserFeedTabWidget extends StatefulWidget {
   @override
-  _UserFeedWidgetState createState() => _UserFeedWidgetState();
+  _UserFeedTabWidgetState createState() => _UserFeedTabWidgetState();
 }
 
-class _UserFeedWidgetState extends State<UserFeedWidget> {
+class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
   TextEditingController _urlTextController = new TextEditingController();
   FirebaseUser _currentUser;
   final AuthService _auth = AuthService();

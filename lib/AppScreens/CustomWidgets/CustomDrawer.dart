@@ -6,8 +6,6 @@ import 'package:modular_login/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
-import 'CountWidget.dart';
-
 // ignore: must_be_immutable
 class CustomDrawer extends StatefulWidget {
 
@@ -106,7 +104,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: <Widget>[
-                    Icon(Icons.add,color: Colors.indigo[900]),
+                    ImageIcon(AssetImage("assets/worldStatsIcon.png"),color: Colors.indigo[900]),
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
@@ -126,7 +124,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: <Widget>[
-                    Icon(Icons.add,color: Colors.indigo[900]),
+                    ImageIcon(AssetImage("assets/who.png"),color: Colors.indigo[900]),
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
@@ -146,7 +144,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: <Widget>[
-                    Icon(Icons.add,color: Colors.indigo[900]),
+                    Icon(Icons.question_answer,color: Colors.indigo[900]),
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(

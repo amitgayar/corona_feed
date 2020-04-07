@@ -96,7 +96,7 @@ class _CountWidgetState extends State<CountWidget> {
                         ),
                       ) :
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.15,
+                        width: MediaQuery.of(context).size.width * 0.10,
                           child: LinearProgressIndicator(backgroundColor: baseColor,)),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 5),
@@ -118,7 +118,7 @@ class _CountWidgetState extends State<CountWidget> {
                         ),
                       ) :
                       SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.15,
+                          width: MediaQuery.of(context).size.width * 0.10,
                           child: LinearProgressIndicator(backgroundColor: baseColor)
                       ),
                     ],
@@ -173,7 +173,7 @@ class _CountWidgetState extends State<CountWidget> {
                         ),
                       ) :
                       SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.15,
+                          width: MediaQuery.of(context).size.width * 0.10,
                           child: LinearProgressIndicator(backgroundColor: baseColor)),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 5),
@@ -195,7 +195,7 @@ class _CountWidgetState extends State<CountWidget> {
                         ),
                       ) :
                       SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.15,
+                          width: MediaQuery.of(context).size.width * 0.10,
                           child: LinearProgressIndicator(backgroundColor: baseColor)
                       ),
                     ],
