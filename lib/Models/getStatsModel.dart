@@ -17,8 +17,8 @@ class GetStatistics {
   String countryCode = "";
   String state = "";
   String city = "";
-  String flagLink = "";
-  bool inIndia = false;
+  String flagLink = "https://www.worldometers.info/img/flags/in-flag.gif";
+  bool inIndia = true;
 
   String totalCasesWorld = "";
   String deceasedCasesWorld = "";

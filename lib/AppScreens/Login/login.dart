@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modular_login/AppScreens/InfoSectionScreens/YoutubeInfoSection.dart';
 import 'package:modular_login/Models/getStatsModel.dart';
 
 import 'package:modular_login/Services/AuthWithEmailPasswd.dart';
@@ -77,6 +78,8 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
     GetStatistics _getStats = new GetStatistics();
+//    YoutubeInfoSection _ytis = new YoutubeInfoSection();
+
     _getStats.getLocation();
     _getStats.getWorldCountryData();
     _getStats.getIndiaData();

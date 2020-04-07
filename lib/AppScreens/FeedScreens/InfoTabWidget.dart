@@ -4,6 +4,7 @@ import 'package:modular_login/AppScreens/InfoSectionScreens/MythsInfoSection.dar
 import 'package:modular_login/AppScreens/InfoSectionScreens/SymptomsInfoSection.dart';
 import 'package:modular_login/AppScreens/InfoSectionScreens/YoutubeInfoSection.dart';
 import 'package:modular_login/AppScreens/InfoSectionScreens/statsInfoSection.dart';
+import 'package:modular_login/Models/getStatsModel.dart';
 import 'package:modular_login/constants/constants.dart';
 
 class InfoTabWidget extends StatefulWidget {
@@ -14,6 +15,9 @@ class InfoTabWidget extends StatefulWidget {
 class _InfoTabWidgetState extends State<InfoTabWidget> {
   @override
   Widget build(BuildContext context) {
+
+    GetStatistics _getStats = new GetStatistics();
+
     return Scaffold(
       body: ListView(
         children: [
@@ -24,14 +28,18 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
               elevation: 2.0,
               borderRadius: BorderRadius.circular(7),
               shadowColor: baseColor,
-              child : ExpansionTile(
-                title: Text("CoronaVirus Statistics", textAlign: TextAlign.center,
-                  style: new TextStyle(
+              child : Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8,8,8,0),
+                    child: Text("CoronaVirus Statistics", textAlign: TextAlign.center,
+                style: new TextStyle(
                       fontSize: 15,
                       color: baseColor,
-                      fontWeight: FontWeight.bold),),
-                children: <Widget>[StatsInfoSection()],
-                initiallyExpanded: true,
+                      fontWeight: FontWeight.bold)),
+                  ),
+                  StatsInfoSection(),
+                ],
               ),
             ),
           ),
@@ -42,14 +50,18 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
               elevation: 2.0,
               borderRadius: BorderRadius.circular(7),
               shadowColor: baseColor,
-              child : ExpansionTile(
-                title: Text("Understand Coronavirus", textAlign: TextAlign.center,
-                  style: new TextStyle(
-                      fontSize: 15,
-                      color: baseColor,
-                      fontWeight: FontWeight.bold),),
-                children: <Widget>[SymptomInfoSection()],
-                initiallyExpanded: true,
+              child : Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8,8,8,0),
+                    child: Text("Understand Coronavirus", textAlign: TextAlign.center,
+                        style: new TextStyle(
+                            fontSize: 15,
+                            color: baseColor,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                  SymptomInfoSection(),
+                ],
               ),
             ),
           ),
@@ -77,18 +89,22 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
               elevation: 2.0,
               borderRadius: BorderRadius.circular(7),
               shadowColor: baseColor,
-              child : ExpansionTile(
-                title: Text("Videos", textAlign: TextAlign.center,
-                  style: new TextStyle(
-                      fontSize: 15,
-                      color: baseColor,
-                      fontWeight: FontWeight.bold),),
+              child : Column(
                 children: <Widget>[
-                  YoutubeInfoSection()
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8,8,8,0),
+                    child: Text("CoronaVirus Videos", textAlign: TextAlign.center,
+                      style: new TextStyle(
+                          fontSize: 15,
+                          color: baseColor,
+                          fontWeight: FontWeight.bold),),
+                  ),
+                  YoutubeInfoSection(),
                 ],
               ),
             ),
           ),
+          (_getStats.inIndia) ?
           Padding(
             padding: const EdgeInsets.fromLTRB(8,8,8,0),
             child: Material(
@@ -96,18 +112,22 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
               elevation: 2.0,
               borderRadius: BorderRadius.circular(7),
               shadowColor: baseColor,
-              child : ExpansionTile(
-                title: Text("Government HelpDesk", textAlign: TextAlign.center,
-                  style: new TextStyle(
-                      fontSize: 15,
-                      color: baseColor,
-                      fontWeight: FontWeight.bold),),
+              child : Column(
                 children: <Widget>[
-                  GovHelpDeskSection()
+                  Padding(
+                    padding: const EdgeInsets.only(top : 15,bottom: 10),
+                    child: Text("Government HelpDesk", textAlign: TextAlign.center,
+                      style: new TextStyle(
+                          fontSize: 15,
+                          color: baseColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  GovHelpDeskSection(),
                 ],
               ),
             ),
-          ),
+          ) : Container(),
         ],
       ),
     );
