@@ -65,7 +65,11 @@ const resendOtp = 10;
 //Assets
 const String coronaGIF = "assets/coronaVirus.gif";
 const String noImageAvailable = "assets/indiaFlag.png";
-const List infoImages = ["assets/howItSpreads.png","assets/prevention.png","assets/symptoms.png"];
+const List<Map> infoImages = [
+  {"text" : "", "img" : "assets/symptoms.png"},
+  {"text" : "HOW IT SPREADS", "img" : "assets/howItSpreads.png"},
+  {"text" : "PREVENTION", "img" : "assets/prevention.png"},
+];
 const List<Map> mythItemList = [
   {"image": "assets/mythImg/myth1.png" , "myth" : "Cold weather and snow CANNOT kill the Coronavirus." },
   {"image": "assets/mythImg/myth2.png" , "myth" : "Coronavirus CAN be transmitted in areas with hot and humid weather."},

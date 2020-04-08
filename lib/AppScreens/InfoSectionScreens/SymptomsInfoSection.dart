@@ -8,26 +8,36 @@ class SymptomInfoSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: CarouselSlider(
-        items: infoImages.map((i) {
-          return Builder(
-            builder: (BuildContext context) {
-              return Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Card(
-                    child: Image.asset(i,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.25,),
-                ),
-              );
-            },
-          );
-        }).toList(),
-        autoPlay: true,
-        autoPlayInterval: new Duration(seconds: 8),
-        enlargeCenterPage: true,
-      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          imageCard(infoImages[0]),
+          imageCard(infoImages[1]),
+          imageCard(infoImages[2]),
+        ],
+      )
     );
   }
+}
+
+imageCard(item) {
+  return Column(
+    children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Text(
+          item['text'],
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.red
+          ),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Image.asset(item['img']),
+      )
+    ],
+  );
 }
