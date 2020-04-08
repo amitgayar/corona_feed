@@ -33,7 +33,7 @@ class RssFeedModel {
         print(e);
       }
 
-      //    _rssItemList.sort((a,b) => (b.pubDate.substring(5,25)).compareTo(a.pubDate.substring(5,25)));
+//      _rssItemList.sort((a,b) => (DateTime.parse(b.pubDate.substring(5,16))).compareTo(DateTime.parse(a.pubDate.substring(5,16))));
       newsFeedList.addAll(_rssItemList);
       print("LOAD Completed and RSS ITEM List Returned");
     }

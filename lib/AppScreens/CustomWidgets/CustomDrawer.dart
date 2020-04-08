@@ -6,6 +6,8 @@ import 'package:modular_login/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
+import 'customWebView.dart';
+
 // ignore: must_be_immutable
 class CustomDrawer extends StatefulWidget {
 
@@ -79,7 +81,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
             ),
             InkWell(
-              onTap: () => {Navigator.pushNamed(context, '/Myfeeds')},
+              onTap: () => {Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (BuildContext context) => CustomWebView(url : LiveWorldStatsUrl))
+              )},
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(

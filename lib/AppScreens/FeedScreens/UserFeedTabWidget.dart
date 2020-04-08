@@ -141,7 +141,7 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
                   child: ListTile(
                     isThreeLine: true,
                     title: title(item['title']),
-                    subtitle: subtitle(item['description'],(item['datePosted']).toDate().toString().substring(0,16)),
+                    subtitle: twoItemSubtitle(item['description'],(item['datePosted']).toDate().toString().substring(0,16)),
                     onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
                   ),
                 ),

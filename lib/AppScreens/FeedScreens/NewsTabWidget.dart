@@ -22,8 +22,7 @@ class _NewsTabWidgetState extends State<NewsTabWidget> {
         itemBuilder: (BuildContext context, int index) {
           final item = newsFeedList[index];
 
-          UrlData _urlData = new UrlData(
-              url: item.link, title: item.title);
+          UrlData _urlData = new UrlData(url: item.link, title: item.title);
           return Padding(
             padding: const EdgeInsets.fromLTRB(10,10, 10, 0),
             child: Material(
@@ -34,7 +33,7 @@ class _NewsTabWidgetState extends State<NewsTabWidget> {
               child: ListTile(
                 isThreeLine: true,
                 title: title(item.title),
-                subtitle: feedSubtitle(item.source.value.toString()),
+                subtitle: twoItemSubtitle(item.source.value.toString(),/*item.pubDate.toString()*/""),
                 trailing: thumbnail((item.enclosure != null) ? item.enclosure.url : null),
                 onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
               ),

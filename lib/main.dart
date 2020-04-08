@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'AppScreens/CustomWidgets/customWebView.dart';
 import 'AppScreens/Login/login.dart';
 import 'AppScreens/Login/Signup.dart';
 import 'AppScreens/FeedScreens/HomePage.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         '/PasswordReset': (context) => ResetPassword(),
         '/HomePage' : (context) => HomePage(),
         '/webView'  : (context) => WebView(),
+        '/customWebView'  : (context) => CustomWebView(),
         '/Myfeeds'  : (context) => MyFeed()
       },
     );
