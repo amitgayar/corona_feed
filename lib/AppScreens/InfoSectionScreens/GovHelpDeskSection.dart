@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:modular_login/AppScreens/FeedScreens/WebView.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,21 +36,47 @@ class _GovHelpDeskSectionState extends State<GovHelpDeskSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GridView.count(
-        shrinkWrap: true,
-        primary: true,
-        crossAxisCount: 2,
-        childAspectRatio: 0.80,
-        children: List.generate(_contacts.length, (index) {
-          return getStructuredGridCell(_contacts[index]);
-        }),
+    return Container(
+      height: 200,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  getCard(_contacts[0])
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  getCard(_contacts[1])
+                ],
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  getCard(_contacts[2])
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  getCard(_contacts[3])
+                ],
+              )
+            ],
+          ),
+        ],
       ),
     );
   }
 
-  getStructuredGridCell(contacts) {
+  getCard(contacts) {
     return GestureDetector(
       onTap: () => callUrl(contacts["url"]),
       child: Card(

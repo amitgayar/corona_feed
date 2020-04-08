@@ -73,7 +73,7 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
               borderRadius: BorderRadius.circular(7),
               shadowColor: baseColor,
               child : ExpansionTile(
-                title: Text("Myths Busted", textAlign: TextAlign.center,
+                title: Text("Myth Busters", textAlign: TextAlign.center,
                   style: new TextStyle(
                       fontSize: 15,
                       color: baseColor,
@@ -116,7 +116,7 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(top : 15,bottom: 10),
-                    child: Text("Government HelpDesk", textAlign: TextAlign.center,
+                    child: Text("Government Helpdesk", textAlign: TextAlign.center,
                       style: new TextStyle(
                           fontSize: 15,
                           color: baseColor,
