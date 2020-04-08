@@ -14,17 +14,15 @@ class CustomWebView extends StatefulWidget {
 class _CustomWebViewState extends State<CustomWebView> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: <Widget>[
-        Stack(
-          children: <Widget>[
-            WebView(
-              initialUrl: widget.url,
-            ),
-            AppBar(
-              title: Text("Live World Statistics"),
-            ),
-          ],
+        Scaffold(
+          appBar: AppBar(
+            title: Text("Live World Stats"),
+          ),
+        ),
+        WebView(
+          initialUrl: widget.url,
         ),
       ],
     );
