@@ -79,7 +79,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
             ),
             InkWell(
-              onTap: () => {Navigator.pushNamed(context, '/Myfeeds')},
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/Myfeeds');
+              },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -98,6 +101,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             InkWell(
               onTap: (() {
                   UrlData _urlData = new UrlData(url: LiveWorldStatsUrl, title: "Live World Stats");
+                  Navigator.pop(context);
                   Navigator.pushNamed(context, '/customWebView', arguments: _urlData);
               }),
               child: Padding(
@@ -118,6 +122,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             InkWell(
               onTap: (() {
                 UrlData _urlData = new UrlData(url: whoQnaUrl, title: "WHO Q&A");
+                Navigator.pop(context);
                 Navigator.pushNamed(context, '/webView', arguments: _urlData);
               }),
               child: Padding(
@@ -138,6 +143,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             InkWell(
               onTap: (() {
                 UrlData _urlData = new UrlData(url: chatUrl , title: "Chat");
+                Navigator.pop(context);
                 Navigator.pushNamed(context, '/webView', arguments: _urlData);
               }),
               child: Padding(
