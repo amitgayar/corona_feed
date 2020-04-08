@@ -22,26 +22,30 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(8,8,8,0),
-            child: Material(
-              color: Colors.white,
-              elevation: 2.0,
-              borderRadius: BorderRadius.circular(7),
-              shadowColor: baseColor,
-              child : Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8,8,8,0),
-                    child: Text("CoronaVirus Statistics", textAlign: TextAlign.center,
+            padding: const EdgeInsets.fromLTRB(15,15,0,10),
+            child: Text("CoronaVirus Statistics",
                 style: new TextStyle(
-                      fontSize: 15,
-                      color: baseColor,
-                      fontWeight: FontWeight.bold)),
-                  ),
-                  StatsInfoSection(),
-                ],
-              ),
+                    fontSize: 17,
+                    color: baseColor,
+                    fontWeight: FontWeight.w900)),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8,0,8,0),
+            child: Material(
+              color: Colors.white,
+              elevation: 2.0,
+              borderRadius: BorderRadius.circular(7),
+              shadowColor: baseColor,
+              child : StatsInfoSection(),
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15,15,0,10),
+            child: Text("Understand Coronavirus",
+                style: new TextStyle(
+                    fontSize: 17,
+                    color: baseColor,
+                    fontWeight: FontWeight.w900)),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(8,8,8,0),
@@ -50,90 +54,69 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
               elevation: 2.0,
               borderRadius: BorderRadius.circular(7),
               shadowColor: baseColor,
-              child : Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8,8,8,0),
-                    child: Text("Understand Coronavirus", textAlign: TextAlign.center,
-                        style: new TextStyle(
-                            fontSize: 15,
-                            color: baseColor,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                  SymptomInfoSection(),
-                ],
-              ),
+              child : SymptomInfoSection(),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(8,8,8,0),
+            padding: const EdgeInsets.fromLTRB(15,15,0,10),
+            child: Text("Myth Busters",
+                style: new TextStyle(
+                    fontSize: 17,
+                    color: baseColor,
+                    fontWeight: FontWeight.w900)),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8,0,8,0),
             child: Material(
               color: Colors.white,
               elevation: 2.0,
               borderRadius: BorderRadius.circular(7),
               shadowColor: baseColor,
-              child : Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8,8,8,0),
-                    child: Text("Myth Busters", textAlign: TextAlign.center,
-                      style: new TextStyle(
-                          fontSize: 15,
-                          color: baseColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  MythsInfoSection(),
-                ],
-              ),
+              child : MythsInfoSection(),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(8,8,8,0),
+            padding: const EdgeInsets.fromLTRB(15,15,0,10),
+            child: Text("CoronaVirus Videos",
+                style: new TextStyle(
+                    fontSize: 17,
+                    color: baseColor,
+                    fontWeight: FontWeight.w900)),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8,0,8,0),
             child: Material(
               color: Colors.white,
               elevation: 2.0,
               borderRadius: BorderRadius.circular(7),
               shadowColor: baseColor,
-              child : Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8,8,8,0),
-                    child: Text("CoronaVirus Videos", textAlign: TextAlign.center,
-                      style: new TextStyle(
-                          fontSize: 15,
-                          color: baseColor,
-                          fontWeight: FontWeight.bold),),
-                  ),
-                  YoutubeInfoSection(),
-                ],
-              ),
+              child : YoutubeInfoSection(),
             ),
           ),
           (_getStats.inIndia) ?
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8,8,8,8),
-            child: Material(
-              color: Colors.white,
-              elevation: 2.0,
-              borderRadius: BorderRadius.circular(7),
-              shadowColor: baseColor,
-              child : Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top : 15,bottom: 10),
-                    child: Text("Government Helpdesk", textAlign: TextAlign.center,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15,15,0,10),
+                  child: Text("Government Helpdesk",
                       style: new TextStyle(
-                          fontSize: 15,
+                          fontSize: 17,
                           color: baseColor,
-                          fontWeight: FontWeight.bold),
-                    ),
+                          fontWeight: FontWeight.w900)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8,0,8,10),
+                  child: Material(
+                    color: Colors.white,
+                    elevation: 2.0,
+                    borderRadius: BorderRadius.circular(7),
+                    shadowColor: baseColor,
+                    child : GovHelpDeskSection(),
                   ),
-                  GovHelpDeskSection(),
-                ],
-              ),
-            ),
-          ) : Container(),
+                ),
+              ],
+            ) : Container(),
         ],
       ),
     );
