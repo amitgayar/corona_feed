@@ -1,30 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:modular_login/AppScreens/FeedScreens/WebView.dart';
+import 'package:webview_flutter/webview_flutter.dart' as w;
 
 class CustomWebView extends StatefulWidget {
-
-  String url;
-
-  CustomWebView({this.url});
-
   @override
   _CustomWebViewState createState() => _CustomWebViewState();
 }
 
 class _CustomWebViewState extends State<CustomWebView> {
+
+  UrlData _data;
+
   @override
   Widget build(BuildContext context) {
+
+    RouteSettings settings = ModalRoute.of(context).settings;
+    _data = settings.arguments;
+
     return Stack(
       children: <Widget>[
-        Scaffold(
-          appBar: AppBar(
+        w.WebView(
+          initialUrl : _data.url,
+          javascriptMode: w.JavascriptMode.unrestricted,
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.10,
+          child: AppBar(
             title: Text("Live World Stats"),
           ),
         ),
-        WebView(
-          initialUrl: widget.url,
-        ),
       ],
     );
+//      Stack(
+//      children: <Widget>[
+//        Scaffold(
+//          appBar: AppBar(
+//            title: Text("Live World Stats"),
+//          ),
+//        ),
+//        WebView(
+//          initialUrl: widget.url,
+//        ),
+//      ],
+//    );
   }
 }
