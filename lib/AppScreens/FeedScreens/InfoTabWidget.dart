@@ -128,6 +128,9 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
               ),
             ),
           ) : Container(),
+          Container(
+            height: 40,
+          )
         ],
       ),
     );

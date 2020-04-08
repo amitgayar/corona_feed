@@ -37,40 +37,35 @@ class _GovHelpDeskSectionState extends State<GovHelpDeskSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+//      height: 200,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Column(
-                children: <Widget>[
-                  getCard(_contacts[0])
-                ],
+              Expanded(
+                  child:getCard(_contacts[0])
               ),
-              Column(
-                children: <Widget>[
-                  getCard(_contacts[1])
-                ],
-              )
+              Expanded(
+                  child:getCard(_contacts[1])
+              ),
+
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Column(
-                children: <Widget>[
-                  getCard(_contacts[2])
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  getCard(_contacts[3])
-                ],
-              )
+              Expanded(
+                  child:getCard(_contacts[2])
+                  ),
+              Expanded(
+                  child:getCard(_contacts[3])
+                  ),
+
             ],
           ),
+          Container(height: 20,)
         ],
       ),
     );
@@ -81,46 +76,50 @@ class _GovHelpDeskSectionState extends State<GovHelpDeskSection> {
       onTap: () => callUrl(contacts["url"]),
       child: Card(
         elevation: 3.0,
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 7,
-              child: Container(
-                color: contacts["inColor"],
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(contacts["inText"],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: contacts["bottomColor"],
-                        fontWeight: FontWeight.bold,
+        child: SizedBox(
+          height: 100,
+          width: MediaQuery.of(context).size.height/2.3,
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                flex: 3,
+                child: Container(
+                  color: contacts["inColor"],
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(contacts["inText"],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: contacts["bottomColor"],
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              flex: 3,
-              child: Container(
-                color: contacts["bottomColor"],
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(contacts["outText"],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: contacts["inColor"],
-                        fontWeight: FontWeight.bold,
+              Expanded(
+                flex: 1,
+                child: Container(
+                  color: contacts["bottomColor"],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(contacts["outText"],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: contacts["inColor"],
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
