@@ -23,21 +23,16 @@ class _GovHelpDeskSectionState extends State<GovHelpDeskSection> {
   }
 
   //Gov helpdesk contacts
-  static List _contacts = [
-    {"inText" : "011-23978046 \n or \n 1075", "outText" : "Helpline Number" ,"url": "tel:1075",
-      "inColor" : Color.fromRGBO(253, 195, 204, 1) , "bottomColor" : Color.fromRGBO(208, 0, 24, 1)},
-    {"inText" : "ncov2019@gov.in", "outText" : "Email Id","url": "mailto:ncov2019@gov.in",
-      "inColor" : Color.fromRGBO(218, 209, 246, 1) , "bottomColor" : Color.fromRGBO(97, 54, 185, 1)},
-    {"inText" : "Whatsapp :\n 91-9013151515", "outText" : "Corona Live Helpdesk","url": "https://api.whatsapp.com/send?phone=919013151515&text=&source=&data=",
-      "inColor" : Color.fromRGBO(214, 246, 209, 1) , "bottomColor" : Color.fromRGBO(48, 178, 36, 1)},
-    {"inText" : "Corona NewsDesk \n On Telegram", "outText" : "Corona Live Newsdesk","url": "https://t.me/s/MyGovCoronaNewsDesk",
-      "inColor" : Colors.blue[200] , "bottomColor" : Colors.blue[800]},
-  ];
+  static List _contacts = [{ "inText" : "011-23978046 1075" , "outText" : "Helpline Number" , "url" : "",
+      "inColor" : Color.fromRGBO(253, 195, 204, 1) , "bottomColor" : Color.fromRGBO(208, 0, 24, 1)}, {"inText" : "ncov2019@gov.in", "outText" : "Email Id","url": "mailto:ncov2019@gov.in",
+      "inColor" : Color.fromRGBO(218, 209, 246, 1) , "bottomColor" : Color.fromRGBO(97, 54, 185, 1)}, {"inText" : "Whatsapp :\n 91-9013151515", "outText" : "Corona Live Helpdesk","url": "https://api.whatsapp.com/send?phone=919013151515&text=&source=&data=",
+      "inColor" : Color.fromRGBO(214, 246, 209, 1) , "bottomColor" : Color.fromRGBO(48, 178, 36, 1)}, {"inText" : "Corona NewsDesk \n On Telegram", "outText" : "Corona Live Newsdesk","url": "https://t.me/s/MyGovCoronaNewsDesk",
+      "inColor" : Colors.blue[200] , "bottomColor" : Colors.blue[800]},];
 
   @override
   Widget build(BuildContext context) {
+    print(_contacts[0].toString());
     return Container(
-//      height: 200,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -45,7 +40,7 @@ class _GovHelpDeskSectionState extends State<GovHelpDeskSection> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                  child:getCard(_contacts[0])
+                  child:getCallCard(_contacts[0])
               ),
               Expanded(
                   child:getCard(_contacts[1])
@@ -120,6 +115,86 @@ class _GovHelpDeskSectionState extends State<GovHelpDeskSection> {
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  getCallCard(contacts) {
+    return Card(
+      elevation: 3.0,
+      child: SizedBox(
+        height: 100,
+        width: MediaQuery.of(context).size.height/2.3,
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 3,
+              child: Container(
+                color: contacts["inColor"],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap : () => callUrl("tel:" + contacts["inText"].toString().substring(0,12)),
+                          child: Text(
+                            contacts["inText"].toString().substring(0,12),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: contacts["bottomColor"],
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Text("OR",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: contacts["bottomColor"],
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap : () => callUrl("tel:" + contacts["inText"].toString().substring(12,17)),
+                          child: Text(contacts["inText"].toString().substring(12,17),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: contacts["bottomColor"],
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                color: contacts["bottomColor"],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      contacts["outText"],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: contacts["inColor"],
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );

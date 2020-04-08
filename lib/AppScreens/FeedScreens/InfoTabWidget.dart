@@ -106,7 +106,7 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
           ),
           (_getStats.inIndia) ?
           Padding(
-            padding: const EdgeInsets.fromLTRB(8,8,8,0),
+            padding: const EdgeInsets.fromLTRB(8,8,8,8),
             child: Material(
               color: Colors.white,
               elevation: 2.0,
@@ -128,9 +128,6 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
               ),
             ),
           ) : Container(),
-          Container(
-            height: 40,
-          )
         ],
       ),
     );
