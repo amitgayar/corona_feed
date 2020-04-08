@@ -72,13 +72,19 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
               elevation: 2.0,
               borderRadius: BorderRadius.circular(7),
               shadowColor: baseColor,
-              child : ExpansionTile(
-                title: Text("Myth Busters", textAlign: TextAlign.center,
-                  style: new TextStyle(
-                      fontSize: 15,
-                      color: baseColor,
-                      fontWeight: FontWeight.bold),),
-                children: <Widget>[MythsInfoSection()],
+              child : Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8,8,8,0),
+                    child: Text("Myth Busters", textAlign: TextAlign.center,
+                      style: new TextStyle(
+                          fontSize: 15,
+                          color: baseColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  MythsInfoSection(),
+                ],
               ),
             ),
           ),
