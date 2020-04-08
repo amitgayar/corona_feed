@@ -21,26 +21,11 @@ const String indiaDataUrl = "https://api.covid19india.org/raw_data.json";
 const String API_KEY = "AIzaSyDcCRTwQn9ElRsDwh1U2OxF2-mPuJ2CKqQ";
 const String initialVideoId = "https://www.youtube.com/watch?v=TDDYniiL17A&list=PLGqF2Eq4iV7_vrLoZJiqJdptLlAlEBRRQ&index=2&t=0s";
 const String myGovChannelId = 'UCTJpJk8bqQQEqeX58z8eimA';
-const Map playlist =
-    {"Covid Info" : "PLGqF2Eq4iV7_vrLoZJiqJdptLlAlEBRRQ",
-    "PM Modi on Convid" : "PLGqF2Eq4iV78hhD6m_hDUV1b0C8_9X-sk",
-    "#Covid 19" : "PLGqF2Eq4iV789JKyN_780aoZnDc954JvL"
-   };
-
-
-//Gov helpdesk contacts
-const List _contacts = [
-  {"inText" : "011-23978046 or 1075", "outText" : "Helpline Number" ,"url": 1075,
-    "inColor" : Color.fromRGBO(253, 195, 204, 1) , "bottomColor" : Color.fromRGBO(208, 0, 24, 1)},
-  {"inText" : "ncov2019@gov.in", "outText" : "Email Id","url": "ncov2019@gov.in",
-    "inColor" : Color.fromRGBO(218, 209, 246, 1) , "bottomColor" : Color.fromRGBO(97, 54, 185, 1)},
-  {"inText" : "Whatsapp : 91-9013151515", "outText" : "MyGov Corona Live HelpDesk","url": "https://api.whatsapp.com/send?phone=919013151515&text=&source=&data=",
-    "inColor" : Color.fromRGBO(214, 246, 209, 1) , "bottomColor" : Color.fromRGBO(48, 178, 36, 1)},
-  {"inText" : "Corona NewsDesk On Telegram", "outText" : "MyGov Corona Live HelpDesk","url": "https://t.me/MyGovCoronaNewsDesk",
-    "inColor" : Color.fromRGBO(296, 231, 249, 1) , "bottomColor" : Color.fromRGBO(0, 134, 190, 1)},
-];
-
-
+const List playlist =
+    [ "PLGqF2Eq4iV7_vrLoZJiqJdptLlAlEBRRQ", /*Know About Coronavirus*/
+      "PLGqF2Eq4iV78hhD6m_hDUV1b0C8_9X-sk", /*PM Narendra Modi on Coronavirus*/
+      "PLGqF2Eq4iV789JKyN_780aoZnDc954JvL"  /*Follow #COVID-19*/
+    ];
 
 //Feed Filter Keywords.
 const String filter1 = "Coronavirus";

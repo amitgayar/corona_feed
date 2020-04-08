@@ -16,7 +16,7 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
   String stateCasesText;
   String cityCasesText ;
   String city;
-  String flagLink;
+  String flagLink = "";
   String countryTotalCases;
   String countryDeceasedCases;
   int stateCases;
@@ -88,8 +88,8 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
 
   countryWidget()  {
     if(state == "National Capital Territory of Delhi") state = "New Delhi";
-    stateCasesText = state + " Cases";
-    cityCasesText = city + " Cases";
+    if(state!=null) stateCasesText = state + " Cases";
+    if(city!=null) cityCasesText = city + " Cases";
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,

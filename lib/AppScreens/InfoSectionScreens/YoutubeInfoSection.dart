@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:modular_login/Models/youtubeVideoModel.dart';
 import 'package:modular_login/Services/youtubeApiService.dart';
 import 'package:modular_login/constants/constants.dart';
+import 'package:toast/toast.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YoutubeInfoSection extends StatefulWidget {
+
+  YoutubeInfoSection({ @required Key key}) :super(key:key);
+
   @override
   _YoutubeInfoSectionState createState() => _YoutubeInfoSectionState();
 }
@@ -70,107 +74,148 @@ class _YoutubeInfoSectionState extends State<YoutubeInfoSection> {
 
   YoutubePlayerController _controller;
   List<Video> videoList =[] ;
+  List<Video> videoList1 =[] ;
+  List<Video> videoList2 =[] ;
+  List<Video> videoList3 =[] ;
   String initVideoId = YoutubePlayer.convertUrlToId(initialVideoId);
-  String dropdownValue = 'Covid Info';
+  String dropdownValue = 'Know About Coronavirus';
   String currentId;
   int currIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _initPlayer();
+    _initPlayerVideos();
+    _initController(initVideoId);
   }
 
-  _initPlayer() async {
-    print("Entered in INITchannel");
-    videoList = await APIService
-        .instance.fetchVideosFromPlaylist(playlistId: playlist[dropdownValue]);
+  _initController(initial) {
+    _controller = YoutubePlayerController(
+        initialVideoId: initial,
+        flags: YoutubePlayerFlags(
+          controlsVisibleAtStart: true,
+          autoPlay: false,
+        )
+    );
+  }
+
+  _initPlayerVideos() async {
+    print("Entered in _initPlayerVideos");
+    videoList1 = await APIService.instance.fetchVideosFromPlaylist(playlistId: "PLGqF2Eq4iV7_vrLoZJiqJdptLlAlEBRRQ");
+    videoList2 = await APIService.instance.fetchVideosFromPlaylist(playlistId: "PLGqF2Eq4iV78hhD6m_hDUV1b0C8_9X-sk");
+//    videoList3 = await APIService.instance.fetchVideosFromPlaylist(playlistId: "PLGqF2Eq4iV789JKyN_780aoZnDc954JvL");
     setState(() {
-      currentId = videoList[0].id;
+      videoList.addAll(videoList1);
     });
   }
 
-  buildVideoPlayer(videoId) {
-    return GestureDetector(
-      onTap: () => _controller.pause(),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: YoutubePlayer(
-          controller: _controller,
-          progressIndicatorColor: baseColor,
-          topActions: <Widget>[
-            SizedBox(width: 8.0),
-            Text(
-              _controller.metadata.title,
-              style: TextStyle(
-              color: Colors.white,
-            ),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
-        ],
-//        onReady: () {_controller.play();},
+  buildVideoPlayer() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0,10,0,10),
+      child: YoutubePlayer(
+        controller: _controller,
+        onReady: () {_controller.play();},
         onEnded: (data) {
+          Toast.show("Loading Next Video", context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
           currIndex = currIndex+1;
           _controller.load(videoList[currIndex].id);
-          },
-        ),
+        },
+        showVideoProgressIndicator : true
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-
-    _controller = YoutubePlayerController(
-      initialVideoId: initVideoId,
-      flags: YoutubePlayerFlags(
-        mute: false,
-        controlsVisibleAtStart: true,
-        autoPlay: false,
-      ),
-    );
-
     return Column(
-        children: <Widget>[
-          Container(
-            width: MediaQuery.of(context).size.width * 0.70,
-            padding: EdgeInsets.fromLTRB(20,5,20,5),
-            child: DropdownButton<String>(
-                value: dropdownValue,
-                icon: Icon(Icons.menu),
-                iconSize: 24,
-                elevation: 16,
-                style: TextStyle(
-                    color: Colors.indigo[900]
+      children: <Widget>[
+        Container(
+          width: MediaQuery.of(context).size.width ,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20,10,20,0),
+                child: Text("Select Playlist to Play",textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.indigo[900]
+                  ),
                 ),
-                underline: Container(
-                  height: 2,
-                    color: Colors.indigo[900]
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20,0,20,0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: DropdownButton<String>(
+                    value: dropdownValue,
+                    isExpanded: true,
+                    icon: Icon(Icons.menu),
+                    style: TextStyle(
+                        color: Colors.indigo[900]
+                    ),
+                    items: <String> ["Know About Coronavirus","PM Narendra Modi on Coronavirus","Follow #COVID-19"]
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String newValue) {
+                      if (_controller.value.isReady) {
+                        print("Selected Dropdown : $newValue");
+                        _controller.pause();
+                        String temp = dropdownValue;
+                        dropdownValue = newValue;
+//                        print("VideoList before Clear : ${videoList.length}");
+                        if(newValue != temp){
+                          videoList.clear();
+//                          print("VideoList after Clear : ${videoList.length}");
+                          if(newValue == "Know About Coronavirus") {
+                            videoList.addAll(videoList1);
+//                            print("VideoList after Update : ${videoList.length}");
+                          }
+                          if(newValue == "PM Narendra Modi on Coronavirus") {
+                            videoList.addAll(videoList2);
+//                            print("VideoList after Update : ${videoList.length}");
+                          }
+                          if(newValue == "Follow #COVID-19") {
+                            videoList.addAll(videoList3);
+//                            print("VideoList after Update : ${videoList.length}");
+                          }
+                          initVideoId = videoList[0].id;
+                          Toast.show("Loading playlist, It will start after this Video", context,
+                              duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+                          setState(() {
+                            _controller.load(initVideoId);
+                            _controller.play();
+                          });
+                        }
+                      }else {
+                        Toast.show("Please Wait, Player is Loading", context,
+                            duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+                      }
+                    },
+                  ),
                 ),
-                items: <String> ["Covid Info","PM Modi on Convid","#Covid 19"]
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              onChanged: (String newValue) {
-                dropdownValue = newValue;
-                setState(() {});
-                _initPlayer();
-              },
-            ),
+              ),
+            ],
           ),
+        ),
+        Container(
+          child: ((videoList1.isNotEmpty || videoList2.isNotEmpty || videoList3.isNotEmpty)) ?
           Container(
-            height: 200,
-            child: (videoList.isNotEmpty) ?
-                buildVideoPlayer(currentId) :
-            Center(
-              child: LinearProgressIndicator(),
-            ),
+              width: MediaQuery.of(context).size.width * 0.85,
+              child: buildVideoPlayer()
+          ):
+          Center(
+            child: Container(
+                width: MediaQuery.of(context).size.width * 0.25,
+                padding: EdgeInsets.all(10),
+                child: LinearProgressIndicator(backgroundColor: baseColor,)),
           ),
-        ],
-      );
+        ),
+      ],
+    );
   }
 }

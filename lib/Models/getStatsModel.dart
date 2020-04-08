@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:modular_login/Models/IndiaStatsExtractModel.dart';
 import 'package:modular_login/Models/WorldStatsExtractModel.dart';
-import 'package:modular_login/constants/globals.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:modular_login/constants/constants.dart';
 
@@ -25,15 +24,15 @@ class GetStatistics {
 
   getLocation() async{
     Map locationMap = jsonDecode(await getResponse(geoLocationUrl));
-
+    print("loc : ${locationMap.toString()}");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('country_code', locationMap['country_code']);
     countryCode = locationMap['country_code'];
     prefs.setString('country_name', locationMap['country_name']);
-    prefs.setString('city', locationMap['city']);
     city = locationMap['city'];
-    prefs.setString('state', locationMap['state']);
+    prefs.setString('city', locationMap['city']);
     state = locationMap['state'];
+    prefs.setString('state', locationMap['state']);
 
     if(locationMap['country_name'] == "India")
       inIndia = true;
@@ -76,10 +75,13 @@ class GetStatistics {
     List<RawData> dataRows = _indiaStats.rawData;
 
     for(int i=0; i<dataRows.length ; i++){
-      if(dataRows[i].detectedstate == state)
+      if(dataRows[i].detectedstate == state){
+//        print("detected City : ${dataRows[i].detectedcity}");
         stateCases = stateCases + 1;
-      if(dataRows[i].detectedcity == city)
+      }
+      if(dataRows[i].detectedcity == city){
         cityCases = cityCases + 1;
+      }
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt("stateCases", stateCases);

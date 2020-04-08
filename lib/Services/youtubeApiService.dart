@@ -66,7 +66,7 @@ class APIService {
       _nextPageToken = data['nextPageToken'] ?? '';
       List<dynamic> videosJson = data['items'];
 
-      // Fetch first eight videos from uploads playlist
+      // Fetch first 50 videos from uploads playlist
       List<Video> videos = [];
       videosJson.forEach(
             (json) => videos.add(

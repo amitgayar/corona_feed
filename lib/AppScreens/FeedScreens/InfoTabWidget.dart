@@ -8,6 +8,9 @@ import 'package:modular_login/Models/getStatsModel.dart';
 import 'package:modular_login/constants/constants.dart';
 
 class InfoTabWidget extends StatefulWidget {
+
+  final Key _youtubeKey = UniqueKey();
+
   @override
   _InfoTabWidgetState createState() => _InfoTabWidgetState();
 }
@@ -90,7 +93,7 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
               elevation: 2.0,
               borderRadius: BorderRadius.circular(7),
               shadowColor: baseColor,
-              child : YoutubeInfoSection(),
+              child : YoutubeInfoSection(key:widget._youtubeKey),
             ),
           ),
           (_getStats.inIndia) ?
@@ -106,7 +109,7 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
                           fontWeight: FontWeight.w900)),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(8,0,8,10),
+                  padding: const EdgeInsets.fromLTRB(10,10,10,10),
                   child: Material(
                     color: Colors.white,
                     elevation: 2.0,
