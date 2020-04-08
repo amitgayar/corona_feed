@@ -11,26 +11,26 @@ class SymptomInfoSection extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          imageCard(infoImages[0]),
-          imageCard(infoImages[1]),
-          imageCard(infoImages[2]),
+          imageCard(infoImages[0],Colors.red),
+          imageCard(infoImages[1],Color.fromRGBO(249, 130, 16, 1)),
+          imageCard(infoImages[2],Color.fromRGBO(134, 163, 92, 1)),
         ],
       )
     );
   }
 }
 
-imageCard(item) {
+imageCard(item,color) {
   return Column(
     children: <Widget>[
       Padding(
         padding: const EdgeInsets.all(10.0),
         child: Text(
           item['text'],
-          textAlign: TextAlign.center,
           style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.red
+              fontWeight: FontWeight.w900,
+              letterSpacing: 0.5,
+              color: color
           ),
         ),
       ),

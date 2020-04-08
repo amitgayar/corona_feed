@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modular_login/AppScreens/FeedScreens/WebView.dart';
 import 'package:modular_login/Models/getStatsModel.dart';
 import 'package:modular_login/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -95,74 +96,84 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Image.network(flagLink,width: MediaQuery.of(context).size.width * 0.15,)
+            InkWell(
+                onTap: () => openStatsPage(),
+                child: Image.network(flagLink,width: MediaQuery.of(context).size.width * 0.10)
+            )
           ],
         ),
         Column(
           children: <Widget>[
             Row(
               children: <Widget>[
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(5,5,5,5),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            "Total Cases",
-                            style: new TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.32,
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(5,5,5,5),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              "Total Cases",
+                              style: new TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600
+                              ),
                             ),
                           ),
-                        ),
-                        (countryTotalCases.isNotEmpty) ? Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            countryTotalCases,
-                            style: new TextStyle(
-                                color: Colors.grey[600],
-                                fontWeight: FontWeight.w500
+                          (countryTotalCases.isNotEmpty) ? Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              countryTotalCases,
+                              style: new TextStyle(
+                                  color: Colors.grey[600],
+                                  fontWeight: FontWeight.w500
+                              ),
                             ),
-                          ),
-                        ) : SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.10,
-                            child: LinearProgressIndicator(backgroundColor: baseColor)),
-                      ],
+                          ) : SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.10,
+                              child: LinearProgressIndicator(backgroundColor: baseColor)),
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 0)),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(5,5,5,5),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            "Total Deceased",
-                            style: new TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.32,
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(5,5,5,5),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              "Total Deceased",
+                              style: new TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600
+                              ),
                             ),
                           ),
-                        ),
-                        (countryDeceasedCases.isNotEmpty) ?
-                        Text(
-                          countryDeceasedCases,
-                          style: new TextStyle(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.w500
+                          (countryDeceasedCases.isNotEmpty) ?
+                          Text(
+                            countryDeceasedCases,
+                            style: new TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.w500
+                            ),
+                          ) :
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.10,
+                              child: LinearProgressIndicator(backgroundColor: baseColor)
                           ),
-                        ) :
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.10,
-                            child: LinearProgressIndicator(backgroundColor: baseColor)
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 )
@@ -171,66 +182,72 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
             (inIndia) ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(5,5,5,5),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            stateCasesText,
-                            overflow: TextOverflow.ellipsis,
-                            style: new TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.32,
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(5,5,5,5),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              stateCasesText,
+                              overflow: TextOverflow.ellipsis,
+                              style: new TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600
+                              ),
                             ),
                           ),
-                        ),
-                        (stateCases!=0) ? Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            stateCases.toString(),
-                            style: new TextStyle(
-                                color: Colors.grey[600],
-                                fontWeight: FontWeight.w500
+                          (stateCases!=0) ? Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              stateCases.toString(),
+                              style: new TextStyle(
+                                  color: Colors.grey[600],
+                                  fontWeight: FontWeight.w500
+                              ),
                             ),
-                          ),
-                        ) : SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.10,
-                            child: LinearProgressIndicator(backgroundColor: baseColor)),
-                      ],
+                          ) : SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.10,
+                              child: LinearProgressIndicator(backgroundColor: baseColor)),
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 0)),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(5,5,5,5),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            cityCasesText,
-                            overflow: TextOverflow.ellipsis,
-                            style: new TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.32,
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(5,5,5,5),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              cityCasesText,
+                              overflow: TextOverflow.ellipsis,
+                              style: new TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600
+                              ),
                             ),
                           ),
-                        ),
-                        (cityCases!=0) ? Text(
-                          cityCases.toString(),
-                          style: new TextStyle(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.w500
+                          (cityCases!=0) ? Text(
+                            cityCases.toString(),
+                            style: new TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.w500
+                            ),
+                          ) : SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.10,
+                              child: LinearProgressIndicator(backgroundColor: baseColor)
                           ),
-                        ) : SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.10,
-                            child: LinearProgressIndicator(backgroundColor: baseColor)
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 )
@@ -248,8 +265,12 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Image.asset("assets/worldIcon.png", width: MediaQuery.of(context).size.width *0.15),
+            InkWell(
+                onTap: () => openStatsPage(),
+                child: Image.asset("assets/worldIcon.png", width: MediaQuery.of(context).size.width *0.10)
+            ),
           ],
         ),
         Column(
@@ -258,68 +279,74 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(5,5,5,5),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            "Total Cases",
-                            style: new TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.32,
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(5,5,5,5),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              "Total Cases",
+                              style: new TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600
+                              ),
                             ),
                           ),
-                        ),
-                        (countryTotalCases.isNotEmpty) ?
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            totalCasesWorld,
-                            style: new TextStyle(
-                                color: Colors.grey[600],
-                                fontWeight: FontWeight.w500
+                          (countryTotalCases.isNotEmpty) ?
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              totalCasesWorld,
+                              style: new TextStyle(
+                                  color: Colors.grey[600],
+                                  fontWeight: FontWeight.w500
+                              ),
                             ),
-                          ),
-                        ) :
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.10,
-                            child: LinearProgressIndicator(backgroundColor: baseColor)),
-                      ],
+                          ) :
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.10,
+                              child: LinearProgressIndicator(backgroundColor: baseColor)),
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 0)),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(5,5,5,5),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            "Total Deceased",
-                            style: new TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.32,
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(5,5,5,5),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              "Total Deceased",
+                              style: new TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600
+                              ),
                             ),
                           ),
-                        ),
-                        (countryDeceasedCases.isNotEmpty) ?
-                        Text(
-                          deceasedCasesWorld,
-                          style: new TextStyle(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.w500
+                          (countryDeceasedCases.isNotEmpty) ?
+                          Text(
+                            deceasedCasesWorld,
+                            style: new TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.w500
+                            ),
+                          ) :
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.10,
+                              child: LinearProgressIndicator(backgroundColor: baseColor)
                           ),
-                        ) :
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.10,
-                            child: LinearProgressIndicator(backgroundColor: baseColor)
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -329,6 +356,11 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
         ),
       ],
     );
+  }
+
+  openStatsPage() {
+    UrlData _urlData = new UrlData(url: LiveWorldStatsUrl, title: "Live World Stats");
+    Navigator.pushNamed(context, '/customWebView', arguments: _urlData);
   }
 
 }

@@ -19,12 +19,14 @@ class _CustomWebViewState extends State<CustomWebView> {
 
     return Stack(
       children: <Widget>[
-        w.WebView(
-          initialUrl : _data.url,
-          javascriptMode: w.JavascriptMode.unrestricted,
+        SafeArea(
+          child: w.WebView(
+            initialUrl : _data.url,
+            javascriptMode: w.JavascriptMode.unrestricted,
+          ),
         ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.10,
+          height: 85,
           child: AppBar(
             title: Text("Live World Stats"),
           ),

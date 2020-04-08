@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:modular_login/AppScreens/FeedScreens/WebView.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class GovHelpDeskSection extends StatefulWidget {
-  @override
-  _GovHelpDeskSectionState createState() => _GovHelpDeskSectionState();
-}
+class GovHelpDeskSection extends StatelessWidget {
 
-class _GovHelpDeskSectionState extends State<GovHelpDeskSection> {
-
-  callUrl(url) async {
+  callUrl(url,context) async {
     if (!url.contains("https://t.me/s/MyGovCoronaNewsDesk")) {
       if (await canLaunch(url)) {
         await launch(url);
@@ -22,16 +17,19 @@ class _GovHelpDeskSectionState extends State<GovHelpDeskSection> {
     }
   }
 
-  //Gov helpdesk contacts
-  static List _contacts = [{ "inText" : "011-23978046 1075" , "outText" : "Helpline Number" , "url" : "",
-      "inColor" : Color.fromRGBO(253, 195, 204, 1) , "bottomColor" : Color.fromRGBO(208, 0, 24, 1)}, {"inText" : "ncov2019@gov.in", "outText" : "Email Id","url": "mailto:ncov2019@gov.in",
-      "inColor" : Color.fromRGBO(218, 209, 246, 1) , "bottomColor" : Color.fromRGBO(97, 54, 185, 1)}, {"inText" : "Whatsapp :\n 91-9013151515", "outText" : "Corona Live Helpdesk","url": "https://api.whatsapp.com/send?phone=919013151515&text=&source=&data=",
-      "inColor" : Color.fromRGBO(214, 246, 209, 1) , "bottomColor" : Color.fromRGBO(48, 178, 36, 1)}, {"inText" : "Corona NewsDesk \n On Telegram", "outText" : "Corona Live Newsdesk","url": "https://t.me/s/MyGovCoronaNewsDesk",
-      "inColor" : Colors.blue[200] , "bottomColor" : Colors.blue[800]},];
+//Gov helpdesk contacts
+  static List _contacts = [
+    { "inText" : "011-23978046 1075" , "outText" : "Helpline Number" , "url" : "",
+      "inColor" : Colors.blue[200] , "bottomColor" : Colors.blue[800]},
+    { "inText" : "ncov2019@gov.in", "outText" : "Email Id","url": "mailto:ncov2019@gov.in",
+      "inColor" : Color.fromRGBO(218, 209, 246, 1) , "bottomColor" : Color.fromRGBO(97, 54, 185, 1)},
+    { "inText" : "Whatsapp :\n 91-9013151515", "outText" : "Corona Live Helpdesk","url": "https://api.whatsapp.com/send?phone=919013151515&text=&source=&data=",
+      "inColor" : Color.fromRGBO(214, 246, 209, 1) , "bottomColor" : Color.fromRGBO(48, 178, 36, 1)},
+    { "inText" : "Corona NewsDesk \n On Telegram", "outText" : "Corona Live Newsdesk","url": "https://t.me/s/MyGovCoronaNewsDesk",
+      "inColor" : Color.fromRGBO(253, 195, 204, 1) , "bottomColor" : Color.fromRGBO(208, 0, 24, 1)}];
 
   @override
   Widget build(BuildContext context) {
-    print(_contacts[0].toString());
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,10 +38,10 @@ class _GovHelpDeskSectionState extends State<GovHelpDeskSection> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                  child:getCallCard(_contacts[0])
+                  child:getCallCard(_contacts[0],context)
               ),
               Expanded(
-                  child:getCard(_contacts[1])
+                  child:getCard(_contacts[1],context)
               ),
 
             ],
@@ -52,11 +50,11 @@ class _GovHelpDeskSectionState extends State<GovHelpDeskSection> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                  child:getCard(_contacts[2])
-                  ),
+                  child:getCard(_contacts[2],context)
+              ),
               Expanded(
-                  child:getCard(_contacts[3])
-                  ),
+                  child:getCard(_contacts[3],context)
+              ),
 
             ],
           ),
@@ -66,9 +64,9 @@ class _GovHelpDeskSectionState extends State<GovHelpDeskSection> {
     );
   }
 
-  getCard(contacts) {
+  getCard(contacts,context) {
     return GestureDetector(
-      onTap: () => callUrl(contacts["url"]),
+      onTap: () => callUrl(contacts["url"],context),
       child: Card(
         elevation: 3.0,
         child: SizedBox(
@@ -120,7 +118,7 @@ class _GovHelpDeskSectionState extends State<GovHelpDeskSection> {
     );
   }
 
-  getCallCard(contacts) {
+  getCallCard(contacts,context) {
     return Card(
       elevation: 3.0,
       child: SizedBox(
@@ -139,7 +137,7 @@ class _GovHelpDeskSectionState extends State<GovHelpDeskSection> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         GestureDetector(
-                          onTap : () => callUrl("tel:" + contacts["inText"].toString().substring(0,12)),
+                          onTap : () => callUrl("tel:" + contacts["inText"].toString().substring(0,12),context),
                           child: Text(
                             contacts["inText"].toString().substring(0,12),
                             textAlign: TextAlign.center,
@@ -154,13 +152,13 @@ class _GovHelpDeskSectionState extends State<GovHelpDeskSection> {
                           child: Text("OR",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: contacts["bottomColor"],
+                              color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                         GestureDetector(
-                          onTap : () => callUrl("tel:" + contacts["inText"].toString().substring(12,17)),
+                          onTap : () => callUrl("tel:" + contacts["inText"].toString().substring(12,17),context),
                           child: Text(contacts["inText"].toString().substring(12,17),
                             textAlign: TextAlign.center,
                             style: TextStyle(
