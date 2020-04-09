@@ -104,6 +104,7 @@ class _YoutubeInfoSectionState extends State<YoutubeInfoSection> {
     videoList1 = await APIService.instance.fetchVideosFromPlaylist(playlistId: "PLGqF2Eq4iV7_vrLoZJiqJdptLlAlEBRRQ");
     videoList2 = await APIService.instance.fetchVideosFromPlaylist(playlistId: "PLGqF2Eq4iV78hhD6m_hDUV1b0C8_9X-sk");
 //    videoList3 = await APIService.instance.fetchVideosFromPlaylist(playlistId: "PLGqF2Eq4iV789JKyN_780aoZnDc954JvL");
+    if (!mounted) return;
     setState(() {
       videoList.addAll(videoList1);
     });
