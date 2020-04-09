@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modular_login/AppScreens/FeedScreens/WebView.dart';
-import 'package:webview_flutter/webview_flutter.dart' as w;
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class CustomWebView extends StatefulWidget {
   @override
@@ -17,33 +17,20 @@ class _CustomWebViewState extends State<CustomWebView> {
     RouteSettings settings = ModalRoute.of(context).settings;
     _data = settings.arguments;
 
-    return Stack(
-      children: <Widget>[
-        SafeArea(
-          child: w.WebView(
-            initialUrl : _data.url,
-            javascriptMode: w.JavascriptMode.unrestricted,
+    return SafeArea(
+      child: Stack(
+        children: <Widget>[
+          Container(
+            height: 85,
+            child: AppBar(
+              title: Text("Live World Stats"),
+            ),
           ),
-        ),
-        Container(
-          height: 85,
-          child: AppBar(
-            title: Text("Live World Stats"),
-          ),
-        ),
-      ],
+          WebviewScaffold(
+            url : _data.url,
+            ),
+        ],
+      ),
     );
-//      Stack(
-//      children: <Widget>[
-//        Scaffold(
-//          appBar: AppBar(
-//            title: Text("Live World Stats"),
-//          ),
-//        ),
-//        WebView(
-//          initialUrl: widget.url,
-//        ),
-//      ],
-//    );
   }
 }

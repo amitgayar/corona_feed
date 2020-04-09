@@ -37,149 +37,103 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10,15,10,10),
-      child: ListView(
-          children: <Widget>[
-            DrawerHeader(
-              child: Column(
-                children: <Widget> [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.12,
-                    child: Image.asset("assets/photoNotAvailaible.png")
+    return ListView(
+        children: <Widget>[
+          DrawerHeader(
+            child: Column(
+              children: <Widget> [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.12,
+                  child: Image.asset("assets/photoNotAvailaible.png")
+                ),
+                Container(height: 15),
+                Text(
+                  widget.userName,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colors.indigo[900],
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold
                   ),
-                  Container(height: 15),
-                  Text(
-                    widget.userName,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: Colors.indigo[900],
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold
-                    ),
-                  )
-                ],
+                )
+              ],
+            ),
+          ),
+          ListTile(
+            onTap: () => {Navigator.pop(context)},
+            title: Text("Home",
+              style: TextStyle(
+                  color: baseColor
               ),
             ),
-            InkWell(
-              onTap: () => {Navigator.pop(context)},
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.home,color: Colors.indigo[900]),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Text(
-                        "Home",
-                      ),
-                    ),
-                  ],
-                ),
+            leading: Icon(Icons.home,color: Colors.indigo[900]),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/Myfeeds');
+            },
+            title: Text("My Feeds",
+              style: TextStyle(
+                  color: baseColor
               ),
             ),
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/Myfeeds');
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.rss_feed,color: Colors.indigo[900],),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Text(
-                        "My Feeds",
-                      ),
-                    ),
-                  ],
-                ),
+            leading: Icon(Icons.rss_feed,color: Colors.indigo[900],),
+          ),
+          ListTile(
+            onTap: (() {
+              UrlData _urlData = new UrlData(url: LiveWorldStatsUrl, title: "Live World Stats");
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/customWebView', arguments: _urlData);
+            }),
+            title: Text("Live World Stats",
+              style: TextStyle(
+                  color: baseColor
               ),
             ),
-            InkWell(
-              onTap: (() {
-                  UrlData _urlData = new UrlData(url: LiveWorldStatsUrl, title: "Live World Stats");
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, '/customWebView', arguments: _urlData);
-              }),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    ImageIcon(AssetImage("assets/worldStatsIcon.png"),color: Colors.indigo[900]),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Text(
-                        "Live World Stats",
-                      ),
-                    ),
-                  ],
-                ),
+            leading: ImageIcon(AssetImage("assets/worldStatsIcon.png"),color: Colors.indigo[900]),
+          ),
+          ListTile(
+            onTap: (() {
+              UrlData _urlData = new UrlData(url: whoQnaUrl, title: "WHO Q&A");
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/webView', arguments: _urlData);
+            }),
+            title: Text("WHO - Q&A",
+              style: TextStyle(
+                  color: baseColor
               ),
             ),
-            InkWell(
-              onTap: (() {
-                UrlData _urlData = new UrlData(url: whoQnaUrl, title: "WHO Q&A");
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/webView', arguments: _urlData);
-              }),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    ImageIcon(AssetImage("assets/who.png"),color: Colors.indigo[900]),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Text(
-                        "WHO - Q&A",
-                      ),
-                    ),
-                  ],
-                ),
+            leading: ImageIcon(AssetImage("assets/who.png"),color: Colors.indigo[900]),
+          ),
+          ListTile(
+            onTap: (() {
+              UrlData _urlData = new UrlData(url: chatUrl , title: "Chat : Send News links to get fact checked");
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/webView', arguments: _urlData);
+            }),
+            title: Text("Chat",
+              style: TextStyle(
+                  color: baseColor
               ),
             ),
-            InkWell(
-              onTap: (() {
-                UrlData _urlData = new UrlData(url: chatUrl , title: "Chat");
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/webView', arguments: _urlData);
-              }),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.question_answer,color: Colors.indigo[900]),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Text(
-                        "Chat",
-                      ),
-                    ),
-                  ],
-                ),
+            subtitle: Text("Send News links to get fact checked",
+              style: TextStyle(
+                  color: baseColor
               ),
             ),
-            InkWell(
-              onTap: () => { signOut()},
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.power_settings_new,color: Colors.indigo[900]),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Text(
-                        "Log Out",
-                      ),
-                    ),
-                  ],
-                ),
+            leading: Icon(Icons.question_answer,color: Colors.indigo[900]),
+          ),
+          ListTile(
+            onTap: () => { signOut()},
+            title: Text("Log Out",
+              style: TextStyle(
+                  color: baseColor
               ),
             ),
-          ],
-        ),
-    );
+            leading: Icon(Icons.power_settings_new,color: Colors.indigo[900]),
+          ),
+        ],
+      );
   }
 }
