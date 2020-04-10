@@ -2,10 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modular_login/Models/CRUDModel.dart';
+import 'package:modular_login/Models/UrlDataModel.dart';
 import 'package:modular_login/Services/AuthWithEmailPasswd.dart';
 import 'package:toast/toast.dart';
-
-import '../FeedScreens/WebView.dart';
 import '../../constants/constants.dart';
 import 'package:modular_login/AppScreens/FeedScreens/ListTileWidgetsModel.dart';
 

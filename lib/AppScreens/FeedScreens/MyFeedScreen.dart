@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:modular_login/Models/UrlDataModel.dart';
 import 'package:modular_login/constants/constants.dart';
 
-import 'WebView.dart';
 import '../../Models/CRUDModel.dart';
 import 'package:modular_login/AppScreens/FeedScreens/ListTileWidgetsModel.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:modular_login/Models/UrlDataModel.dart';
 import 'package:modular_login/constants/constants.dart';
 import 'package:modular_login/AppScreens/FeedScreens/ListTileWidgetsModel.dart';
 import 'package:modular_login/constants/globals.dart';
 import '../../Models/RssFeedExtractionModel.dart';
-import 'WebView.dart';
 
 class NewsTabWidget extends StatefulWidget {
 

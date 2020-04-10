@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modular_login/AppScreens/FeedScreens/WebView.dart';
+import 'package:modular_login/Models/UrlDataModel.dart';
 import 'package:modular_login/Models/getStatsModel.dart';
 import 'package:modular_login/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,6 +66,7 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
       totalCasesWorld = _getStats.totalCasesWorld;
       deceasedCasesWorld  = _getStats.deceasedCasesWorld;
       inIndia = _getStats.inIndia;
+      setState(() {});
     });
     setState(() {});
   }

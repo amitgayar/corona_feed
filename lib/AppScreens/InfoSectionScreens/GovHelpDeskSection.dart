@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modular_login/AppScreens/FeedScreens/WebView.dart';
+import 'package:modular_login/Models/UrlDataModel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GovHelpDeskSection extends StatelessWidget {

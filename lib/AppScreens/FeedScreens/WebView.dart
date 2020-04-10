@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-
-class UrlData {
-  String url;
-  String title;
-
-  UrlData({
-    this.url,
-    this.title
-  });
-}
+import 'package:modular_login/Models/UrlDataModel.dart';
 
 // ignore: must_be_immutable
 class WebView extends StatelessWidget {
