@@ -33,8 +33,8 @@ class _NewsTabWidgetState extends State<NewsTabWidget> {
               child: ListTile(
                 isThreeLine: true,
                 title: title(item.title),
-                subtitle: twoItemSubtitle(item.source.value.toString(),/*item.pubDate.toString()*/""),
-                trailing: thumbnail((item.enclosure != null) ? item.enclosure.url : null),
+                subtitle: twoItemSubtitle(item.source,item.pubDate),
+                trailing: thumbnail((item.imageUrl != null) ? item.imageUrl : null),
                 onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
               ),
             ),
