@@ -66,7 +66,7 @@ class RssFeedModel {
       case "Dec" :  {newDate = newDate + "12" + "-";break;}
   }
   newDate = newDate + pubDate.substring(5,7);
-    print("NewDat: $newDate");
+//    print("NewDat: $newDate");
     return newDate;
   }
 }

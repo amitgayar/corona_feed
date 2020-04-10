@@ -66,7 +66,7 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
       totalCasesWorld = _getStats.totalCasesWorld;
       deceasedCasesWorld  = _getStats.deceasedCasesWorld;
       inIndia = _getStats.inIndia;
-      setState(() {});
+//      setState(() {});
     });
     setState(() {});
   }
@@ -99,10 +99,11 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            InkWell(
-                onTap: () => openStatsPage(),
-                child: Image.network(flagLink,width: MediaQuery.of(context).size.width * 0.10)
-            )
+        (flagLink!=null) ?
+        InkWell(
+            onTap: () => openStatsPage(),
+            child: Image.network(flagLink,width: MediaQuery.of(context).size.width * 0.10))
+            : CircularProgressIndicator()
           ],
         ),
         Column(
@@ -201,7 +202,7 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
                               ),
                             ),
                           ),
-                          (stateCases!=null) ? Padding(
+                          (stateCases!= "0") ? Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: Text(
                               stateCases ,

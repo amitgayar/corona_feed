@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+String appName = "Corona Feed";
+
 //List of URLS for Feed
 const List urlForFeed = [
   "https://news.google.com/rss/search?q=covid&hl=en-IN&gl=IN&ceid=IN:en"

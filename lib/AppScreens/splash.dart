@@ -28,7 +28,6 @@ class _SplashState extends State<Splash> {
   var email;
 
   void _navigate() async {
-//    WidgetsFlutterBinding.ensureInitialized();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     email = prefs.getString('email');
     (email == null) ?
@@ -44,14 +43,32 @@ class _SplashState extends State<Splash> {
     return SafeArea(
         child: Scaffold(
           backgroundColor: bgColor,
-          body: Center(
-            child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Container(
-              child: Image.asset(coronaGIF),
-            ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Container(
+                    child: Image.asset(coronaGIF),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top : 80.0),
+                child: Text(
+                  appName,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Berkshire',
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+            ],
           ),
-        ),
       ),
     );
   }

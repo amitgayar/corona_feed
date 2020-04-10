@@ -80,6 +80,11 @@ flutter:
     - assets/who.png
     - assets/worldStatsIcon.png
     - assets/userFeed.gif
+
+  fonts:
+    - family: Berkshire
+      fonts:
+        - asset: fonts/BerkshireSwash-Regular.ttf
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
