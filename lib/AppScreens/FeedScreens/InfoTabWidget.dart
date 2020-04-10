@@ -9,8 +9,6 @@ import 'package:modular_login/constants/constants.dart';
 
 class InfoTabWidget extends StatefulWidget {
 
-  final Key _youtubeKey = UniqueKey();
-
   @override
   _InfoTabWidgetState createState() => _InfoTabWidgetState();
 }
@@ -93,7 +91,7 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
               elevation: 2.0,
               borderRadius: BorderRadius.circular(7),
               shadowColor: baseColor,
-              child : YoutubeInfoSection(key:widget._youtubeKey),
+              child : YoutubeInfoSection(),
             ),
           ),
           (_getStats.inIndia) ?

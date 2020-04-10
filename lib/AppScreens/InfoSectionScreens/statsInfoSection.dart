@@ -16,7 +16,7 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
   String stateCasesText;
   String cityCasesText ;
   String city;
-  String flagLink = "";
+  String flagLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/International_Flag_of_Planet_Earth.svg/800px-International_Flag_of_Planet_Earth.svg.png";
   String countryTotalCases="";
   String countryDeceasedCases="";
   String stateCases;

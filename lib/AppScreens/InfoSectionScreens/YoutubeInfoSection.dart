@@ -7,8 +7,6 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YoutubeInfoSection extends StatefulWidget {
 
-  YoutubeInfoSection({ @required Key key}) :super(key:key);
-
   @override
   _YoutubeInfoSectionState createState() => _YoutubeInfoSectionState();
 }

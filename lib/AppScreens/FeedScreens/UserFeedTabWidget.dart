@@ -25,6 +25,8 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
   List feedItemList = [];
   bool isLoading=true;
   bool showPost = false;
+  String nameText="";
+
 
   extractTitle(response) {
     String extractedTitle;
@@ -55,6 +57,14 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
       return _currentUser.photoUrl;
     }).catchError((onError) {
       print("IN CRUD MODEL ERROR photo Fetch : " + onError.toString());
+    });
+  }
+
+  getCurrentUserName() async {
+    nameText = await FirebaseAuth.instance.currentUser().then((_currentUser) {
+      return _currentUser.email;
+    }).catchError((onError) {
+      print("IN CRUD MODEL ERROR name Fetch : " + onError.toString());
     });
   }
 
@@ -117,16 +127,27 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
     }
   }
 
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUserImage();
+    getCurrentUserName();
+  }
+
   list() {
-    print("Building List");
     return StreamBuilder(
         stream: Firestore.instance.collection("CommunityFeed").orderBy("datePosted",descending: true).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData)
-            return Center(child: Container(
-              width: MediaQuery.of(context).size.width * 0.35,
-              child: Image.asset("assets/washed_away_covid-19.gif")));
-          else
+            return Center(
+                child: Container(
+                    width: MediaQuery.of(context).size.width * 0.35,
+                    child: Image.asset("assets/washed_away_covid-19.gif"))
+            );
+          else if (snapshot.data.documents.length == 0){
+            print("length : ${snapshot.data.documents.length }");
+            return Image.asset("assets/no item to display.gif");
+          } else
             return ListView.builder(
             itemCount: snapshot.data.documents.length,
             itemBuilder: (BuildContext context, int index) {
@@ -144,6 +165,24 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
                     isThreeLine: true,
                     title: title(item['title']),
                     subtitle: twoItemSubtitle(item['description'],(item['datePosted']).toDate().toString().substring(0,16)),
+                    leading: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        CircleAvatar(
+                          backgroundColor: baseColor,
+                          child:
+                          (url==null) ?
+                          Text(
+                              (nameText == item['postedBy']) ? "ME" : item['postedBy'].toUpperCase().substring(0,1),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white
+                            ),
+                          ) :
+                          Image.network(url),
+                        ),
+                      ],
+                    ),
                     onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
                   ),
                 ),
@@ -167,6 +206,7 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
       ) : Container(),
       body: Column(
         children: <Widget>[
+          Center(child: Image.asset("assets/userFeed.gif")),
           Expanded(
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.70,
