@@ -79,7 +79,6 @@ class _LoginState extends State<Login> {
     super.initState();
     GetStatistics _getStats = new GetStatistics();
 //    YoutubeInfoSection _ytis = new YoutubeInfoSection();
-
     _getStats.getLocation();
     _getStats.getWorldCountryData();
     _getStats.getIndiaData();

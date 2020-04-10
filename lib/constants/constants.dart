@@ -16,7 +16,7 @@ const String chatUrl = "https://www.google.co.in/";
 
 const String geoLocationUrl = "https://geolocation-db.com/json/";
 const String worldDataUrl = "https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?limit=500";
-const String indiaDataUrl = "https://api.covid19india.org/raw_data.json";
+const String indiaDataUrl = "https://api.covid19india.org/v2/state_district_wise.json";
 
 const String API_KEY = "AIzaSyDcCRTwQn9ElRsDwh1U2OxF2-mPuJ2CKqQ";
 const String initialVideoId = "https://www.youtube.com/watch?v=TDDYniiL17A&list=PLGqF2Eq4iV7_vrLoZJiqJdptLlAlEBRRQ&index=2&t=0s";
@@ -79,7 +79,6 @@ const Color bgColor = Color.fromRGBO(252, 251, 254,1);
 getResponse(url) async{
   http.Client client = http.Client();
   http.Response response = await client.get(url);
-//  print("Response length : ${response.body.length}");
   return response.body;
 }
 
