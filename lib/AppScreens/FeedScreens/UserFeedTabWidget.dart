@@ -24,6 +24,7 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
   bool emailVerifiedStatus = true;
   List feedItemList = [];
   bool isLoading=true;
+  bool showPost = false;
 
   extractTitle(response) {
     String extractedTitle;
@@ -103,6 +104,7 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
       setState(() {
         _urlTextController.clear();
         isPosting = false;
+        showPost = false;
       });
     } else {
       setState(() {
@@ -153,75 +155,86 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Expanded(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.70,
-            child: list(),
+    return Scaffold(
+      floatingActionButton:
+      (!showPost) ? FloatingActionButton(
+        onPressed: () {
+          showPost = true;
+          setState(() {});
+        },
+        child: Icon(Icons.add,color: Colors.white,),
+        backgroundColor: baseColor,
+      ) : Container(),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.70,
+              child: list(),
+            ),
           ),
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.10,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.75,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Enter Link to Post",
-                    labelStyle: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.black26),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: baseColor),
-                        borderRadius: BorderRadius.circular(7)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: baseColor),
-                        borderRadius: BorderRadius.circular(7)),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: baseColor),
-                        borderRadius: BorderRadius.circular(7)),
+          (showPost) ? SizedBox(
+            height: MediaQuery.of(context).size.height * 0.10,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.75,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: "Enter Link to Post",
+                      labelStyle: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black26),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: baseColor),
+                          borderRadius: BorderRadius.circular(7)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: baseColor),
+                          borderRadius: BorderRadius.circular(7)),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: baseColor),
+                          borderRadius: BorderRadius.circular(7)),
+                    ),
+                    keyboardType: TextInputType.url,
+                    controller: _urlTextController,
                   ),
-                  keyboardType: TextInputType.url,
-                  controller: _urlTextController,
                 ),
-              ),
-              (isPosting)
-                  ? Padding(
+                (isPosting)
+                    ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircularProgressIndicator(
+                    backgroundColor: baseColor,
+                  ),
+                )
+                    : Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.20,
+                    height: MediaQuery.of(context).size.height,
+                    child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: CircularProgressIndicator(
-                        backgroundColor: baseColor,
-                      ),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.20,
-                        height: MediaQuery.of(context).size.height,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(7)),
-                              color: baseColor,
-                              child: Icon(
-                                Icons.send,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  isPosting = true;
-                                  postFeed(_urlTextController.text);
-                                });
-                              }),
-                        ),
-                      ),
-                    )
-            ],
-          ),
-        ),
-      ],
+                      child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(7)),
+                          color: baseColor,
+                          child: Icon(
+                            Icons.send,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isPosting = true;
+                              postFeed(_urlTextController.text);
+                            });
+                          }),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ) : Container(),
+        ],
+      ),
     );
   }
 }
