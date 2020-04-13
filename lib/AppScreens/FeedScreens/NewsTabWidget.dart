@@ -57,11 +57,23 @@ class _NewsTabWidgetState extends State<NewsTabWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return (isLoading) ?
-    Center(child: Container(
-        width: MediaQuery.of(context).size.width * 0.35,
-        child: Image.asset("assets/washed_away_covid-19.gif"))) :
-    list();
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        tooltip: "Get your news link fact checked",
+        onPressed: () {
+          UrlData _urlData = new UrlData(url: chatUrl , title: "Chat : Send news links to get fact checked");
+          Navigator.pushNamed(context, '/webView', arguments: _urlData);
+        },
+        child: Icon(Icons.question_answer,color: Colors.white),
+        backgroundColor: baseColor,
+      ),
+      body: (isLoading) ?
+      Center(child: Container(
+          width: MediaQuery.of(context).size.width * 0.35,
+          child: Image.asset("assets/washed_away_covid-19.gif")))
+          :
+      list(),
+    );
   }
 
 }

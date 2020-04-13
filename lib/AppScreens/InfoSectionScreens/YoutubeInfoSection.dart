@@ -19,11 +19,11 @@ class _YoutubeInfoSectionState extends State<YoutubeInfoSection> {
 //  List<Video> videoList1 =[] ;
 //  List<Video> videoList2 =[] ;
 //  List<Video> videoList3 =[] ;
-  static String initVideoId = YoutubePlayer.convertUrlToId(initialVideoId);
-  String dropdownValue = "Know About Coronavirus";
-  String currentId = initVideoId;
-  int currentPlayList = 1;
-  int currIndex = 0;
+//  static String initVideoId = YoutubePlayer.convertUrlToId(initialVideoId);
+//  String dropdownValue = "Know About Coronavirus";
+//  String currentId = initVideoId;
+//  int currentPlayList = 1;
+//  int currIndex = 0;
 
   @override
   void initState() {
