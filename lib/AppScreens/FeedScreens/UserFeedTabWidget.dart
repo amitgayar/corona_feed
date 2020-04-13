@@ -148,9 +148,9 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
             return Image.asset("assets/no item to display.gif");
           } else
             return ListView.builder(
-            itemCount: snapshot.data.documents.length,
-            itemBuilder: (BuildContext context, int index) {
-              final item = snapshot.data.documents[index];
+                itemCount: snapshot.data.documents.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final item = snapshot.data.documents[index];
 //                 print("Item ${index+1} is ${item.runtimeType}");
               UrlData _urlData = new UrlData(url: item['url'], title: item['title']);
               return Padding(

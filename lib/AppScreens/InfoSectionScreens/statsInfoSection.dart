@@ -44,29 +44,49 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
     setState(() {});
   }
 
+  getDataFromStatistics() async {
+    GetStatistics _getStats = new GetStatistics();
+    await _getStats.getLocation();
+    await _getStats.getWorldCountryData();
+    await _getStats.getIndiaData();
+    return _getStats;
+    setState(() {});
+//    _getStats.getLocation().then((val) {
+//      _getStats.getWorldCountryData();
+//      _getStats.getIndiaData();
+//      state = _getStats.state;
+//      stateCasesText = _getStats.stateCasesText;
+//      cityCasesText = _getStats.cityCasesText ;
+//      city = _getStats.city;
+//      flagLink = _getStats.flagLink;
+//      countryTotalCases = _getStats.countryTotalCases;
+//      countryDeceasedCases = _getStats.countryDeceasedCases;
+//      stateCases = _getStats.stateCases.toString();
+//      cityCases = _getStats.cityCases;
+//      totalCasesWorld = _getStats.totalCasesWorld;
+//      deceasedCasesWorld  = _getStats.deceasedCasesWorld;
+//      inIndia = _getStats.inIndia;
+////      setState(() {});
+//    });
+  }
 
   @override
   void initState() {
     super.initState();
     getDataFromSharedPref();
-
-    GetStatistics _getStats = new GetStatistics();
-    _getStats.getLocation().then((val) {
-      _getStats.getWorldCountryData();
-      _getStats.getIndiaData();
-      state = _getStats.state;
-      stateCasesText = _getStats.stateCasesText;
-      cityCasesText = _getStats.cityCasesText ;
-      city = _getStats.city;
-      flagLink = _getStats.flagLink;
-      countryTotalCases = _getStats.countryTotalCases;
-      countryDeceasedCases = _getStats.countryDeceasedCases;
-      stateCases = _getStats.stateCases.toString();
-      cityCases = _getStats.cityCases;
-      totalCasesWorld = _getStats.totalCasesWorld;
-      deceasedCasesWorld  = _getStats.deceasedCasesWorld;
-      inIndia = _getStats.inIndia;
-//      setState(() {});
+    getDataFromStatistics().then((_getStats){
+        state = _getStats.state;
+        stateCasesText = _getStats.stateCasesText;
+        cityCasesText = _getStats.cityCasesText ;
+        city = _getStats.city;
+        flagLink = _getStats.flagLink;
+        countryTotalCases = _getStats.countryTotalCases;
+        countryDeceasedCases = _getStats.countryDeceasedCases;
+        stateCases = _getStats.stateCases.toString();
+        cityCases = _getStats.cityCases;
+        totalCasesWorld = _getStats.totalCasesWorld;
+        deceasedCasesWorld  = _getStats.deceasedCasesWorld;
+        inIndia = _getStats.inIndia;
     });
     setState(() {});
   }
@@ -244,8 +264,7 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
                                 color: Colors.grey[600],
                                 fontWeight: FontWeight.w500
                             ),
-                          )
-                              : SizedBox(
+                          ) : SizedBox(
                               width: MediaQuery.of(context).size.width * 0.10,
                               child: LinearProgressIndicator(backgroundColor: baseColor)
                           ),

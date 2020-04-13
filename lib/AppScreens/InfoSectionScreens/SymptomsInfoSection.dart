@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:modular_login/constants/constants.dart';
 
 class SymptomInfoSection extends StatelessWidget {
@@ -23,6 +22,7 @@ class SymptomInfoSection extends StatelessWidget {
 imageCard(item,color) {
   return Column(
     children: <Widget>[
+      (item['text'].isNotEmpty) ?
       Padding(
         padding: const EdgeInsets.all(10.0),
         child: Text(
@@ -33,7 +33,7 @@ imageCard(item,color) {
               color: color
           ),
         ),
-      ),
+      ) : Container(),
       Padding(
         padding: const EdgeInsets.all(10.0),
         child: Image.asset(item['img']),

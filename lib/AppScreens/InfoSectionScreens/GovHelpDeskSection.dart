@@ -30,36 +30,38 @@ class GovHelpDeskSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                  child:getCallCard(_contacts[0],context)
-              ),
-              Expanded(
-                  child:getCard(_contacts[1],context)
-              ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                    child:getCallCard(_contacts[0],context)
+                ),
+                Expanded(
+                    child:getCard(_contacts[1],context)
+                ),
 
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                  child:getCard(_contacts[2],context)
-              ),
-              Expanded(
-                  child:getCard(_contacts[3],context)
-              ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                    child:getCard(_contacts[2],context)
+                ),
+                Expanded(
+                    child:getCard(_contacts[3],context)
+                ),
 
-            ],
-          ),
-          Container(height: 20,)
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

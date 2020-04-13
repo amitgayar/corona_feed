@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:flutter_html/flutter_html.dart';
+
 ///title widget for listTile in Feeds
 title(title) {
   return Padding(
@@ -23,12 +25,16 @@ threeItemSubtitle(data1,data2,data3) {
     children: <Widget>[
       Padding(
         padding: const EdgeInsets.only(top: 10),
-        child: Text(
-          (data1.isNotEmpty) ? data1 : "Tap to Read" ,
-          style: TextStyle(
-              fontWeight: FontWeight.normal),
-          maxLines: 2,
-        ),
+        child:
+        (data1.isNotEmpty) ?
+        Html(
+          data: data1,
+          linkStyle: TextStyle(
+            color: Colors.black54,
+            fontWeight: FontWeight.normal,
+          ),
+        ) :
+        Text("Tap to Read")
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,14 +48,22 @@ threeItemSubtitle(data1,data2,data3) {
               maxLines: 1,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10,bottom: 10),
-            child: Text(
-              data3 ,
-              style: TextStyle(
-                  fontWeight: FontWeight.w300),
-              maxLines: 1,
-            ),
+          Row(
+            children: <Widget>[
+              Icon(
+                Icons.access_time,
+                size: 14,
+                color: Colors.grey,),
+              Padding(
+                padding: const EdgeInsets.only(top: 10,bottom: 10,left: 5),
+                child: Text(
+                  data3 ,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w300),
+                  maxLines: 1,
+                ),
+              ),
+            ],
           )
         ],
       )

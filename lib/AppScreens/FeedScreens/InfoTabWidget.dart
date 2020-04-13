@@ -23,7 +23,7 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(15,15,0,10),
+            padding: const EdgeInsets.fromLTRB(10,15,0,10),
             child: Text("CoronaVirus Statistics",
                 style: new TextStyle(
                     fontSize: 17,
@@ -41,7 +41,7 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15,15,0,10),
+            padding: const EdgeInsets.fromLTRB(10,15,0,10),
             child: Text("Understand Coronavirus",
                 style: new TextStyle(
                     fontSize: 17,
@@ -49,7 +49,7 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
                     fontWeight: FontWeight.w900)),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(8,8,8,0),
+            padding: const EdgeInsets.fromLTRB(8,0,8,0),
             child: Material(
               color: Colors.white,
               elevation: 2.0,
@@ -59,7 +59,7 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15,15,0,10),
+            padding: const EdgeInsets.fromLTRB(10,15,0,10),
             child: Text("Myth Busters",
                 style: new TextStyle(
                     fontSize: 17,
@@ -77,7 +77,7 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15,15,0,10),
+            padding: const EdgeInsets.fromLTRB(10,15,0,10),
             child: Text("CoronaVirus Videos",
                 style: new TextStyle(
                     fontSize: 17,
@@ -99,7 +99,7 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(15,15,0,10),
+                  padding: const EdgeInsets.fromLTRB(10,15,0,10),
                   child: Text("Government Helpdesk",
                       style: new TextStyle(
                           fontSize: 17,
@@ -107,7 +107,7 @@ class _InfoTabWidgetState extends State<InfoTabWidget> {
                           fontWeight: FontWeight.w900)),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(10,10,10,10),
+                  padding: const EdgeInsets.fromLTRB(10,0,10,10),
                   child: Material(
                     color: Colors.white,
                     elevation: 2.0,

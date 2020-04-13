@@ -26,7 +26,7 @@ const String myGovChannelId = 'UCTJpJk8bqQQEqeX58z8eimA';
 const List playlist =
     [ "PLGqF2Eq4iV7_vrLoZJiqJdptLlAlEBRRQ", /*Know About Coronavirus*/
       "PLGqF2Eq4iV78hhD6m_hDUV1b0C8_9X-sk", /*PM Narendra Modi on Coronavirus*/
-      "PLGqF2Eq4iV789JKyN_780aoZnDc954JvL"  /*Follow #COVID-19*/
+      "PL1a9DHjZmejE-Ep2PAu2OR8HBfLP0BLIk"  /*COVID-19 Management Ministry of Health & Family Welfare*/
     ];
 
 //Feed Filter Keywords.
