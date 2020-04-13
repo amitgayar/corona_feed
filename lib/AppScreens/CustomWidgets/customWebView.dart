@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:modular_login/AppScreens/FeedScreens/WebView.dart';
 import 'package:webview_media/webview_flutter.dart' as w;
 import 'package:modular_login/Models/UrlDataModel.dart';
-import 'package:webview_media/webview_flutter.dart' as w;
 
 
 class CustomWebView extends StatefulWidget {

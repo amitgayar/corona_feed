@@ -108,7 +108,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ),
           ListTile(
             onTap: (() {
-              UrlData _urlData = new UrlData(url: chatUrl , title: "Chat : Send News links to get fact checked");
+              UrlData _urlData = new UrlData(url: chatUrl , title: "Chat : Send news links to get fact checked");
               Navigator.pop(context);
               Navigator.pushNamed(context, '/webView', arguments: _urlData);
             }),
@@ -117,7 +117,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   color: baseColor
               ),
             ),
-            subtitle: Text("Send News links to get fact checked",
+            subtitle: Text("Send news links to get fact checked",
               style: TextStyle(
                   color: baseColor
               ),
