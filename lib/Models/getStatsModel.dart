@@ -6,11 +6,10 @@ import 'package:modular_login/constants/constants.dart';
 
 
 class GetStatistics {
-
   String countryTotalCases = "";
   String countryDeceasedCases = "" ;
-  int stateCases = 0;
-  int cityCases =0;
+  String stateCases = "0";
+  String cityCases = "";
   String stateCasesText = "";
   String cityCasesText = "";
   String countryCode = "";
@@ -25,14 +24,22 @@ class GetStatistics {
   getLocation() async{
     Map locationMap = jsonDecode(await getResponse(geoLocationUrl));
     print("loc : ${locationMap.toString()}");
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('country_code', locationMap['country_code']);
     countryCode = locationMap['country_code'];
+    prefs.setString('country_code', locationMap['country_code']);
     prefs.setString('country_name', locationMap['country_name']);
+
     city = locationMap['city'];
     prefs.setString('city', locationMap['city']);
+
     state = locationMap['state'];
     prefs.setString('state', locationMap['state']);
+
+    if(state == "National Capital Territory of Delhi"){
+      state = "Delhi";
+      prefs.setString('state', state+"(NCR)");
+    }
 
     if(locationMap['country_name'] == "India")
       inIndia = true;
@@ -70,21 +77,31 @@ class GetStatistics {
   }
 
   getIndiaData() async {
-    var json = jsonDecode(await getResponse(indiaDataUrl));
-    IndiaStatsExtractModel _indiaStats = IndiaStatsExtractModel.fromJson(json);
-    List<RawData> dataRows = _indiaStats.rawData;
-
-    for(int i=0; i<dataRows.length ; i++){
-      if(dataRows[i].detectedstate == state){
-//        print("detected City : ${dataRows[i].detectedcity}");
-        stateCases = stateCases + 1;
-      }
-      if(dataRows[i].detectedcity == city){
-        cityCases = cityCases + 1;
-      }
-    }
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt("stateCases", stateCases);
-    prefs.setInt("cityCases", cityCases);
+
+    int stateIndex;
+    var json;
+    IndiaStatsExtractModel _indiaStats;
+
+    await getResponse(indiaDataUrl).then((val) {
+      json = jsonDecode(val);
+      stateIndex = json.indexWhere((val) => val["state"].toString() == state);
+      if(stateIndex!=-1) {
+        _indiaStats = IndiaStatsExtractModel.fromJson(json[stateIndex]);
+
+        for(int i=0 ; i<_indiaStats.districtData.length ; i++){
+          stateCases = (int.parse(stateCases) + _indiaStats.districtData[i].confirmed).toString();
+          if(_indiaStats.districtData[i].district == city){
+            cityCases = _indiaStats.districtData[i].confirmed.toString();
+          }
+        }
+        if(city == "Delhi")  cityCases = stateCases;
+      }else{
+        stateCases = "-";
+        cityCases = "-";
+      }
+      prefs.setString("stateCases", stateCases);
+      prefs.setString("cityCases", cityCases);
+    });
   }
 }

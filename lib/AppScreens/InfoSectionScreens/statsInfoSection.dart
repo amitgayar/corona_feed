@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modular_login/AppScreens/FeedScreens/WebView.dart';
+import 'package:modular_login/Models/UrlDataModel.dart';
 import 'package:modular_login/Models/getStatsModel.dart';
 import 'package:modular_login/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,11 +16,11 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
   String stateCasesText;
   String cityCasesText ;
   String city;
-  String flagLink = "";
-  String countryTotalCases;
-  String countryDeceasedCases;
-  int stateCases;
-  int cityCases;
+  String flagLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/International_Flag_of_Planet_Earth.svg/800px-International_Flag_of_Planet_Earth.svg.png";
+  String countryTotalCases="";
+  String countryDeceasedCases="";
+  String stateCases;
+  String cityCases;
   String totalCasesWorld;
   String deceasedCasesWorld ;
   bool inIndia = false;
@@ -36,7 +36,7 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
     flagLink = pref.get("flagLink");
     countryTotalCases = pref.get("countryTotalCases");
     countryDeceasedCases = pref.get("countryDeceasedCases");
-    stateCases = pref.get("stateCases");
+    stateCases = pref.get("stateCases").toString();
     cityCases = pref.get("cityCases");
     totalCasesWorld = pref.get("totalCasesWorld");
     deceasedCasesWorld  = pref.get("deceasedCasesWorld");
@@ -44,28 +44,51 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
     setState(() {});
   }
 
+  getDataFromStatistics() async {
+    GetStatistics _getStats = new GetStatistics();
+    await _getStats.getLocation();
+    await _getStats.getWorldCountryData();
+    await _getStats.getIndiaData();
+    return _getStats;
+
+//    _getStats.getLocation().then((val) {
+//      _getStats.getWorldCountryData();
+//      _getStats.getIndiaData();
+//      state = _getStats.state;
+//      stateCasesText = _getStats.stateCasesText;
+//      cityCasesText = _getStats.cityCasesText ;
+//      city = _getStats.city;
+//      flagLink = _getStats.flagLink;
+//      countryTotalCases = _getStats.countryTotalCases;
+//      countryDeceasedCases = _getStats.countryDeceasedCases;
+//      stateCases = _getStats.stateCases.toString();
+//      cityCases = _getStats.cityCases;
+//      totalCasesWorld = _getStats.totalCasesWorld;
+//      deceasedCasesWorld  = _getStats.deceasedCasesWorld;
+//      inIndia = _getStats.inIndia;
+////      setState(() {});
+//    });
+  }
 
   @override
   void initState() {
     super.initState();
     getDataFromSharedPref();
-
-    GetStatistics _getStats = new GetStatistics();
-    _getStats.getLocation();
-    _getStats.getWorldCountryData();
-    _getStats.getIndiaData();
-    state = _getStats.state;
-    stateCasesText = _getStats.stateCasesText;
-    cityCasesText = _getStats.cityCasesText ;
-    city = _getStats.city;
-    flagLink = _getStats.flagLink;
-    countryTotalCases = _getStats.countryTotalCases;
-    countryDeceasedCases = _getStats.countryDeceasedCases;
-    stateCases = _getStats.stateCases;
-    cityCases = _getStats.cityCases;
-    totalCasesWorld = _getStats.totalCasesWorld;
-    deceasedCasesWorld  = _getStats.deceasedCasesWorld;
-    inIndia = _getStats.inIndia;
+    getDataFromStatistics().then((_getStats){
+        state = _getStats.state;
+        stateCasesText = _getStats.stateCasesText;
+        cityCasesText = _getStats.cityCasesText ;
+        city = _getStats.city;
+        flagLink = _getStats.flagLink;
+        countryTotalCases = _getStats.countryTotalCases;
+        countryDeceasedCases = _getStats.countryDeceasedCases;
+        stateCases = _getStats.stateCases.toString();
+        cityCases = _getStats.cityCases;
+        totalCasesWorld = _getStats.totalCasesWorld;
+        deceasedCasesWorld  = _getStats.deceasedCasesWorld;
+        inIndia = _getStats.inIndia;
+        setState(() {});
+    });
     setState(() {});
   }
 
@@ -87,7 +110,6 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
   }
 
   countryWidget()  {
-    if(state == "National Capital Territory of Delhi") state = "New Delhi";
     if(state!=null) stateCasesText = state + " Cases";
     if(city!=null) cityCasesText = city + " Cases";
 
@@ -98,10 +120,11 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            InkWell(
-                onTap: () => openStatsPage(),
-                child: Image.network(flagLink,width: MediaQuery.of(context).size.width * 0.10)
-            )
+        (flagLink!=null) ?
+        InkWell(
+            onTap: () => openStatsPage(),
+            child: Image.network(flagLink,width: MediaQuery.of(context).size.width * 0.10))
+            : CircularProgressIndicator()
           ],
         ),
         Column(
@@ -200,10 +223,10 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
                               ),
                             ),
                           ),
-                          (stateCases!=0) ? Padding(
+                          (stateCases!= "0") ? Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: Text(
-                              stateCases.toString(),
+                              stateCases ,
                               style: new TextStyle(
                                   color: Colors.grey[600],
                                   fontWeight: FontWeight.w500
@@ -236,8 +259,8 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
                               ),
                             ),
                           ),
-                          (cityCases!=0) ? Text(
-                            cityCases.toString(),
+                          (cityCases!=null) ? Text(
+                            cityCases ,
                             style: new TextStyle(
                                 color: Colors.grey[600],
                                 fontWeight: FontWeight.w500

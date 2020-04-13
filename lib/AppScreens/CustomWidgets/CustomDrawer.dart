@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modular_login/AppScreens/FeedScreens/WebView.dart';
+import 'package:modular_login/Models/UrlDataModel.dart';
 import 'package:modular_login/Services/AuthWithEmailPasswd.dart';
 import 'package:modular_login/Services/google_sign_in_auth.dart';
 import 'package:modular_login/constants/constants.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:modular_login/Models/UrlDataModel.dart';
 import 'package:modular_login/constants/constants.dart';
 import 'package:modular_login/AppScreens/FeedScreens/ListTileWidgetsModel.dart';
 import 'package:modular_login/constants/globals.dart';
 import '../../Models/RssFeedExtractionModel.dart';
-import 'WebView.dart';
 
 class NewsTabWidget extends StatefulWidget {
 
@@ -33,8 +33,8 @@ class _NewsTabWidgetState extends State<NewsTabWidget> {
               child: ListTile(
                 isThreeLine: true,
                 title: title(item.title),
-                subtitle: twoItemSubtitle(item.source.value.toString(),/*item.pubDate.toString()*/""),
-                trailing: thumbnail((item.enclosure != null) ? item.enclosure.url : null),
+                subtitle: threeItemSubtitle(item.description,item.source,item.pubDate),
+//                trailing: thumbnail((item.imageUrl != null) ? item.imageUrl : null),
                 onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
               ),
             ),

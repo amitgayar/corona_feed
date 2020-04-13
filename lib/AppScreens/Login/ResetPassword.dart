@@ -48,19 +48,30 @@ class _ResetPasswordState extends State<ResetPassword> {
           backgroundColor: bgColor,
           body: ListView(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: Container(
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    child: ResetPassword.logo
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Center(
+                    child: Container(
+                      child: Image.asset(coronaGIF),
+                    ),
+                  ),
+                  Text(
+                    appName,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Berkshire',
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                ],
               ), //LOGO
               Padding(
-                padding: const EdgeInsets.only(top: 50, left: 25, right: 25),
-                child: Material(
-                  color: Colors.white,
-                  elevation: 3.0,
-                  borderRadius: BorderRadius.circular(7),
+                padding: const EdgeInsets.only(top: 25, left: 25, right: 25),
+                child: Container(
+                  color: bgColor,
                   child: Padding(
                     padding: const EdgeInsets.all(15),
                     child: Column(
@@ -79,7 +90,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                             errorText: errMsg1,
                             errorStyle: TextStyle(color: Colors.indigo[900]),
                             labelText: "Enter Email",
-                            prefixIcon: Icon(Icons.email,color: baseColor),
+                            prefixIcon: Icon(Icons.email),
                             border: OutlineInputBorder(
                                 borderSide: BorderSide(color: baseColor),
                                 borderRadius: BorderRadius.circular(7)),
@@ -87,7 +98,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 borderSide: BorderSide(color: baseColor),
                                 borderRadius: BorderRadius.circular(7)),
                             enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: baseColor),
+                                borderSide: BorderSide(color: Colors.black26),
                                 borderRadius: BorderRadius.circular(7)),
                           ),
                           keyboardType: TextInputType.emailAddress,

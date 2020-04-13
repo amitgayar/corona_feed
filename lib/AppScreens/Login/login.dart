@@ -72,14 +72,25 @@ class _LoginState extends State<Login> {
   saveSharedPreference(Email) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('email', Email);
+
+    prefs.setString("state","");
+    prefs.setString("stateCasesText","");
+    prefs.setString("cityCasesText ","");
+    prefs.setString("city","");
+    prefs.setString("flagLink","");
+    prefs.setString("countryTotalCases","");
+    prefs.setString("countryDeceasedCases","");
+    prefs.setString("stateCases","");
+    prefs.setString("cityCases","");
+    prefs.setString("totalCasesWorld","");
+    prefs.setString("deceasedCasesWorld","");
+    prefs.setBool("inIndia",false);
   }
 
   @override
   void initState() {
     super.initState();
     GetStatistics _getStats = new GetStatistics();
-//    YoutubeInfoSection _ytis = new YoutubeInfoSection();
-
     _getStats.getLocation();
     _getStats.getWorldCountryData();
     _getStats.getIndiaData();
@@ -92,19 +103,30 @@ class _LoginState extends State<Login> {
           backgroundColor: bgColor,
           body: ListView(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: Container(
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    child: Login.logo
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Center(
+                    child: Container(
+                      child: Image.asset(coronaGIF),
+                    ),
+                  ),
+                  Text(
+                    appName,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Berkshire',
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                ],
               ), //LOGO
               Padding(
-                padding: const EdgeInsets.only(top: 50, left: 15, right: 15, bottom: 20),
-                child: Material(
-                  color: Colors.white,
-                  elevation: 3.0,
-                  borderRadius: BorderRadius.circular(7.0),
+                padding: const EdgeInsets.only(top: 25, left: 15, right: 15, bottom: 20),
+                child: Container(
+                  color: bgColor,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
@@ -128,7 +150,7 @@ class _LoginState extends State<Login> {
                               decoration: InputDecoration(
                                 errorText: errMsg1,
                                 errorStyle: TextStyle(color: Colors.indigo[900]),
-                                prefixIcon: Icon(Icons.email,color: baseColor,),
+                                prefixIcon: Icon(Icons.email,),
                                 labelText: "Enter Email",
                                 labelStyle: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -141,7 +163,7 @@ class _LoginState extends State<Login> {
                                     borderSide: BorderSide(color: baseColor),
                                     borderRadius: BorderRadius.circular(7)),
                                 enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: baseColor),
+                                    borderSide: BorderSide(color: Colors.black26),
                                     borderRadius: BorderRadius.circular(7)),
                               ),
                               keyboardType: TextInputType.emailAddress,
@@ -157,7 +179,7 @@ class _LoginState extends State<Login> {
                               decoration: InputDecoration(
                                 errorText: errMsg2,
                                 errorStyle: TextStyle(color: Colors.indigo[900]),
-                                prefixIcon: Icon(Icons.lock, color: baseColor),
+                                prefixIcon: Icon(Icons.lock, ),
                                 labelText: "Enter Password",
                                 labelStyle: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -170,7 +192,7 @@ class _LoginState extends State<Login> {
                                     borderSide: BorderSide(color: baseColor),
                                     borderRadius: BorderRadius.circular(7)),
                                 enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: baseColor),
+                                    borderSide: BorderSide(color: Colors.black26),
                                     borderRadius: BorderRadius.circular(7)),
                               ),
                               keyboardType: TextInputType.text,
@@ -240,13 +262,29 @@ class _LoginState extends State<Login> {
                   ],
                   ),
                 ), //Google SignIn Button
-              FlatButton(
-                onPressed: () {Navigator.pushNamed(context, '/SignUp');},
-                child: Text(
-                  'Don\'t have an Account ? Sign Up ',
-                  style: TextStyle(
-                    color: baseColor,
-                  ),
+              Padding(
+                padding: const EdgeInsets.only(top : 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Don\'t have an Account ? ',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500
+                      ),
+                    ),
+                    InkWell(
+                        onTap: () {Navigator.pushNamed(context, '/SignUp');},
+                        child: Text(
+                          'Sign Up ',
+                          style: TextStyle(
+                              color: baseColor,
+                              fontWeight: FontWeight.w900
+                          ),
+                        )
+                    ),
+                  ],
                 ),
               ),
             ],

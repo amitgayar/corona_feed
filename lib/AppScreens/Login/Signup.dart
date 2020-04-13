@@ -74,19 +74,30 @@ class _SignUpState extends State<SignUp> {
         backgroundColor: bgColor,
         body: ListView(
           children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Center(
+                  child: Container(
+                    child: Image.asset(coronaGIF),
+                  ),
+                ),
+                Text(
+                  appName,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Berkshire',
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              ],
+            ), //LOGO
             Padding(
-              padding: const EdgeInsets.only(top: 50),
+              padding: const EdgeInsets.only(top: 25, left: 15, right: 15, bottom: 20),
               child: Container(
-                  height: MediaQuery.of(context).size.height * 0.25,
-                  child: SignUp.logo
-              ),
-            ),  //LOGO
-            Padding(
-              padding: const EdgeInsets.only(top: 50, left: 15, right: 15, bottom: 20),
-              child: Material(
-                color: Colors.white,
-                elevation: 3.0,
-                borderRadius: BorderRadius.circular(7.0),
+                color: bgColor,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 20, left: 15, right: 15, bottom: 10),
                   child: Column(
@@ -105,7 +116,7 @@ class _SignUpState extends State<SignUp> {
                           errorText: errMsg1,
                           errorStyle: TextStyle(color: Colors.indigo[900]),
                           labelText: "Enter Email",
-                          prefixIcon: Icon(Icons.email,color: baseColor),
+                          prefixIcon: Icon(Icons.email,),
                           border: OutlineInputBorder(
                               borderSide: BorderSide(color: baseColor),
                               borderRadius: BorderRadius.circular(7)),
@@ -113,7 +124,7 @@ class _SignUpState extends State<SignUp> {
                               borderSide: BorderSide(color: baseColor),
                               borderRadius: BorderRadius.circular(7)),
                           enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: baseColor),
+                              borderSide: BorderSide(color: Colors.black26),
                               borderRadius: BorderRadius.circular(7)),
                         ),
                         keyboardType: TextInputType.emailAddress,
@@ -130,7 +141,7 @@ class _SignUpState extends State<SignUp> {
                           errorText: errMsg2,
                           errorStyle: TextStyle(color: Colors.indigo[900]),
                           labelText: "Enter Password",
-                          prefixIcon: Icon(Icons.lock,color: baseColor,),
+                          prefixIcon: Icon(Icons.lock,),
                           border: OutlineInputBorder(
                               borderSide: BorderSide(color: baseColor),
                               borderRadius: BorderRadius.circular(7)),
@@ -138,7 +149,7 @@ class _SignUpState extends State<SignUp> {
                               borderSide: BorderSide(color: baseColor),
                               borderRadius: BorderRadius.circular(7)),
                           enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: baseColor),
+                              borderSide: BorderSide(color: Colors.black26),
                               borderRadius: BorderRadius.circular(7)),
                         ),
                         keyboardType: TextInputType.text,
@@ -175,6 +186,9 @@ class _SignUpState extends State<SignUp> {
                                 else if (passwordTextController.text.isEmpty)
                                   Toast.show("Password cannot be Empty",context,
                                       duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+                                else if (passwordTextController.text.length < 8)
+                                  Toast.show("Password should be greater than 8 digits",context,
+                                      duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
                                 else {
                                   isLoading = true;
                                   registerUser();
@@ -207,14 +221,30 @@ class _SignUpState extends State<SignUp> {
                 ],
               ),
             ), //Google SignIn Button
-            FlatButton(
-              onPressed: () {Navigator.pushNamed(context, '/Login');},
-              child: Text(
-                'Already have an Account ? Login ',
-                style: TextStyle(
-                  color: baseColor,
-                ),  //Already Registered
-              )
+            Padding(
+              padding: const EdgeInsets.only(top : 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Already have an Account ? ',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500
+                    ),
+                  ),
+                  InkWell(
+                      onTap: () {Navigator.pushNamed(context, '/Login');},
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                            color: baseColor,
+                            fontWeight: FontWeight.w900
+                        ),
+                      )
+                  ),
+                ],
+              ),
             ),
           ],
         ),

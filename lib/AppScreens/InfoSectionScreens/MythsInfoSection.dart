@@ -12,40 +12,14 @@ class _MythsInfoSectionState extends State<MythsInfoSection> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     showAll = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    return
-      Column(
+    return Column(
         children: <Widget>[
-//          Padding(
-//            padding: const EdgeInsets.fromLTRB(10,10,10, 0),
-//            child: ListTile(
-//                title: Text(mythItemList[0]['myth'],
-//                    style: TextStyle(fontWeight: FontWeight.w500)),
-//                leading: ClipRect(child: Image.asset(mythItemList[0]['image']))
-//            ),
-//          ),
-//          Padding(
-//            padding: const EdgeInsets.fromLTRB(10,10,10, 0),
-//            child: ListTile(
-//                title: Text(mythItemList[1]['myth'],
-//                    style: TextStyle(fontWeight: FontWeight.w500)),
-//                leading: ClipRect(child: Image.asset(mythItemList[1]['image']))
-//            ),
-//          ),
-//          Padding(
-//            padding: const EdgeInsets.fromLTRB(10,10,10, 0),
-//            child: ListTile(
-//                title: Text(mythItemList[2]['myth'],
-//                    style: TextStyle(fontWeight: FontWeight.w500)),
-//                leading: ClipRect(child: Image.asset(mythItemList[2]['image']))
-//            ),
-//          ),
           ListView.builder(
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
@@ -67,18 +41,20 @@ class _MythsInfoSectionState extends State<MythsInfoSection> {
                 );
               }
           ),
-          Center(
-            child: ListTile(
-              title: Text((showAll) ?  "Show Less" : "Show More",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.w500,color: baseColor)),
-              trailing : (showAll) ?  Icon(Icons.keyboard_arrow_up) : Icon(Icons.keyboard_arrow_down),
-              onTap: () {
-                if(showAll) showAll = false;
-                else showAll = true;
-                setState((){});
-              },
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Text((showAll) ?  "Show Less" : "Show More",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.w500,color: baseColor)),
+              IconButton(
+                  icon: (showAll) ?  Icon(Icons.keyboard_arrow_up) : Icon(Icons.keyboard_arrow_down),
+                  onPressed: () {
+                    if(showAll) showAll = false;
+                    else showAll = true;
+                    setState((){});
+                  })
+            ],
           )
         ],
       );

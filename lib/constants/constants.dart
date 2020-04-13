@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+String appName = "Corona Feed";
+
 //List of URLS for Feed
 const List urlForFeed = [
   "https://news.google.com/rss/search?q=covid&hl=en-IN&gl=IN&ceid=IN:en"
@@ -16,7 +18,7 @@ const String chatUrl = "https://www.google.co.in/";
 
 const String geoLocationUrl = "https://geolocation-db.com/json/";
 const String worldDataUrl = "https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?limit=500";
-const String indiaDataUrl = "https://api.covid19india.org/raw_data.json";
+const String indiaDataUrl = "https://api.covid19india.org/v2/state_district_wise.json";
 
 const String API_KEY = "AIzaSyDcCRTwQn9ElRsDwh1U2OxF2-mPuJ2CKqQ";
 const String initialVideoId = "https://www.youtube.com/watch?v=TDDYniiL17A&list=PLGqF2Eq4iV7_vrLoZJiqJdptLlAlEBRRQ&index=2&t=0s";
@@ -24,7 +26,7 @@ const String myGovChannelId = 'UCTJpJk8bqQQEqeX58z8eimA';
 const List playlist =
     [ "PLGqF2Eq4iV7_vrLoZJiqJdptLlAlEBRRQ", /*Know About Coronavirus*/
       "PLGqF2Eq4iV78hhD6m_hDUV1b0C8_9X-sk", /*PM Narendra Modi on Coronavirus*/
-      "PLGqF2Eq4iV789JKyN_780aoZnDc954JvL"  /*Follow #COVID-19*/
+      "PL1a9DHjZmejE-Ep2PAu2OR8HBfLP0BLIk"  /*COVID-19 Management Ministry of Health & Family Welfare*/
     ];
 
 //Feed Filter Keywords.
@@ -79,7 +81,6 @@ const Color bgColor = Color.fromRGBO(252, 251, 254,1);
 getResponse(url) async{
   http.Client client = http.Client();
   http.Response response = await client.get(url);
-//  print("Response length : ${response.body.length}");
   return response.body;
 }
 
