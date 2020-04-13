@@ -68,6 +68,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "573149066523-s681l04lcigfntkomvimbgusm5crqaor.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.neuraltechwork.coronaupdates",
+            "certificate_hash": "f2ea79623b0fa82b9e4e25d39c0aefff34413739"
+          }
+        },
+        {
           "client_id": "573149066523-6gs135vqfmsi9ap5b608ncmmun451ti4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
