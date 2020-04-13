@@ -148,44 +148,47 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
             return Image.asset("assets/no item to display.gif");
           } else
             return ListView.builder(
-                itemCount: snapshot.data.documents.length,
+                itemCount: snapshot.data.documents.length + 1,
                 itemBuilder: (BuildContext context, int index) {
-                  final item = snapshot.data.documents[index];
-//                 print("Item ${index+1} is ${item.runtimeType}");
-              UrlData _urlData = new UrlData(url: item['url'], title: item['title']);
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(10,10, 10, 0),
-                child: Material(
-                  color: Colors.white,
-                  elevation: 2.0,
-                  borderRadius: BorderRadius.circular(7),
-                  shadowColor: baseColor,
-                  child: ListTile(
-                    isThreeLine: true,
-                    title: title(item['title']),
-                    subtitle: twoItemSubtitle(item['description'],(item['datePosted']).toDate().toString().substring(0,16)),
-                    leading: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CircleAvatar(
-                          backgroundColor: baseColor,
-                          child:
-                          (url==null) ?
-                          Text(
-                              (nameText == item['postedBy']) ? "ME" : item['postedBy'].toUpperCase().substring(0,1),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white
-                            ),
-                          ) :
-                          Image.network(url),
+                  if(index == 0){
+                    return Center(child: Image.asset("assets/userFeed.gif"));
+                  }else{
+                    final item = snapshot.data.documents[index-1];
+                    UrlData _urlData = new UrlData(url: item['url'], title: item['title']);
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(10,10, 10, 0),
+                      child: Material(
+                        color: Colors.white,
+                        elevation: 2.0,
+                        borderRadius: BorderRadius.circular(7),
+                        shadowColor: baseColor,
+                        child: ListTile(
+                          isThreeLine: true,
+                          title: title(item['title']),
+                          subtitle: twoItemSubtitle(item['description'],(item['datePosted']).toDate().toString().substring(0,16)),
+                          leading: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              CircleAvatar(
+                                backgroundColor: baseColor,
+                                child:
+                                (url==null) ?
+                                Text(
+                                  (nameText == item['postedBy']) ? "ME" : item['postedBy'].toUpperCase().substring(0,1),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white
+                                  ),
+                                ) :
+                                Image.network(url),
+                              ),
+                            ],
+                          ),
+                          onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
                         ),
-                      ],
-                    ),
-                    onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
-                  ),
-                ),
-              );
+                      ),
+                    );
+                  }
             });
       }
     );
@@ -205,7 +208,6 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
       ) : Container(),
       body: Column(
         children: <Widget>[
-          Center(child: Image.asset("assets/userFeed.gif")),
           Expanded(
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.70,
