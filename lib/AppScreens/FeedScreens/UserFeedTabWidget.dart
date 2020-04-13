@@ -199,81 +199,84 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
 
     return Scaffold(
       body: Stack(
-        alignment: Alignment.bottomRight,
           children: <Widget>[
             list(),
-            AnimatedCrossFade(
-                firstChild: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      showPost = true;
-                      setState(() {});
-                    },
-                    child: Icon(Icons.add,color: Colors.white,),
-                    backgroundColor: baseColor,
-                  ),
-                ),
-                secondChild: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.10,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.75,
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            labelText: "Enter Link to Post",
-                            labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold, color: Colors.black26),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(color: baseColor),
-                                borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: baseColor),
-                                borderRadius: BorderRadius.circular(7)),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: baseColor),
-                                borderRadius: BorderRadius.circular(7)),
-                          ),
-                          keyboardType: TextInputType.url,
-                          controller: _urlTextController,
-                        ),
-                      ),
-                      (isPosting) ?
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CircularProgressIndicator(backgroundColor: baseColor),
-                      ) :
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.20,
-                          height: MediaQuery.of(context).size.height,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: RaisedButton(
-                                shape: RoundedRectangleBorder(
+            Align(
+              alignment : Alignment.bottomRight,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      child: AnimatedCrossFade(
+                         firstCurve:
+                    const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
+                secondCurve:
+                    const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
+                sizeCurve: Curves.fastOutSlowIn,
+                          firstChild: Container(),
+                          secondChild: Container(
+                            color: Colors.white,
+
+//                          height: MediaQuery.of(context).size.height * 0.10,
+//                      height: 80,
+//                                width: MediaQuery.of(context).size.width,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                labelText: "Enter Link to Post",
+                                labelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold, color: Colors.black26),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: baseColor),
                                     borderRadius: BorderRadius.circular(7)),
-                                color: baseColor,
-                                child: Icon(
-                                  Icons.send,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    isPosting = true;
-                                    postFeed(_urlTextController.text);
-                                  });
-                                }),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: baseColor),
+                                    borderRadius: BorderRadius.circular(7)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: baseColor),
+                                    borderRadius: BorderRadius.circular(7)),
+                              ),
+                              keyboardType: TextInputType.url,
+                              controller: _urlTextController,
+                            ),
                           ),
-                        ),
-                      )
-                    ],
+                          crossFadeState: showPost ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                          duration: Duration(milliseconds: 400)
+                      ),
+                    ),
                   ),
-                ),
-                crossFadeState: showPost ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                duration: Duration(milliseconds: 400)
+                   Padding(
+                                           padding: EdgeInsets.all(12),
+                     child: DecoratedBox(
+                       decoration: BoxDecoration(
+                         shape: BoxShape.circle,
+                         color: baseColor
+                       ),
+                       child: InkWell(
+                            onTap: () {
+                              if(showPost){
+//                                    isPosting = true;
+                                        showPost = !showPost;
+                                    postFeed(_urlTextController.text);
+                              }
+                              else {
+                                showPost = !showPost;
+                              }
+                              setState(() {});
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(12),
+                              child:!showPost ?Icon(Icons.add,color: Colors.white,):Icon(
+                                      Icons.send,
+                                      color: Colors.white,
+                                    )
+                            ),
+                          ),
+                     ),
+                   ),
+                ],
+              ),
             ),
           ]
       ),
