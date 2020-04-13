@@ -50,7 +50,7 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
     await _getStats.getWorldCountryData();
     await _getStats.getIndiaData();
     return _getStats;
-    setState(() {});
+
 //    _getStats.getLocation().then((val) {
 //      _getStats.getWorldCountryData();
 //      _getStats.getIndiaData();
@@ -87,6 +87,7 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
         totalCasesWorld = _getStats.totalCasesWorld;
         deceasedCasesWorld  = _getStats.deceasedCasesWorld;
         inIndia = _getStats.inIndia;
+        setState(() {});
     });
     setState(() {});
   }

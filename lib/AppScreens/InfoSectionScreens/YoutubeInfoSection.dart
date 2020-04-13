@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:modular_login/Models/youtubeVideoModel.dart';
 import 'package:modular_login/Services/youtubeApiService.dart';
 import 'package:modular_login/constants/constants.dart';
+import 'package:modular_login/constants/globals.dart';
 import 'package:toast/toast.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -12,69 +13,12 @@ class YoutubeInfoSection extends StatefulWidget {
 }
 
 class _YoutubeInfoSectionState extends State<YoutubeInfoSection> {
-//
-//  YoutubePlayerController _controller;
-//  PlayerState _playerState;
-//  YoutubeMetaData _videoMetaData;
-//  double _volume = 100;
-//  bool _muted = false;
-//  bool _isPlayerReady = false;
-//
-//  List videoId = [
-//    'lgkZC_Ss6YE'
-////    YoutubePlayer.convertUrlToId(youtubeUrl1),
-////    YoutubePlayer.convertUrlToId(youtubeUrl2),
-////    YoutubePlayer.convertUrlToId(youtubeUrl3),
-//  ];
-//
-//  @override
-//  void initState() {
-//    super.initState();
-//    _controller = YoutubePlayerController(
-//      initialVideoId: videoId.first,
-//      flags: YoutubePlayerFlags(
-//        mute: false,
-//        controlsVisibleAtStart :true,
-//        autoPlay: false,
-//        disableDragSeek: false,
-//        loop: false,
-//        isLive: false,
-//        forceHideAnnotation: true,
-//        forceHD: false,
-//        enableCaption: true,
-//      ),
-//    )..addListener(listener);
-//    _videoMetaData = YoutubeMetaData();
-//    _playerState = PlayerState.unknown;
-//  }
-//
-//  void listener() {
-//    if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
-//      setState(() {
-//        _playerState = _controller.value.playerState;
-//        _videoMetaData = _controller.metadata;
-//      });
-//    }
-//  }
-//
-//  @override
-//  void deactivate() {
-//    // Pauses video while navigating to next page.
-//    _controller.pause();
-//    super.deactivate();
-//  }
-//
-//  @override
-//  void dispose() {
-//    _controller.dispose();
-//    super.dispose();
-//  }
 
   YoutubePlayerController _controller;
-  List<Video> videoList =[] ;
-  List<Video> videoList1 =[] ;
-  List<Video> videoList2 =[] ;
-  List<Video> videoList3 =[] ;
+//  List<Video> videoList =[] ;
+//  List<Video> videoList1 =[] ;
+//  List<Video> videoList2 =[] ;
+//  List<Video> videoList3 =[] ;
   static String initVideoId = YoutubePlayer.convertUrlToId(initialVideoId);
   String dropdownValue = "Know About Coronavirus";
   String currentId = initVideoId;
@@ -84,35 +28,46 @@ class _YoutubeInfoSectionState extends State<YoutubeInfoSection> {
   @override
   void initState() {
     super.initState();
-    _initPlayerVideos();
-    _loadVideoList();
+    _initPlayerVideos().whenComplete(()=>  _loadVideoList());
     _initController(currentId);
     setState(() {});
   }
 
   _initPlayerVideos() async {
     print("Entered in _initPlayerVideos");
-    videoList1 = await APIService.instance.fetchVideosFromPlaylist(playlistId: "PLGqF2Eq4iV7_vrLoZJiqJdptLlAlEBRRQ");
-    videoList2 = await APIService.instance.fetchVideosFromPlaylist(playlistId: "PLGqF2Eq4iV78hhD6m_hDUV1b0C8_9X-sk");
-    videoList3 = await APIService.instance.fetchVideosFromPlaylist(playlistId: "PL1a9DHjZmejE-Ep2PAu2OR8HBfLP0BLIk");
+    if (videoList1.length == 0) {
+      videoList1 = await APIService.instance.fetchVideosFromPlaylist(playlistId: "PLGqF2Eq4iV7_vrLoZJiqJdptLlAlEBRRQ");
+      print("Inside _initPlayerVideos after loading videoList1 ${videoList1.length}");
+    }
+    if (videoList2.length == 0) {
+      videoList2 = await APIService.instance.fetchVideosFromPlaylist(playlistId: "PLGqF2Eq4iV78hhD6m_hDUV1b0C8_9X-sk");
+      print("Inside _initPlayerVideos after loading videoList2 ${videoList2.length}");
+    }
+    if (videoList3.length == 0) {
+      videoList3 = await APIService.instance.fetchVideosFromPlaylist(playlistId: "PL1a9DHjZmejE-Ep2PAu2OR8HBfLP0BLIk");
+      print("Inside _initPlayerVideos after loading videoList3 ${videoList3.length}");
+    }
+    setState(() {});
   }
 
   _loadVideoList() async{
-    if (currentPlayList == 1) {
-      print("Length of videolist1 ${videoList1.length}");
-      videoList.addAll(videoList1);
-      print("Video Length on adding videolist1 ${videoList.length}");
-    }else if (currentPlayList == 2) {
-      print("Length ofvideolist2 ${videoList2.length}");
-      videoList.addAll(videoList2);
-      print("Video Length on adding videolist2 ${videoList.length}");
-    }else if (currentPlayList == 3){
-      print("Length ofvideolist3 ${videoList3.length}");
-      videoList.addAll(videoList3);
-      print("Video Length on adding videolist3 ${videoList.length}");
+    if (videoList.length == 0) {
+      if (currentPlayList == 1) {
+        print("Length of videolist1 ${videoList1.length}");
+        videoList.addAll(videoList1);
+        print("Video Length on adding videolist1 ${videoList.length}");
+      }else if (currentPlayList == 2) {
+        print("Length ofvideolist2 ${videoList2.length}");
+        videoList.addAll(videoList2);
+        print("Video Length on adding videolist2 ${videoList.length}");
+      }else if (currentPlayList == 3){
+        print("Length ofvideolist3 ${videoList3.length}");
+        videoList.addAll(videoList3);
+        print("Video Length on adding videolist3 ${videoList.length}");
+      }
     }
+    setState(() {});
   }
-
 
   _initController(initial) {
     _controller = YoutubePlayerController(
@@ -125,6 +80,7 @@ class _YoutubeInfoSectionState extends State<YoutubeInfoSection> {
   }
 
   buildVideoPlayer() {
+    print("Inside BuildVideoPlayer");
     print("VideoList Length ${videoList.length}");
     currentId = initVideoId;
     return Padding(
@@ -132,11 +88,13 @@ class _YoutubeInfoSectionState extends State<YoutubeInfoSection> {
       child: YoutubePlayer(
         controller: _controller,
         onReady: () => _controller.pause(),
-        onEnded: (data) {
-          Toast.show("Loading Next Video", context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+        onEnded: (val) {
+          print("Inside build onEnded val $val");
           currIndex = currIndex+1;
           currentId = videoList[currIndex].id;
+          print("Inside build onEnded ${videoList.length}");
           _controller.load(videoList[currIndex].id);
+          Toast.show("Loading Next Video", context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
         },
         showVideoProgressIndicator : true
       ),
@@ -145,6 +103,7 @@ class _YoutubeInfoSectionState extends State<YoutubeInfoSection> {
 
   @override
   Widget build(BuildContext context) {
+    print("Inside Buil");
     return Column(
       children: <Widget>[
         Container(

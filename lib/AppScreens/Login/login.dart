@@ -72,13 +72,25 @@ class _LoginState extends State<Login> {
   saveSharedPreference(Email) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('email', Email);
+
+    prefs.setString("state","");
+    prefs.setString("stateCasesText","");
+    prefs.setString("cityCasesText ","");
+    prefs.setString("city","");
+    prefs.setString("flagLink","");
+    prefs.setString("countryTotalCases","");
+    prefs.setString("countryDeceasedCases","");
+    prefs.setString("stateCases","");
+    prefs.setString("cityCases","");
+    prefs.setString("totalCasesWorld","");
+    prefs.setString("deceasedCasesWorld","");
+    prefs.setBool("inIndia",false);
   }
 
   @override
   void initState() {
     super.initState();
     GetStatistics _getStats = new GetStatistics();
-//    YoutubeInfoSection _ytis = new YoutubeInfoSection();
     _getStats.getLocation();
     _getStats.getWorldCountryData();
     _getStats.getIndiaData();
