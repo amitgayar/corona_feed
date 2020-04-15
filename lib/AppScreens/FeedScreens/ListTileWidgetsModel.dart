@@ -36,35 +36,31 @@ threeItemSubtitle(data1,data2,data3) {
         ) :
         Text("Tap to Read")
       ),
+      Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: Text(
+          data2 ,
+          style: TextStyle(
+            fontWeight: FontWeight.w300,
+          ),
+          maxLines: 1,
+        ),
+      ),
       Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
+          Icon(
+            Icons.access_time,
+            size: 14,
+            color: Colors.grey,),
           Padding(
-            padding: const EdgeInsets.only(top: 10,bottom: 10),
+            padding: const EdgeInsets.only(top: 10,bottom: 10,left: 5),
             child: Text(
-              data2 ,
+              data3 ,
               style: TextStyle(
                   fontWeight: FontWeight.w300),
               maxLines: 1,
             ),
           ),
-          Row(
-            children: <Widget>[
-              Icon(
-                Icons.access_time,
-                size: 14,
-                color: Colors.grey,),
-              Padding(
-                padding: const EdgeInsets.only(top: 10,bottom: 10,left: 5),
-                child: Text(
-                  data3 ,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w300),
-                  maxLines: 1,
-                ),
-              ),
-            ],
-          )
         ],
       )
     ],

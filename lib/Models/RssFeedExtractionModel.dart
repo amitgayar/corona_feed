@@ -30,6 +30,7 @@ class RssFeedModel {
                 description: _tempRssItemList[i][j].description,
                 link : _tempRssItemList[i][j].link,
                 pubDate: _tempRssItemList[i][j].pubDate.toString(),
+                showDate : _tempRssItemList[i][j].pubDate.toString(),
                 source: _tempRssItemList[i][j].source.value,
                 imageUrl: ""
               );
@@ -65,7 +66,7 @@ class RssFeedModel {
       case "Nov" :  {newDate = newDate + "11" + "-";break;}
       case "Dec" :  {newDate = newDate + "12" + "-";break;}
   }
-  newDate = newDate + pubDate.substring(5,7);
+  newDate = newDate + pubDate.substring(5,7) + " " +  pubDate.substring(17,25);
 //    print("NewDat: $newDate");
     return newDate;
   }

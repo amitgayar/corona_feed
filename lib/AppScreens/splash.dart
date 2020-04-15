@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:modular_login/constants/constants.dart';
+import '../Models/LoadYoutubeModel.dart';
+import '../Models/getStatsModel.dart';
+import '../constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'FeedScreens/HomePage.dart';
 
@@ -10,12 +12,42 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
 
+  // ignore: non_constant_identifier_names
+  saveSharedPreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("state","");
+    prefs.setString("stateCasesText","");
+    prefs.setString("cityCasesText ","");
+    prefs.setString("city","");
+    prefs.setString("flagLink","https://www.worldometers.info/img/flags/in-flag.gif");
+    prefs.setString("countryTotalCases","");
+    prefs.setString("countryDeceasedCases","");
+    prefs.setString("stateCases","");
+    prefs.setString("cityCases","");
+    prefs.setString("totalCasesWorld","");
+    prefs.setString("deceasedCasesWorld","");
+    prefs.setBool("inIndia",false);
+  }
+
+  GetStatistics _getStats = new GetStatistics();
+  LoadYoutube _loadVideos = new LoadYoutube();
+
   @override
   void initState(){
     super.initState();
+
+    saveSharedPreference();
+
+    _getStats.getLocation();
+    _getStats.getWorldCountryData();
+    _getStats.getIndiaData();
+
+    _loadVideos.loadPlayerVideos().whenComplete(()=>  _loadVideos.loadVideoList());
+
+//    _loadVideos._initPlayerVideos().whenComplete(()=>  _loadVideos._loadVideoList());
+
     _checkForSession().then((status) {
-          if (status)
-            _navigate();
+          if (status) _navigate();
     });
   }
 

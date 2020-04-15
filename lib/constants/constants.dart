@@ -86,8 +86,8 @@ getResponse(url) async{
 
 //TextField Validator function
 String validate(String val,int type) {
-  if (val.isEmpty)                             return "Can't be Empty";
-  else if (val.length < 3)                          return "Can't be less than 3";
+  if (val.isEmpty)                           return "Field Can't be Empty";
+  else if (val.length < 3 && type == 3)      return "Can't be less than 3";
   else if (val.length > 6 && type == 5)      return "Can't be greater than 6";
   else if (val.length < 8 && type == 4)      return "Can't be less than 8";
   else if (type == 1 && val.length != 10)    return "must be of 10 digits";

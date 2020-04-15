@@ -50,24 +50,6 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
     await _getStats.getWorldCountryData();
     await _getStats.getIndiaData();
     return _getStats;
-
-//    _getStats.getLocation().then((val) {
-//      _getStats.getWorldCountryData();
-//      _getStats.getIndiaData();
-//      state = _getStats.state;
-//      stateCasesText = _getStats.stateCasesText;
-//      cityCasesText = _getStats.cityCasesText ;
-//      city = _getStats.city;
-//      flagLink = _getStats.flagLink;
-//      countryTotalCases = _getStats.countryTotalCases;
-//      countryDeceasedCases = _getStats.countryDeceasedCases;
-//      stateCases = _getStats.stateCases.toString();
-//      cityCases = _getStats.cityCases;
-//      totalCasesWorld = _getStats.totalCasesWorld;
-//      deceasedCasesWorld  = _getStats.deceasedCasesWorld;
-//      inIndia = _getStats.inIndia;
-////      setState(() {});
-//    });
   }
 
   @override
@@ -93,9 +75,16 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
   }
 
   @override
+  void setState(fn) {
+    if(mounted){
+      super.setState(fn);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(15,15,15,10),
       child: Column(
         children: <Widget>[
           countryWidget(),
@@ -103,7 +92,25 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
             padding: const EdgeInsets.all(10.0),
             child: Divider(),
           ),
-          worldWidget()
+          worldWidget(),
+          Padding(
+            padding: const EdgeInsets.only(top : 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                InkWell(
+                    onTap: () => openStatsPage(),
+                    child: Text(
+                      'Show More',
+                      style: TextStyle(
+                          color: baseColor,
+                          fontWeight: FontWeight.w500
+                      ),
+                    )
+                )
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -120,11 +127,7 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-        (flagLink!=null) ?
-        InkWell(
-            onTap: () => openStatsPage(),
-            child: Image.network(flagLink,width: MediaQuery.of(context).size.width * 0.10))
-            : CircularProgressIndicator()
+            Image.network(flagLink,width: MediaQuery.of(context).size.width * 0.10)
           ],
         ),
         Column(
@@ -223,10 +226,11 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
                               ),
                             ),
                           ),
-                          (stateCases!= "0") ? Padding(
+                          (stateCases.isNotEmpty) ?
+                          Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: Text(
-                              stateCases ,
+                              stateCases,
                               style: new TextStyle(
                                   color: Colors.grey[600],
                                   fontWeight: FontWeight.w500
@@ -259,8 +263,8 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
                               ),
                             ),
                           ),
-                          (cityCases!=null) ? Text(
-                            cityCases ,
+                          (cityCases.isNotEmpty) ? Text(
+                            cityCases,
                             style: new TextStyle(
                                 color: Colors.grey[600],
                                 fontWeight: FontWeight.w500
@@ -290,10 +294,7 @@ class _StatsInfoSectionState extends State<StatsInfoSection> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            InkWell(
-                onTap: () => openStatsPage(),
-                child: Image.asset("assets/worldIcon.png", width: MediaQuery.of(context).size.width *0.10)
-            ),
+            Image.asset("assets/worldIcon.png", width: MediaQuery.of(context).size.width *0.10)
           ],
         ),
         Column(

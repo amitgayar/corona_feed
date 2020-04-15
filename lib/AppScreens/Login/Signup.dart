@@ -93,7 +93,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 )
               ],
-            ), //LOGO
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 25, left: 15, right: 15, bottom: 20),
               child: Container(
@@ -178,22 +178,23 @@ class _SignUpState extends State<SignUp> {
                             color: baseColor,
                             child: Text("SIGN UP"),
                             onPressed: ()  {
-                              setState(() {
-//                                print(emailTextController.text + " " + passwordTextController.text);
+                              if(errMsg1 == null && errMsg2 == null){
                                 if (emailTextController.text.isEmpty)
                                   Toast.show("Email cannot be Empty",context,
                                       duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
                                 else if (passwordTextController.text.isEmpty)
                                   Toast.show("Password cannot be Empty",context,
                                       duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
-                                else if (passwordTextController.text.length < 8)
-                                  Toast.show("Password should be greater than 8 digits",context,
-                                      duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
-                                else {
-                                  isLoading = true;
-                                  registerUser();
-                                }
-                              });
+                                else
+                                  setState(() {
+//                                print(emailTextController.text + " " + passwordTextController.text);
+                                    isLoading = true;
+                                    registerUser();
+                                  });
+                              }else{
+                                Toast.show("Please resolve field errors to continue",
+                                    context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+                              }
                             },
                           ),
                         ],

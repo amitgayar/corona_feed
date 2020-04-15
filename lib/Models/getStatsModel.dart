@@ -8,7 +8,7 @@ import 'package:modular_login/constants/constants.dart';
 class GetStatistics {
   String countryTotalCases = "";
   String countryDeceasedCases = "" ;
-  String stateCases = "0";
+  String stateCases = "";
   String cityCases = "";
   String stateCasesText = "";
   String cityCasesText = "";
@@ -38,7 +38,7 @@ class GetStatistics {
 
     if(state == "National Capital Territory of Delhi"){
       state = "Delhi";
-      prefs.setString('state', state+"(NCR)");
+      prefs.setString('state', state+" (NCR)");
     }
 
     if(locationMap['country_name'] == "India")
@@ -89,6 +89,7 @@ class GetStatistics {
       if(stateIndex!=-1) {
         _indiaStats = IndiaStatsExtractModel.fromJson(json[stateIndex]);
 
+        stateCases="0";
         for(int i=0 ; i<_indiaStats.districtData.length ; i++){
           stateCases = (int.parse(stateCases) + _indiaStats.districtData[i].confirmed).toString();
           if(_indiaStats.districtData[i].district == city){
@@ -96,9 +97,6 @@ class GetStatistics {
           }
         }
         if(city == "Delhi")  cityCases = stateCases;
-      }else{
-        stateCases = "-";
-        cityCases = "-";
       }
       prefs.setString("stateCases", stateCases);
       prefs.setString("cityCases", cityCases);

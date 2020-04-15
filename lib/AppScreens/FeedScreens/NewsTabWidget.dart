@@ -33,7 +33,7 @@ class _NewsTabWidgetState extends State<NewsTabWidget> {
               child: ListTile(
                 isThreeLine: true,
                 title: title(item.title),
-                subtitle: threeItemSubtitle(item.description,item.source,item.pubDate),
+                subtitle: threeItemSubtitle(item.description,item.source,item.showDate),
 //                trailing: thumbnail((item.imageUrl != null) ? item.imageUrl : null),
                 onTap: () => Navigator.pushNamed(context, '/webView', arguments: _urlData),
               ),
@@ -41,6 +41,13 @@ class _NewsTabWidgetState extends State<NewsTabWidget> {
           );
         }
     );
+  }
+
+  @override
+  void setState(fn) {
+    if(mounted){
+      super.setState(fn);
+    }
   }
 
   @override

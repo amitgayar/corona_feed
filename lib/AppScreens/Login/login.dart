@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:modular_login/AppScreens/InfoSectionScreens/YoutubeInfoSection.dart';
-import 'package:modular_login/Models/getStatsModel.dart';
 
 import 'package:modular_login/Services/AuthWithEmailPasswd.dart';
 import 'package:modular_login/Services/google_sign_in_auth.dart';
@@ -24,7 +22,7 @@ class _LoginState extends State<Login> {
 
   final AuthService _auth = AuthService();
 
-  String errMsg1, errMsg2 ;
+  String errMsg1, errMsg2;
   bool isLoading = false;
   bool isAccountVerified = true;
 
@@ -72,28 +70,6 @@ class _LoginState extends State<Login> {
   saveSharedPreference(Email) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('email', Email);
-
-    prefs.setString("state","");
-    prefs.setString("stateCasesText","");
-    prefs.setString("cityCasesText ","");
-    prefs.setString("city","");
-    prefs.setString("flagLink","");
-    prefs.setString("countryTotalCases","");
-    prefs.setString("countryDeceasedCases","");
-    prefs.setString("stateCases","");
-    prefs.setString("cityCases","");
-    prefs.setString("totalCasesWorld","");
-    prefs.setString("deceasedCasesWorld","");
-    prefs.setBool("inIndia",false);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    GetStatistics _getStats = new GetStatistics();
-    _getStats.getLocation();
-    _getStats.getWorldCountryData();
-    _getStats.getIndiaData();
   }
 
   @override
@@ -227,11 +203,22 @@ class _LoginState extends State<Login> {
                                   textColor: Colors.white,
                                   child: Text("LOGIN",),
                                   onPressed: () {
-                                    setState(() {
+                                    if(errMsg1 == null && errMsg2 == null){
+                                      if (emailTextController.text.isEmpty)
+                                        Toast.show("Email cannot be Empty",context,
+                                            duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+                                      else if (passwordTextController.text.isEmpty)
+                                        Toast.show("Password cannot be Empty",context,
+                                            duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+                                      else setState(() {
 //                                  print(emailTextController.text + " " + passwordTextController.text);
-                                      isLoading = true;
-                                      authenticateUser();
-                                    });
+                                        isLoading = true;
+                                        authenticateUser();
+                                      });
+                                    }else{
+                                      Toast.show("Please resolve field errors to continue",
+                                          context, duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+                                    }
                                   },
                                 ),
                               ],

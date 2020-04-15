@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:modular_login/Models/CRUDModel.dart';
 import 'package:modular_login/Models/UrlDataModel.dart';
 import 'package:modular_login/Services/AuthWithEmailPasswd.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import '../../constants/constants.dart';
 import 'package:modular_login/AppScreens/FeedScreens/ListTileWidgetsModel.dart';
@@ -14,6 +15,7 @@ class UserFeedTabWidget extends StatefulWidget {
 }
 
 class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
+
   TextEditingController _urlTextController = new TextEditingController();
   FirebaseUser _currentUser;
   final AuthService _auth = AuthService();
@@ -51,20 +53,17 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
       return "Tap for Details";
   }
 
-  getCurrentUserImage() async {
-    url = await FirebaseAuth.instance.currentUser().then((_currentUser) {
-      return _currentUser.photoUrl;
-    }).catchError((onError) {
-      print("IN CRUD MODEL ERROR photo Fetch : " + onError.toString());
-    });
-  }
+//  getCurrentUserImage() async {
+//    url = await FirebaseAuth.instance.currentUser().then((_currentUser) {
+//      return _currentUser.photoUrl;
+//    }).catchError((onError) {
+//      print("IN CRUD MODEL ERROR photo Fetch : " + onError.toString());
+//    });
+//  }
 
   getCurrentUserName() async {
-    nameText = await FirebaseAuth.instance.currentUser().then((_currentUser) {
-      return _currentUser.email;
-    }).catchError((onError) {
-      print("IN CRUD MODEL ERROR name Fetch : " + onError.toString());
-    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    nameText = prefs.get('email');
   }
 
   postFeed(url) async   {
@@ -129,11 +128,11 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
   @override
   void initState() {
     super.initState();
-    getCurrentUserImage();
     getCurrentUserName();
   }
 
   list() {
+    print("Buidling List");
     return StreamBuilder(
         stream: Firestore.instance.collection("CommunityFeed").orderBy("datePosted",descending: true).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -167,20 +166,20 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
                           title: title(item['title']),
                           subtitle: twoItemSubtitle(item['description'],(item['datePosted']).toDate().toString().substring(0,16)),
                           leading: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               CircleAvatar(
-                                backgroundColor: baseColor,
+                                backgroundColor:
+                                (nameText == item['postedBy']) ? baseColor : Colors.blue,
                                 child:
-                                (url==null) ?
                                 Text(
-                                  (nameText == item['postedBy']) ? "ME" : item['postedBy'].toUpperCase().substring(0,1),
+                                  (item['postedBy'] == nameText) ? "ME" : item['postedBy'].toUpperCase().substring(0,1),
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white
                                   ),
-                                ) :
-                                Image.network(url),
+                                )
                               ),
                             ],
                           ),
@@ -210,71 +209,70 @@ class _UserFeedTabWidgetState extends State<UserFeedTabWidget> {
                     child: Container(
                       padding: EdgeInsets.all(8),
                       child: AnimatedCrossFade(
-                         firstCurve:
-                    const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
-                secondCurve:
-                    const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
-                sizeCurve: Curves.fastOutSlowIn,
+                          firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
+                          secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
+                          sizeCurve: Curves.linear,
                           firstChild: Container(),
                           secondChild: Container(
-                            color: Colors.white,
-
-//                          height: MediaQuery.of(context).size.height * 0.10,
-//                      height: 80,
-//                                width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(7)
+                            ),
                             child: TextFormField(
                               decoration: InputDecoration(
-                                labelText: "Enter Link to Post",
+                                hintText: "Enter Link to Post",
                                 labelStyle: TextStyle(
-                                    fontWeight: FontWeight.bold, color: Colors.black26),
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black26
+                                ),
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide(color: baseColor),
-                                    borderRadius: BorderRadius.circular(7)),
+                                    borderRadius: BorderRadius.circular(7)
+                                ),
                                 focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(color: baseColor),
-                                    borderRadius: BorderRadius.circular(7)),
+                                    borderRadius: BorderRadius.circular(7)
+                                ),
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(color: baseColor),
-                                    borderRadius: BorderRadius.circular(7)),
+                                    borderRadius: BorderRadius.circular(7)
+                                ),
                               ),
                               keyboardType: TextInputType.url,
                               controller: _urlTextController,
                             ),
                           ),
                           crossFadeState: showPost ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                          duration: Duration(milliseconds: 400)
+                          duration: Duration(milliseconds: 500)
                       ),
                     ),
                   ),
-                   Padding(
-                                           padding: EdgeInsets.all(12),
-                     child: DecoratedBox(
-                       decoration: BoxDecoration(
-                         shape: BoxShape.circle,
-                         color: baseColor
-                       ),
-                       child: InkWell(
-                            onTap: () {
-                              if(showPost){
-//                                    isPosting = true;
-                                        showPost = !showPost;
-                                    postFeed(_urlTextController.text);
-                              }
-                              else {
-                                showPost = !showPost;
-                              }
-                              setState(() {});
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(12),
-                              child:!showPost ?Icon(Icons.add,color: Colors.white,):Icon(
-                                      Icons.send,
-                                      color: Colors.white,
-                                    )
-                            ),
-                          ),
-                     ),
-                   ),
+                  Padding(
+                    padding: EdgeInsets.all(12),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: baseColor,
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          if(showPost){
+                            showPost = !showPost;
+                            postFeed(_urlTextController.text);
+                          } else {
+                            showPost = !showPost;
+                          }
+                          setState(() {});
+                          },
+                        child: Container(
+                            padding: EdgeInsets.all(12),
+                            child:!showPost ?
+                            Icon(Icons.add,color: Colors.white,) :
+                            Icon(Icons.send, color: Colors.white,)
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
